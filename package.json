@@ -1,6 +1,6 @@
 {
   "name": "ibm-dph-node-sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "DPH Node SDK",
   "repository": {
     "type": "git",
