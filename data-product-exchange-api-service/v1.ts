@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.79.0-2eb6af3d-20230905-174838
+ * IBM OpenAPI SDK Code Generator Version: 3.82.1-2082d402-20231115-195014
  */
 
 /* eslint-disable max-classes-per-file */
@@ -790,7 +790,7 @@ namespace DataProductExchangeApiServiceV1 {
     /** Data product exchange container. */
     container?: ContainerReference;
     /** List of configuration options to initialize. */
-    include?: InitializeConstants.Include | string[];
+    include?: InitializeConstants.Include[] | string[];
     headers?: OutgoingHttpHeaders;
   }
 
@@ -885,7 +885,7 @@ namespace DataProductExchangeApiServiceV1 {
      *  product, this field defaults to an empty list. If this is a new version of an existing data product, the types
      *  will default to the types of the previous version of the data product.
      */
-    type?: CreateDataProductVersionConstants.Type | string[];
+    type?: CreateDataProductVersionConstants.Type[] | string[];
     /** The outgoing parts of this data product version to be delivered to consumers. If this is the first version
      *  of a data product, this field defaults to an empty list. If this is a new version of an existing data product,
      *  the data product parts will default to the parts list from the previous version of the data product.
@@ -968,7 +968,15 @@ namespace DataProductExchangeApiServiceV1 {
     /** Container identifier. */
     id: string;
     /** Container type. */
-    type?: string;
+    type?: ContainerReference.Constants.Type | string;
+  }
+  export namespace ContainerReference {
+    export namespace Constants {
+      /** Container type. */
+      export enum Type {
+        CATALOG = 'catalog',
+      }
+    }
   }
 
   /** Data Product. */
@@ -1016,7 +1024,7 @@ namespace DataProductExchangeApiServiceV1 {
     /** The data product version number. */
     version: string;
     /** The state of the data product version. */
-    state: string;
+    state: DataProductVersion.Constants.State | string;
     /** Data product identifier. */
     data_product: DataProductIdentity;
     /** The name of the data product version. A name can contain letters, numbers, understores, dashes, spaces or
@@ -1036,7 +1044,7 @@ namespace DataProductExchangeApiServiceV1 {
     /** The business domain associated with the data product version. */
     domain: Domain;
     /** Type of parts on the data product. */
-    type?: string[];
+    type?: DataProductVersion.Constants.Type[] | string[];
     /** Outgoing parts of a data product used to deliver the data product to consumers. */
     parts_out: DataProductPart[];
     /** The user who published this data product version. */
@@ -1047,6 +1055,21 @@ namespace DataProductExchangeApiServiceV1 {
     created_by: string;
     /** The time when this data product version was created. */
     created_at: string;
+  }
+  export namespace DataProductVersion {
+    export namespace Constants {
+      /** The state of the data product version. */
+      export enum State {
+        DRAFT = 'draft',
+        AVAILABLE = 'available',
+        RETIRED = 'retired',
+      }
+      /** Type of parts on the data product. */
+      export enum Type {
+        DATA = 'data',
+        CODE = 'code',
+      }
+    }
   }
 
   /** A collection of data product version summaries. */
@@ -1066,7 +1089,7 @@ namespace DataProductExchangeApiServiceV1 {
     /** The data product version number. */
     version: string;
     /** The state of the data product version. */
-    state: string;
+    state: DataProductVersionSummary.Constants.State | string;
     /** Data product identifier. */
     data_product: DataProductIdentity;
     /** The name of the data product version. A name can contain letters, numbers, understores, dashes, spaces or
@@ -1080,6 +1103,16 @@ namespace DataProductExchangeApiServiceV1 {
     /** The asset referenced by the data product version. */
     asset: AssetReference;
   }
+  export namespace DataProductVersionSummary {
+    export namespace Constants {
+      /** The state of the data product version. */
+      export enum State {
+        DRAFT = 'draft',
+        AVAILABLE = 'available',
+        RETIRED = 'retired',
+      }
+    }
+  }
 
   /** DeliveryMethod. */
   export interface DeliveryMethod {
@@ -1092,9 +1125,21 @@ namespace DataProductExchangeApiServiceV1 {
   /** DeliveryResource. */
   export interface DeliveryResource {
     /** Status of the deliver operation. */
-    status: string;
+    status: DeliveryResource.Constants.Status | string;
     /** Link to monitor the status of the deliver operation. */
     href?: string;
+  }
+  export namespace DeliveryResource {
+    export namespace Constants {
+      /** Status of the deliver operation. */
+      export enum Status {
+        NOT_STARTED = 'not_started',
+        RECEIVED = 'received',
+        DELIVERED = 'delivered',
+        SUCCEEDED = 'succeeded',
+        FAILED = 'failed',
+      }
+    }
   }
 
   /** The business domain associated with the data product version. */
@@ -1117,8 +1162,18 @@ namespace DataProductExchangeApiServiceV1 {
 
   /** ErrorTargetModel. */
   export interface ErrorTargetModel {
-    type?: string;
+    type?: ErrorTargetModel.Constants.Type | string;
     name?: string;
+  }
+  export namespace ErrorTargetModel {
+    export namespace Constants {
+      /** Type */
+      export enum Type {
+        FIELD = 'field',
+        PARAMETER = 'parameter',
+        HEADER = 'header',
+      }
+    }
   }
 
   /** First page in the collection. */
@@ -1134,7 +1189,7 @@ namespace DataProductExchangeApiServiceV1 {
     /** Link to monitor the status of the initialize operation. */
     href?: string;
     /** Status of the initialize operation. */
-    status?: string;
+    status?: InitializeResource.Constants.Status | string;
     /** The id to trace the failed initialization operation. */
     trace?: string;
     /** The error(s) encountered in the initialization operation. */
@@ -1145,6 +1200,17 @@ namespace DataProductExchangeApiServiceV1 {
     last_finished_at?: string;
     /** Initialized options. */
     initialized_options?: InitializedOption[];
+  }
+  export namespace InitializeResource {
+    export namespace Constants {
+      /** Status of the initialize operation. */
+      export enum Status {
+        NOT_STARTED = 'not_started',
+        IN_PROGRESS = 'in_progress',
+        SUCCEEDED = 'succeeded',
+        FAILED = 'failed',
+      }
+    }
   }
 
   /** Initialized options. */
@@ -1164,13 +1230,26 @@ namespace DataProductExchangeApiServiceV1 {
   /** This model represents an individual patch operation to be performed on a JSON document, as defined by RFC 6902. */
   export interface JsonPatchOperation {
     /** The operation to be performed. */
-    op: string;
+    op: JsonPatchOperation.Constants.Op | string;
     /** The JSON Pointer that identifies the field that is the target of the operation. */
     path: string;
     /** The JSON Pointer that identifies the field that is the source of the operation. */
     from?: string;
     /** The value to be used within the operation. */
     value?: any;
+  }
+  export namespace JsonPatchOperation {
+    export namespace Constants {
+      /** The operation to be performed. */
+      export enum Op {
+        ADD = 'add',
+        REMOVE = 'remove',
+        REPLACE = 'replace',
+        MOVE = 'move',
+        COPY = 'copy',
+        TEST = 'test',
+      }
+    }
   }
 
   /** Next page in the collection. */

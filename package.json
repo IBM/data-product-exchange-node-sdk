@@ -1,7 +1,7 @@
 {
-  "name": "ibm-dph-node-sdk",
-  "version": "0.1.0",
-  "description": "DPH Node SDK",
+  "name": "@ibm-cloud/ibm_dpx_services",
+  "version": "0.0.1",
+  "description": "DPX Node SDK",
   "repository": {
     "type": "git",
     "url": "https://github.ibm.com/Greeshma-Rajendran/sample-node-sdk"

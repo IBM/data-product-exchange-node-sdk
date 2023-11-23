@@ -59,7 +59,7 @@ class InitialCamsSetup extends BaseService {
 
   public createDataProductCatalog(): Promise<InitialCamsSetup.Response<any>> {
     const body = {
-      'name': 'Default Data Product Hub',
+      'name': 'Default Data Product Exchange',
       'uid': 'ibm-default-hub',
       'subtype': 'ibm_data_product_catalog',
       'generator': 'catalogadmin',

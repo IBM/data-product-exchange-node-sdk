@@ -298,31 +298,6 @@ describe('DataProductExchangeApiServiceV1_integration', () => {
     expect(res.result).toBeDefined();
   });
 
-  // test('deliverDataProductVersion()', async () => {
-  //   // Request models needed by this operation.
-
-  //   // ItemReference
-  //   const itemReferenceModel = {
-  //     id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
-  //   };
-
-  //   // OrderReference
-  //   const orderReferenceModel = {
-  //     id: '4705e047-1808-459a-805f-d5d13c947637',
-  //     items: [itemReferenceModel],
-  //   };
-
-  //   const params = {
-  //     id: deliverDataProductVersionByUserIdLink,
-  //     order: orderReferenceModel,
-  //   };
-
-  //   const res = await dataProductExchangeApiServiceService.deliverDataProductVersion(params);
-  //   expect(res).toBeDefined();
-  //   expect(res.status).toBe(202);
-  //   expect(res.result).toBeDefined();
-  // });
-
   test('deleteDataProductVersion()', async () => {
     const params = {
       id: deleteDataProductVersionByUserIdLink,
