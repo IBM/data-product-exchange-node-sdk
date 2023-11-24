@@ -40,11 +40,10 @@
   },
   "devDependencies": {
     "@masterodin/publisher": "^0.10.0",
-    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "10.0.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.24.0",
-    "axios": "^1.6.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -60,11 +59,9 @@
     "nock": "^13.2.4",
     "prettier": "^2.3.0",
     "semantic-release": "^22.0.8",
-    "ts-jest": "^29.1.1",
     "typescript": "^4.9.4"
   },
   "jest": {
-    "preset": "ts-jest",
     "collectCoverage": true,
     "coverageDirectory": "./coverage/",
     "coveragePathIgnorePatterns": [
@@ -72,23 +69,7 @@
       "<rootDir>/examples/"
     ],
     "testEnvironment": "node",
-    "modulePaths": [
-      "/shared/vendor/modules"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "bower_components",
-      "shared"
-    ],
-    "moduleNameMapper": {
-      "^config$": "<rootDir>/configs/app-config.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
-    }
+    "verbose": false,
+    "silent": false
   }
 }
