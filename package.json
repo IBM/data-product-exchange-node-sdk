@@ -1,6 +1,6 @@
 {
   "name": "@ibm-cloud/ibm_dpx_services",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DPX Node SDK",
   "repository": {
     "type": "git",
