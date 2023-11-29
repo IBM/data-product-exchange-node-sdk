@@ -1,8 +1,8 @@
 <!--
 [![npm-version](https://img.shields.io/npm/v/CloudEngineering/node-sdk-template.svg)](https://www.npmjs.com/package/node-sdk-template)
 -->
-# DPX Services Node.js SDK
-Node.js client library to interact with various [DPX APIs](https://cloud.ibm.com/apidocs?category=<service-category>).
+# Data Product Exchange Node.js SDK
+Node.js client library to interact with various [Data Product Exchange Service APIs](https://cloud.ibm.com/apidocs?category=<service-category>).
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
 Changes might occur which impact applications that use this SDK.
@@ -41,18 +41,18 @@ IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[DPX Services]() | ibm-dpx-node-sdk/data-product-exchange-api-service/v1
+[Data Product Exchange Services](https://test.cloud.ibm.com/apidocs/watson-data-api) | @ibm-cloud/ibm-dpx-services/dpx/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
-* **Node.js >=14**: This SDK is tested with Node.js versions 14 and up. It may work on previous versions but this is not officially supported.
+* **Node.js >=16**: This SDK is tested with Node.js versions 16 and up. It may work on previous versions but this is not officially supported.
 
 [ibm-cloud-onboarding]: http://cloud.ibm.com/registration
 
 ## Installation
 
 ```sh
-npm install ibm-dph-node-sdk
+npm install @ibm-cloud/ibm-dpx-services
 ```
 
 ## Using the SDK
