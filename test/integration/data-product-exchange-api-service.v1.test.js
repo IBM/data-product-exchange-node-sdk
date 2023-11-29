@@ -130,16 +130,9 @@ describe('DataProductExchangeApiServiceV1_integration', () => {
 
     const params = {
       container: containerReferenceModel,
-      // version: 'testString',
-      // state: 'draft',
-      // dataProduct: dataProductIdentityModel,
       name: 'My New Data Product',
       description: 'testString',
-      // tags: ['testString'],
-      // useCases: [useCaseModel],
-      // domain: domainModel,
       type: ['data'],
-      // partsOut: [dataProductPartModel],
     };
 
     const res = await dataProductExchangeApiServiceService.createDataProductVersion(params);
@@ -178,7 +171,6 @@ describe('DataProductExchangeApiServiceV1_integration', () => {
   test('listDataProducts()', async () => {
     const params = {
       limit: 200,
-      // start: 'testString',
     };
 
     const res = await dataProductExchangeApiServiceService.listDataProducts(params);
@@ -219,11 +211,7 @@ describe('DataProductExchangeApiServiceV1_integration', () => {
   test('listDataProductVersions()', async () => {
     const params = {
       assetContainerId: getListOfDataProductByCatalogIdLink,
-      // dataProduct: 'testString',
-      // state: 'draft',
-      // version: 'testString',
       limit: 200,
-      // start: 'testString',
     };
 
     const res = await dataProductExchangeApiServiceService.listDataProductVersions(params);
@@ -235,9 +223,6 @@ describe('DataProductExchangeApiServiceV1_integration', () => {
   test('listDataProductVersions() via DataProductVersionsPager', async () => {
     const params = {
       assetContainerId: getListOfDataProductByCatalogIdLink,
-      // dataProduct: 'testString',
-      // state: 'draft',
-      // version: 'testString',
       limit: 10,
     };
 
@@ -283,7 +268,6 @@ describe('DataProductExchangeApiServiceV1_integration', () => {
     const jsonPatchOperationModel = {
       op: 'replace',
       path: '/description',
-      // from: 'testString',
       value: 'This is the updated description from Node SDK',
     };
 
