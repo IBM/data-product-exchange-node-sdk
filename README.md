@@ -41,7 +41,7 @@ IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[Data Product Exchange Services](https://test.cloud.ibm.com/apidocs/watson-data-api) | @ibm-cloud/ibm-dpx-services/dpx/v1
+[Data Product Exchange Services](https://test.cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm-dpx-services/dpx/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
