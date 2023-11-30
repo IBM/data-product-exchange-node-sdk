@@ -1,3 +1,10 @@
+## [0.0.3](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.0.2...v0.0.3) (2023-11-30)
+
+
+### Bug Fixes
+
+* addressed review comments ([#3](https://github.com/IBM/data-product-exchange-node-sdk/issues/3)) ([35bf26c](https://github.com/IBM/data-product-exchange-node-sdk/commit/35bf26ce536fd168c3b1d4c02ddd68d41dcb3184))
+
 ## [0.0.2](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.0.1...v0.0.2) (2023-11-24)
 
 
