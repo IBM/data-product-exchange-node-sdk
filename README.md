@@ -2,7 +2,7 @@
 [![npm-version](https://img.shields.io/npm/v/CloudEngineering/node-sdk-template.svg)](https://www.npmjs.com/package/node-sdk-template)
 -->
 # Data Product Exchange Node.js SDK
-Node.js client library to interact with various [Data Product Exchange Service APIs](https://cloud.ibm.com/apidocs?category=<service-category>).
+Node.js client library to interact with various Data Product Exchange Service APIs.
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
 Changes might occur which impact applications that use this SDK.
@@ -41,7 +41,7 @@ IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[Data Product Exchange Services](https://test.cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm-dpx-services/dpx/v1
+[Data Product Exchange](https://cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm-dpx-services/dpx/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
