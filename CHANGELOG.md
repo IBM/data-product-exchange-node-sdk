@@ -1,3 +1,10 @@
+## [0.0.4](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.0.3...v0.0.4) (2024-03-13)
+
+
+### Bug Fixes
+
+* added new apis ([#4](https://github.com/IBM/data-product-exchange-node-sdk/issues/4)) ([bd621bc](https://github.com/IBM/data-product-exchange-node-sdk/commit/bd621bc251e5ace9389df6e99da24d0c78cd2ae2))
+
 ## [0.0.3](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.0.2...v0.0.3) (2023-11-30)
 
 
