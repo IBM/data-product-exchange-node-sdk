@@ -685,36 +685,36 @@ describe('DpxV1', () => {
     // end-get_data_product
   });
 
-  // test('completeDraftContractTermsDocument request example', async () => {
-  //   consoleLogMock.mockImplementation((output) => {
-  //     originalLog(output);
-  //   });
-  //   consoleWarnMock.mockImplementation((output) => {
-  //     // if an error occurs, display the message and then fail the test
-  //     originalWarn(output);
-  //     expect(true).toBeFalsy();
-  //   });
+  test('completeDraftContractTermsDocument request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
 
-  //   originalLog('completeDraftContractTermsDocument() result:');
-  //   // begin-complete_draft_contract_terms_document
+    originalLog('completeDraftContractTermsDocument() result:');
+    // begin-complete_draft_contract_terms_document
 
-  //   const params = {
-  //     dataProductId: optionalDataProductIdLink,
-  //     draftId: draftIdLink,
-  //     contractTermsId: contractTermsIdLink,
-  //     documentId: documentIdLink,
-  //   };
+    const params = {
+      dataProductId: optionalDataProductIdLink,
+      draftId: draftIdLink,
+      contractTermsId: contractTermsIdLink,
+      documentId: documentIdLink,
+    };
 
-  //   let res;
-  //   try {
-  //     res = await dpxService.completeDraftContractTermsDocument(params);
-  //     console.log(JSON.stringify(res.result, null, 2));
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
+    let res;
+    try {
+      res = await dpxService.completeDraftContractTermsDocument(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
 
-  //   // end-complete_draft_contract_terms_document
-  // });
+    // end-complete_draft_contract_terms_document
+  });
 
   test('listDataProductDrafts request example', async () => {
     consoleLogMock.mockImplementation((output) => {
