@@ -83,3 +83,6 @@ secrets.tar
 
 # SDK generator
 .openapi-generator*
+
+# files produced by "npm install" commands during build
+package-lock.json
