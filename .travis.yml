@@ -10,7 +10,6 @@ cache:
   npm: false
 
 before_install:
-  - npm i -g npm@8
   - npm --version
 
 script:
