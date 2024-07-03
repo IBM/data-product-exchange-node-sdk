@@ -3,8 +3,8 @@ dist: jammy
 language: node_js
 
 node_js:
-- 18.17.0
-- 20.5.0
+- 18
+- 20
 
 cache:
   npm: false
