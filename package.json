@@ -1,7 +1,7 @@
 {
-  "name": "@ibm-cloud/ibm_dpx_services",
-  "version": "0.0.5",
-  "description": "DPX Node SDK",
+  "name": "@ibm-cloud/ibm_dph_services",
+  "version": "0.1.0",
+  "description": "DPH Node SDK",
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/data-product-exchange-node-sdk"
@@ -23,7 +23,7 @@
     "test-travis": "jest --runInBand --testNamePattern='^((?!@slow).)*$' test/",
     "test-unit-travis": "jest --runInBand test/unit/",
     "test-integration-travis": "jest --runInBand --no-colors --testNamePattern='^((?!@slow).)*$' --json test/integration > test-output.log",
-    "check-packages": "installed-check -e -d -v",
+    "check-packages": "node -v & installed-check -e -d -v",
     "all": "npm run test-unit && npm run lint"
   },
   "license": "Apache-2.0",
@@ -31,12 +31,12 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
-    "@types/node": "^12.0.8",
+    "@types/node": "^18.16.1",
     "extend": "^3.0.2",
-    "ibm-cloud-sdk-core": "^4.2.4"
+    "ibm-cloud-sdk-core": "^5.0.0"
   },
   "devDependencies": {
     "@masterodin/publisher": "^0.10.0",
@@ -59,7 +59,8 @@
     "nock": "^13.2.4",
     "prettier": "^2.3.0",
     "semantic-release": "^22.0.8",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "expect":"^29.7.0"
   },
   "jest": {
     "collectCoverage": true,

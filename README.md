@@ -36,12 +36,12 @@ Changes might occur which impact applications that use this SDK.
 <!-- --------------------------------------------------------------- -->
 ## Overview
 
-The DPX Node.js SDK allows developers to programmatically interact with the following
+The DPH Node.js SDK allows developers to programmatically interact with the following
 IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[Data Product Hub](https://cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm-dpx-services/dpx/v1
+[Data Product Hub](https://cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm-dph-services/dph/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
@@ -52,7 +52,7 @@ Service Name | Import Path
 ## Installation
 
 ```sh
-npm install @ibm-cloud/ibm-dpx-services
+npm install @ibm-cloud/ibm-dph-services
 ```
 
 ## Using the SDK
