@@ -3,7 +3,6 @@ dist: jammy
 language: node_js
 
 node_js:
-- 18
 - 20
 
 cache:
@@ -23,5 +22,5 @@ deploy:
   skip_cleanup: true
   script: npx semantic-release
   on:
-    node: 18
+    node: 20
     branch: main
