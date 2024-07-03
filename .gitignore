@@ -6,7 +6,7 @@ auth/*.js
 **/*.js.map
 
 # service-specific tsc outputs (js files)
-#example-service/*.js
+examples/dph.v1.test.js
 # IGNORE YOUR SERVICE FILES HERE
 
 # file holding service credentials

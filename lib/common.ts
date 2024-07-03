@@ -45,7 +45,7 @@ export function getSdkHeaders(
   serviceVersion: string,
   operationId: string
 ): SdkHeaders | {} {
-  const sdkName = 'ibm-dpx-node-sdk';
+  const sdkName = 'ibm-dph-node-sdk';
   const sdkVersion = pkg.version;
   const osName = os.platform();
   const osVersion = os.release();

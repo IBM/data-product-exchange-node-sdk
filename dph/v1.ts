@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.86.0-bc6f14b3-20240221-193958
+ * IBM OpenAPI SDK Code Generator Version: 3.92.0-af5c89a5-20240617-153232
  */
 
 /* eslint-disable max-classes-per-file */
@@ -32,39 +32,97 @@ import {
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
+const commonConstants = require('../lib/common.constants');
+
+const {
+  SERVICE_NAME,
+  CONTENT_TYPE_JSON,
+  CONTENT_TYPE_PATCH_JSON,
+  SERVICE_VERSION,
+  INITIALIZE,
+  URL_GET_INITIALIZE_STATUS,
+  HTTP_GET,
+  GET_INITIALIZE_STATUS,
+  URL_CREATE_DATA_PRODUCT,
+  CREATE_DATA_PRODUCT,
+  HTTP_POST,
+  GET_SERVICEID_CREDENTIALS,
+  URL_GET_SERVICEID_CREDENTIALS,
+  URL_INITIALIZE,
+  MANAGE_APIKEYS,
+  URL_MANAGE_APIKEYS,
+  LIST_DATA_PRODUCTS,
+  URL_LIST_DATA_PRODUCTS,
+  GET_DATA_PRODUCT,
+  URL_GET_DATA_PRODUCT,
+  COMPLETE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  URL_COMPLETE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  LIST_DATA_PRODUCT_DRAFTS,
+  URL_LIST_DATA_PRODUCT_DRAFTS,
+  CREATE_DATA_PRODUCT_DRAFT,
+  URL_CREATE_DATA_PRODUCT_DRAFT,
+  CREATE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  URL_CREATE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  GET_DATA_PRODUCT_DRAFT,
+  URL_GET_DATA_PRODUCT_DRAFT,
+  DLETE_DATA_PRODUCT_DRAFT,
+  URL_DELETE_DATA_PRODUCT_DRAFT,
+  HTTP_DELETE,
+  UPDATE_DATA_PRODUCT_DRAFT,
+  URL_UPDATE_DATA_PRODUCT_DRAFT,
+  HTTP_PATCH,
+  GET_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  URL_GET_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  DELETE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  URL_DELETE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  UPDATE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  URL_UPDATE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+  PUBLISH_DATA_PRODUCT_DRAFT,
+  URL_PUBLISH_DATA_PRODUCT_DRAFT,
+  GET_DATA_PRODUCT_RELEASE,
+  URL_GET_DATA_PRODUCT_RELEASE,
+  UPDATE_DATA_PRODUCT_RELEASE,
+  URL_UPDATE_DATA_PRODUCT_RELEASE,
+  GET_RELEASE_CONTRACT_TERMS_DOCUMENT,
+  URL_GET_RELEASE_CONTRACT_TERMS_DOCUMENT,
+  LIST_DATA_PRODUCT_RELEASES,
+  URL_LIST_DATA_PRODUCT_RELEASES,
+  RETIRE_DATA_PRODUCT_RELEASE,
+  URL_RETIRE_DATA_PRODUCT_RELEASE,
+} = commonConstants;
+
 /**
- * Data Product Exchange API Service
+ * Data Product Hub API Service
  *
- * API Version: 1.0.0
+ * API Version: 1.0.1
  */
 
-class DpxV1 extends BaseService {
-  static DEFAULT_SERVICE_NAME: string = 'dpx';
-
+class DphV1 extends BaseService {
+  static DEFAULT_SERVICE_NAME: string = SERVICE_NAME;
   /*************************
    * Factory method
    ************************/
 
   /**
-   * Constructs an instance of DpxV1 with passed in options and external configuration.
+   * Constructs an instance of DphV1 with passed in options and external configuration.
    *
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
    * @param {string} [options.serviceUrl] - The base URL for the service
-   * @returns {DpxV1}
+   * @returns {DphV1}
    */
 
-  public static newInstance(options: UserOptions): DpxV1 {
+  public static newInstance(options: UserOptions): DphV1 {
     options = options || {};
 
     if (!options.serviceName) {
-      options.serviceName = this.DEFAULT_SERVICE_NAME;
+      options.serviceName = SERVICE_NAME;
     }
     if (!options.authenticator) {
       options.authenticator = getAuthenticatorFromEnvironment(options.serviceName);
     }
-    const service = new DpxV1(options);
+    const service = new DphV1(options);
     service.configureService(options.serviceName);
     if (options.serviceUrl) {
       service.setServiceUrl(options.serviceUrl);
@@ -73,14 +131,14 @@ class DpxV1 extends BaseService {
   }
 
   /**
-   * Construct a DpxV1 object.
+   * Construct a DphV1 object.
    *
    * @param {Object} options - Options for the service.
    * @param {string} [options.serviceUrl] - The base URL for the service
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
-   * @returns {DpxV1}
+   * @returns {DphV1}
    */
   constructor(options: UserOptions) {
     options = options || {};
@@ -98,9 +156,9 @@ class DpxV1 extends BaseService {
   /**
    * Get resource initialization status.
    *
-   * Use this API to get the status of resource initialization in Data Product Exchange.<br/><br/>If the data product
-   * catalog exists but has never been initialized, the status will be "not_started".<br/><br/>If the data product
-   * catalog exists and has been or is being initialized, the response will contain the status of the last or current
+   * Use this API to get the status of resource initialization in Data Product Hub.<br/><br/>If the data product catalog
+   * exists but has never been initialized, the status will be "not_started".<br/><br/>If the data product catalog
+   * exists and has been or is being initialized, the response will contain the status of the last or current
    * initialization. If the initialization failed, the "errors" and "trace" fields will contain the error(s) encountered
    * during the initialization, including the ID to trace the error(s).<br/><br/>If the data product catalog doesn't
    * exist, an HTTP 404 response is returned.
@@ -109,11 +167,11 @@ class DpxV1 extends BaseService {
    * @param {string} [params.containerId] - Container ID of the data product catalog. If not supplied, the data product
    * catalog is looked up by using the uid of the default data product catalog.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.InitializeResource>>}
+   * @returns {Promise<DphV1.Response<DphV1.InitializeResource>>}
    */
   public getInitializeStatus(
-    params?: DpxV1.GetInitializeStatusParams
-  ): Promise<DpxV1.Response<DpxV1.InitializeResource>> {
+    params?: DphV1.GetInitializeStatusParams
+  ): Promise<DphV1.Response<DphV1.InitializeResource>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['containerId', 'headers'];
@@ -121,17 +179,16 @@ class DpxV1 extends BaseService {
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
-
     const query = {
       'container.id': _params.containerId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'getInitializeStatus');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, GET_INITIALIZE_STATUS);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/configuration/initialize/status',
-        method: 'GET',
+        url: URL_GET_INITIALIZE_STATUS,
+        method: HTTP_GET,
         qs: query,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -139,7 +196,49 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get service id credentials.
+   *
+   * Use this API to get the information of service id credentials in Data Product Hub.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.ServiceIdCredentials>>}
+   */
+  public getServiceIdCredentials(
+    params?: DphV1.GetServiceIdCredentialsParams
+  ): Promise<DphV1.Response<DphV1.ServiceIdCredentials>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, GET_SERVICEID_CREDENTIALS);
+
+    const parameters = {
+      options: {
+        url: URL_GET_SERVICEID_CREDENTIALS,
+        method: HTTP_GET,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -152,28 +251,30 @@ class DpxV1 extends BaseService {
   /**
    * Initialize resources.
    *
-   * Use this API to initialize default assets for data product exchange. <br/><br/>You can initialize:
+   * Use this API to initialize default assets for data product hub. <br/><br/>You can initialize:
    * <br/><ul><li>`delivery_methods` - Methods through which data product parts can be delivered to consumers of the
-   * data product exchange</li><li>`domains_multi_industry` - Taxonomy of domains and use cases applicable to multiple
+   * data product hub</li><li>`domains_multi_industry` - Taxonomy of domains and use cases applicable to multiple
    * industries</li><li>`data_product_samples` - Sample data products used to illustrate capabilities of the data
-   * product exchange</li></ul><br/><br/>If a resource depends on resources that are not specified in the request, these
-   * dependent resources will be automatically initialized. E.g., initializing `data_product_samples` will also
-   * initialize `domains_multi_industry` and `delivery_methods` even if they are not specified in the request because it
-   * depends on them.<br/><br/>If initializing the data product exchange for the first time, do not specify a container.
-   * The default data product catalog will be created.<br/>For first time initialization, it is recommended that at
-   * least `delivery_methods` and `domains_multi_industry` is included in the initialize operation.<br/><br/>If the data
-   * product exchange has already been initialized, you may call this API again to initialize new resources, such as new
-   * delivery methods.In this case, specify the default data product catalog container information.
+   * product hub</li><li>`workflows` - Workflows to enable restricted data products</li><li>`project` - A default
+   * project for exporting data assets to files</li></ul><br/><br/>If a resource depends on resources that are not
+   * specified in the request, these dependent resources will be automatically initialized. E.g., initializing
+   * `data_product_samples` will also initialize `domains_multi_industry` and `delivery_methods` even if they are not
+   * specified in the request because it depends on them.<br/><br/>If initializing the data product hub for the first
+   * time, do not specify a container. The default data product catalog will be created.<br/>For first time
+   * initialization, it is recommended that at least `delivery_methods` and `domains_multi_industry` is included in the
+   * initialize operation.<br/><br/>If the data product hub has already been initialized, you may call this API again to
+   * initialize new resources, such as new delivery methods. In this case, specify the default data product catalog
+   * container information.
    *
    * @param {Object} [params] - The parameters to send to the service.
-   * @param {ContainerReference} [params.container] - Data product exchange container.
+   * @param {ContainerReference} [params.container] - Container reference.
    * @param {string[]} [params.include] - List of configuration options to (re-)initialize.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.InitializeResource>>}
+   * @returns {Promise<DphV1.Response<DphV1.InitializeResource>>}
    */
   public initialize(
-    params?: DpxV1.InitializeParams
-  ): Promise<DpxV1.Response<DpxV1.InitializeResource>> {
+    params?: DphV1.InitializeParams
+  ): Promise<DphV1.Response<DphV1.InitializeResource>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['container', 'include', 'headers'];
@@ -187,12 +288,12 @@ class DpxV1 extends BaseService {
       'include': _params.include,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'initialize');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, INITIALIZE);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/configuration/initialize',
-        method: 'POST',
+        url: URL_INITIALIZE,
+        method: HTTP_POST,
         body,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -200,8 +301,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -212,17 +313,17 @@ class DpxV1 extends BaseService {
   }
 
   /**
-   * Rotate credentials for a Data Product Exchange instance.
+   * Rotate credentials for a Data Product Hub instance.
    *
-   * Use this API to rotate credentials for a Data Product Exchange instance.
+   * Use this API to rotate credentials for a Data Product Hub instance.
    *
    * @param {Object} [params] - The parameters to send to the service.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.EmptyObject>>}
+   * @returns {Promise<DphV1.Response<DphV1.EmptyObject>>}
    */
   public manageApiKeys(
-    params?: DpxV1.ManageApiKeysParams
-  ): Promise<DpxV1.Response<DpxV1.EmptyObject>> {
+    params?: DphV1.ManageApiKeysParams
+  ): Promise<DphV1.Response<DphV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['headers'];
@@ -231,12 +332,12 @@ class DpxV1 extends BaseService {
       return Promise.reject(_validationErrors);
     }
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'manageApiKeys');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, MANAGE_APIKEYS);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/configuration/rotate_credentials',
-        method: 'POST',
+        url: URL_MANAGE_APIKEYS,
+        method: HTTP_POST,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(true, sdkHeaders, {}, _params.headers),
@@ -252,17 +353,15 @@ class DpxV1 extends BaseService {
   /**
    * Retrieve a list of data products.
    *
-   * Retrieve a list of data products.
-   *
    * @param {Object} [params] - The parameters to send to the service.
    * @param {number} [params.limit] - Limit the number of data products in the results. The maximum limit is 200.
    * @param {string} [params.start] - Start token for pagination.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductSummaryCollection>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductSummaryCollection>>}
    */
   public listDataProducts(
-    params?: DpxV1.ListDataProductsParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductSummaryCollection>> {
+    params?: DphV1.ListDataProductsParams
+  ): Promise<DphV1.Response<DphV1.DataProductSummaryCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['limit', 'start', 'headers'];
@@ -276,12 +375,12 @@ class DpxV1 extends BaseService {
       'start': _params.start,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'listDataProducts');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, LIST_DATA_PRODUCTS);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products',
-        method: 'GET',
+        url: URL_LIST_DATA_PRODUCTS,
+        method: HTTP_GET,
         qs: query,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -289,7 +388,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -309,11 +408,11 @@ class DpxV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {DataProductVersionPrototype[]} params.drafts - Collection of data products drafts to add to data product.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProduct>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProduct>>}
    */
   public createDataProduct(
-    params: DpxV1.CreateDataProductParams
-  ): Promise<DpxV1.Response<DpxV1.DataProduct>> {
+    params: DphV1.CreateDataProductParams
+  ): Promise<DphV1.Response<DphV1.DataProduct>> {
     const _params = { ...params };
     const _requiredParams = ['drafts'];
     const _validParams = ['drafts', 'headers'];
@@ -326,12 +425,12 @@ class DpxV1 extends BaseService {
       'drafts': _params.drafts,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataProduct');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, CREATE_DATA_PRODUCT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products',
-        method: 'POST',
+        url: URL_CREATE_DATA_PRODUCT,
+        method: HTTP_POST,
         body,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -339,8 +438,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -353,16 +452,14 @@ class DpxV1 extends BaseService {
   /**
    * Retrieve a data product identified by id.
    *
-   * Retrieve a data product identified by id.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProduct>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProduct>>}
    */
   public getDataProduct(
-    params: DpxV1.GetDataProductParams
-  ): Promise<DpxV1.Response<DpxV1.DataProduct>> {
+    params: DphV1.GetDataProductParams
+  ): Promise<DphV1.Response<DphV1.DataProduct>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
     const _validParams = ['dataProductId', 'headers'];
@@ -375,12 +472,12 @@ class DpxV1 extends BaseService {
       'data_product_id': _params.dataProductId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataProduct');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, GET_DATA_PRODUCT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}',
-        method: 'GET',
+        url: URL_GET_DATA_PRODUCT,
+        method: HTTP_GET,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -388,7 +485,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -417,11 +514,11 @@ class DpxV1 extends BaseService {
    * @param {string} params.contractTermsId - Contract terms id.
    * @param {string} params.documentId - Document id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.ContractTermsDocument>>}
+   * @returns {Promise<DphV1.Response<DphV1.ContractTermsDocument>>}
    */
   public completeDraftContractTermsDocument(
-    params: DpxV1.CompleteDraftContractTermsDocumentParams
-  ): Promise<DpxV1.Response<DpxV1.ContractTermsDocument>> {
+    params: DphV1.CompleteDraftContractTermsDocumentParams
+  ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId'];
     const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'headers'];
@@ -438,15 +535,15 @@ class DpxV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      DpxV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'completeDraftContractTermsDocument'
+      SERVICE_NAME,
+      SERVICE_VERSION,
+      COMPLETE_DRAFT_CONTRACT_TERMS_DOCUMENT
     );
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}/complete',
-        method: 'POST',
+        url: URL_COMPLETE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+        method: HTTP_POST,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -454,7 +551,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -467,8 +564,6 @@ class DpxV1 extends BaseService {
   /**
    * Retrieve a list of data product drafts.
    *
-   * Retrieve a list of data product drafts.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} [params.assetContainerId] - Filter the list of data product drafts by container id.
@@ -476,11 +571,11 @@ class DpxV1 extends BaseService {
    * @param {number} [params.limit] - Limit the number of data product drafts in the results. The maximum limit is 200.
    * @param {string} [params.start] - Start token for pagination.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductDraftCollection>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductDraftCollection>>}
    */
   public listDataProductDrafts(
-    params: DpxV1.ListDataProductDraftsParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductDraftCollection>> {
+    params: DphV1.ListDataProductDraftsParams
+  ): Promise<DphV1.Response<DphV1.DataProductDraftCollection>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
     const _validParams = [
@@ -507,12 +602,12 @@ class DpxV1 extends BaseService {
       'data_product_id': _params.dataProductId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'listDataProductDrafts');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, LIST_DATA_PRODUCT_DRAFTS);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts',
-        method: 'GET',
+        url: URL_LIST_DATA_PRODUCT_DRAFTS,
+        method: HTTP_GET,
         qs: query,
         path,
       },
@@ -521,7 +616,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -534,11 +629,9 @@ class DpxV1 extends BaseService {
   /**
    * Create a new draft of an existing data product.
    *
-   * Create a new draft of an existing data product.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID.
-   * @param {AssetReference} params.asset - The asset referenced by the data product version.
+   * @param {AssetPrototype} params.asset - New asset input properties.
    * @param {string} [params.version] - The data product version number.
    * @param {string} [params.state] - The state of the data product version. If not specified, the data product version
    * will be created in `draft` state.
@@ -549,32 +642,27 @@ class DpxV1 extends BaseService {
    * or periods. A name must contain at least one non-space character.
    * @param {string} [params.description] - Description of the data product version. If this is a new version of an
    * existing data product, the description will default to the description of the previous version of the data product.
-   * @param {string[]} [params.tags] - Tags on the new data product version. If this is the first version of a data
-   * product, tags defaults to an empty list. If this is a new version of an existing data product, tags will default to
-   * the list of tags on the previous version of the data product.
-   * @param {UseCase[]} [params.useCases] - Use cases that the data product version serves. If this is the first version
-   * of a data product, use cases defaults to an empty list. If this is a new version of an existing data product, use
-   * cases will default to the list of use cases on the previous version of the data product.
+   * @param {string[]} [params.tags] - Tags on the data product.
+   * @param {UseCase[]} [params.useCases] - A list of use cases associated with the data product version.
+   * @param {string[]} [params.types] - Types of parts on the data product.
+   * @param {DataProductContractTerms[]} [params.contractTerms] - Contract terms binding various aspects of the data
+   * product.
+   * @param {boolean} [params.isRestricted] - Indicates whether the data product is restricted or not. A restricted data
+   * product indicates that orders of the data product requires explicit approval before data is delivered.
    * @param {Domain} [params.domain] - Domain that the data product version belongs to. If this is the first version of
    * a data product, this field is required. If this is a new version of an existing data product, the domain will
    * default to the domain of the previous version of the data product.
-   * @param {string[]} [params.types] - The types of the parts included in this data product version. If this is the
-   * first version of a data product, this field defaults to an empty list. If this is a new version of an existing data
-   * product, the types will default to the types of the previous version of the data product.
    * @param {DataProductPart[]} [params.partsOut] - The outgoing parts of this data product version to be delivered to
    * consumers. If this is the first version of a data product, this field defaults to an empty list. If this is a new
    * version of an existing data product, the data product parts will default to the parts list from the previous
    * version of the data product.
-   * @param {DataProductContractTerms[]} [params.contractTerms] - The contract terms that bind interactions with this
-   * data product version.
-   * @param {boolean} [params.isRestricted] - Indicates whether the data product is restricted or not. A restricted data
-   * product indicates that orders of the data product requires explicit approval before data is delivered.
+   * @param {DataProductWorkflows} [params.workflows] - The workflows associated with the data product version.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public createDataProductDraft(
-    params: DpxV1.CreateDataProductDraftParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.CreateDataProductDraftParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'asset'];
     const _validParams = [
@@ -587,11 +675,12 @@ class DpxV1 extends BaseService {
       'description',
       'tags',
       'useCases',
-      'domain',
       'types',
-      'partsOut',
       'contractTerms',
       'isRestricted',
+      'domain',
+      'partsOut',
+      'workflows',
       'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
@@ -608,23 +697,24 @@ class DpxV1 extends BaseService {
       'description': _params.description,
       'tags': _params.tags,
       'use_cases': _params.useCases,
-      'domain': _params.domain,
       'types': _params.types,
-      'parts_out': _params.partsOut,
       'contract_terms': _params.contractTerms,
       'is_restricted': _params.isRestricted,
+      'domain': _params.domain,
+      'parts_out': _params.partsOut,
+      'workflows': _params.workflows,
     };
 
     const path = {
       'data_product_id': _params.dataProductId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataProductDraft');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, CREATE_DATA_PRODUCT_DRAFT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts',
-        method: 'POST',
+        url: URL_CREATE_DATA_PRODUCT_DRAFT,
+        method: HTTP_POST,
         body,
         path,
       },
@@ -633,8 +723,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -646,8 +736,6 @@ class DpxV1 extends BaseService {
 
   /**
    * Upload a contract document to the data product draft contract terms.
-   *
-   * Upload a contract document to the data product draft identified by draft_id.
    *
    * - If the request object contains a "url" parameter, a referential document is created to store the provided url.
    * - If the request object does not contain a "url" parameter, an attachment document is created, and a signed url
@@ -667,11 +755,11 @@ class DpxV1 extends BaseService {
    * @param {ContractTermsDocumentAttachment} [params.attachment] - Attachment associated witht the document.
    * @param {string} [params.uploadUrl] - URL which can be used to upload document file.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.ContractTermsDocument>>}
+   * @returns {Promise<DphV1.Response<DphV1.ContractTermsDocument>>}
    */
   public createDraftContractTermsDocument(
-    params: DpxV1.CreateDraftContractTermsDocumentParams
-  ): Promise<DpxV1.Response<DpxV1.ContractTermsDocument>> {
+    params: DphV1.CreateDraftContractTermsDocumentParams
+  ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name', 'id'];
     const _validParams = [
@@ -707,15 +795,15 @@ class DpxV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      DpxV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createDraftContractTermsDocument'
+      SERVICE_NAME,
+      SERVICE_VERSION,
+      CREATE_DRAFT_CONTRACT_TERMS_DOCUMENT
     );
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents',
-        method: 'POST',
+        url: URL_CREATE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+        method: HTTP_POST,
         body,
         path,
       },
@@ -724,8 +812,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -738,17 +826,15 @@ class DpxV1 extends BaseService {
   /**
    * Get a draft of an existing data product.
    *
-   * Get a draft of an existing data product.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.draftId - Data product draft id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public getDataProductDraft(
-    params: DpxV1.GetDataProductDraftParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.GetDataProductDraftParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId'];
     const _validParams = ['dataProductId', 'draftId', 'headers'];
@@ -762,12 +848,12 @@ class DpxV1 extends BaseService {
       'draft_id': _params.draftId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataProductDraft');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, GET_DATA_PRODUCT_DRAFT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}',
-        method: 'GET',
+        url: URL_GET_DATA_PRODUCT_DRAFT,
+        method: HTTP_GET,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -775,7 +861,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -788,17 +874,15 @@ class DpxV1 extends BaseService {
   /**
    * Delete a data product draft identified by ID.
    *
-   * Delete a data product draft identified by a valid ID.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.draftId - Data product draft id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.EmptyObject>>}
+   * @returns {Promise<DphV1.Response<DphV1.EmptyObject>>}
    */
   public deleteDataProductDraft(
-    params: DpxV1.DeleteDataProductDraftParams
-  ): Promise<DpxV1.Response<DpxV1.EmptyObject>> {
+    params: DphV1.DeleteDataProductDraftParams
+  ): Promise<DphV1.Response<DphV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId'];
     const _validParams = ['dataProductId', 'draftId', 'headers'];
@@ -812,12 +896,12 @@ class DpxV1 extends BaseService {
       'draft_id': _params.draftId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDataProductDraft');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, DLETE_DATA_PRODUCT_DRAFT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}',
-        method: 'DELETE',
+        url: URL_DELETE_DATA_PRODUCT_DRAFT,
+        method: HTTP_DELETE,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -842,11 +926,11 @@ class DpxV1 extends BaseService {
    * @param {JsonPatchOperation[]} params.jsonPatchInstructions - A set of patch operations as defined in RFC 6902. See
    * http://jsonpatch.com/ for more information.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public updateDataProductDraft(
-    params: DpxV1.UpdateDataProductDraftParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.UpdateDataProductDraftParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'jsonPatchInstructions'];
     const _validParams = ['dataProductId', 'draftId', 'jsonPatchInstructions', 'headers'];
@@ -861,12 +945,12 @@ class DpxV1 extends BaseService {
       'draft_id': _params.draftId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDataProductDraft');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, UPDATE_DATA_PRODUCT_DRAFT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}',
-        method: 'PATCH',
+        url: URL_UPDATE_DATA_PRODUCT_DRAFT,
+        method: HTTP_PATCH,
         body,
         path,
       },
@@ -875,8 +959,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json-patch+json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_PATCH_JSON,
           },
           _params.headers
         ),
@@ -900,11 +984,11 @@ class DpxV1 extends BaseService {
    * @param {string} params.contractTermsId - Contract terms id.
    * @param {string} params.documentId - Document id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.ContractTermsDocument>>}
+   * @returns {Promise<DphV1.Response<DphV1.ContractTermsDocument>>}
    */
   public getDraftContractTermsDocument(
-    params: DpxV1.GetDraftContractTermsDocumentParams
-  ): Promise<DpxV1.Response<DpxV1.ContractTermsDocument>> {
+    params: DphV1.GetDraftContractTermsDocumentParams
+  ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId'];
     const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'headers'];
@@ -921,15 +1005,15 @@ class DpxV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      DpxV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getDraftContractTermsDocument'
+      SERVICE_NAME,
+      SERVICE_VERSION,
+      GET_DRAFT_CONTRACT_TERMS_DOCUMENT
     );
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
-        method: 'GET',
+        url: URL_GET_DRAFT_CONTRACT_TERMS_DOCUMENT,
+        method: HTTP_GET,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -937,7 +1021,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -950,8 +1034,6 @@ class DpxV1 extends BaseService {
   /**
    * Delete a contract document.
    *
-   * Delete an existing contract document.
-   *
    * Contract documents can only be deleted for data product versions that are in DRAFT state.
    *
    * @param {Object} params - The parameters to send to the service.
@@ -960,11 +1042,11 @@ class DpxV1 extends BaseService {
    * @param {string} params.contractTermsId - Contract terms id.
    * @param {string} params.documentId - Document id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.EmptyObject>>}
+   * @returns {Promise<DphV1.Response<DphV1.EmptyObject>>}
    */
   public deleteDraftContractTermsDocument(
-    params: DpxV1.DeleteDraftContractTermsDocumentParams
-  ): Promise<DpxV1.Response<DpxV1.EmptyObject>> {
+    params: DphV1.DeleteDraftContractTermsDocumentParams
+  ): Promise<DphV1.Response<DphV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId'];
     const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'headers'];
@@ -981,15 +1063,15 @@ class DpxV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      DpxV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteDraftContractTermsDocument'
+      SERVICE_NAME,
+      SERVICE_VERSION,
+      DELETE_DRAFT_CONTRACT_TERMS_DOCUMENT
     );
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
-        method: 'DELETE',
+        url: URL_DELETE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+        method: HTTP_DELETE,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1002,8 +1084,6 @@ class DpxV1 extends BaseService {
 
   /**
    * Update a contract document.
-   *
-   * Use this API to update the properties of a contract document that is identified by a valid ID.
    *
    * Specify patch operations using http://jsonpatch.com/ syntax.
    *
@@ -1020,11 +1100,11 @@ class DpxV1 extends BaseService {
    * @param {JsonPatchOperation[]} params.jsonPatchInstructions - A set of patch operations as defined in RFC 6902. See
    * http://jsonpatch.com/ for more information.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.ContractTermsDocument>>}
+   * @returns {Promise<DphV1.Response<DphV1.ContractTermsDocument>>}
    */
   public updateDraftContractTermsDocument(
-    params: DpxV1.UpdateDraftContractTermsDocumentParams
-  ): Promise<DpxV1.Response<DpxV1.ContractTermsDocument>> {
+    params: DphV1.UpdateDraftContractTermsDocumentParams
+  ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = [
       'dataProductId',
@@ -1055,15 +1135,15 @@ class DpxV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      DpxV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateDraftContractTermsDocument'
+      SERVICE_NAME,
+      SERVICE_VERSION,
+      UPDATE_DRAFT_CONTRACT_TERMS_DOCUMENT
     );
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
-        method: 'PATCH',
+        url: URL_UPDATE_DRAFT_CONTRACT_TERMS_DOCUMENT,
+        method: HTTP_PATCH,
         body,
         path,
       },
@@ -1072,8 +1152,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json-patch+json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_PATCH_JSON,
           },
           _params.headers
         ),
@@ -1086,17 +1166,15 @@ class DpxV1 extends BaseService {
   /**
    * Publish a draft of an existing data product.
    *
-   * Publish a draft of an existing data product.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.draftId - Data product draft id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public publishDataProductDraft(
-    params: DpxV1.PublishDataProductDraftParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.PublishDataProductDraftParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId'];
     const _validParams = ['dataProductId', 'draftId', 'headers'];
@@ -1110,12 +1188,12 @@ class DpxV1 extends BaseService {
       'draft_id': _params.draftId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'publishDataProductDraft');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, PUBLISH_DATA_PRODUCT_DRAFT);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/publish',
-        method: 'POST',
+        url: URL_PUBLISH_DATA_PRODUCT_DRAFT,
+        method: HTTP_POST,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1123,7 +1201,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -1139,17 +1217,15 @@ class DpxV1 extends BaseService {
   /**
    * Get a release of an existing data product.
    *
-   * Get a release of an existing data product.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.releaseId - Data product release id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public getDataProductRelease(
-    params: DpxV1.GetDataProductReleaseParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.GetDataProductReleaseParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId'];
     const _validParams = ['dataProductId', 'releaseId', 'headers'];
@@ -1163,12 +1239,12 @@ class DpxV1 extends BaseService {
       'release_id': _params.releaseId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataProductRelease');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, GET_DATA_PRODUCT_RELEASE);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}',
-        method: 'GET',
+        url: URL_GET_DATA_PRODUCT_RELEASE,
+        method: HTTP_GET,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1176,7 +1252,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -1200,11 +1276,11 @@ class DpxV1 extends BaseService {
    * @param {JsonPatchOperation[]} params.jsonPatchInstructions - A set of patch operations as defined in RFC 6902. See
    * http://jsonpatch.com/ for more information.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public updateDataProductRelease(
-    params: DpxV1.UpdateDataProductReleaseParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.UpdateDataProductReleaseParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId', 'jsonPatchInstructions'];
     const _validParams = ['dataProductId', 'releaseId', 'jsonPatchInstructions', 'headers'];
@@ -1219,12 +1295,12 @@ class DpxV1 extends BaseService {
       'release_id': _params.releaseId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDataProductRelease');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, UPDATE_DATA_PRODUCT_RELEASE);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}',
-        method: 'PATCH',
+        url: URL_UPDATE_DATA_PRODUCT_RELEASE,
+        method: HTTP_PATCH,
         body,
         path,
       },
@@ -1233,8 +1309,8 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json-patch+json',
+            'Accept': CONTENT_TYPE_JSON,
+            'Content-Type': CONTENT_TYPE_PATCH_JSON,
           },
           _params.headers
         ),
@@ -1258,11 +1334,11 @@ class DpxV1 extends BaseService {
    * @param {string} params.contractTermsId - Contract terms id.
    * @param {string} params.documentId - Document id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.ContractTermsDocument>>}
+   * @returns {Promise<DphV1.Response<DphV1.ContractTermsDocument>>}
    */
   public getReleaseContractTermsDocument(
-    params: DpxV1.GetReleaseContractTermsDocumentParams
-  ): Promise<DpxV1.Response<DpxV1.ContractTermsDocument>> {
+    params: DphV1.GetReleaseContractTermsDocumentParams
+  ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId', 'contractTermsId', 'documentId'];
     const _validParams = ['dataProductId', 'releaseId', 'contractTermsId', 'documentId', 'headers'];
@@ -1279,15 +1355,15 @@ class DpxV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      DpxV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getReleaseContractTermsDocument'
+      SERVICE_NAME,
+      SERVICE_VERSION,
+      GET_RELEASE_CONTRACT_TERMS_DOCUMENT
     );
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
-        method: 'GET',
+        url: URL_GET_RELEASE_CONTRACT_TERMS_DOCUMENT,
+        method: HTTP_GET,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1295,7 +1371,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -1308,8 +1384,6 @@ class DpxV1 extends BaseService {
   /**
    * Retrieve a list of data product releases.
    *
-   * Retrieve a list of data product releases.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} [params.assetContainerId] - Filter the list of data product releases by container id.
@@ -1319,11 +1393,11 @@ class DpxV1 extends BaseService {
    * @param {number} [params.limit] - Limit the number of data product releases in the results. The maximum is 200.
    * @param {string} [params.start] - Start token for pagination.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductReleaseCollection>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductReleaseCollection>>}
    */
   public listDataProductReleases(
-    params: DpxV1.ListDataProductReleasesParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductReleaseCollection>> {
+    params: DphV1.ListDataProductReleasesParams
+  ): Promise<DphV1.Response<DphV1.DataProductReleaseCollection>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
     const _validParams = [
@@ -1352,12 +1426,12 @@ class DpxV1 extends BaseService {
       'data_product_id': _params.dataProductId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'listDataProductReleases');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, LIST_DATA_PRODUCT_RELEASES);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases',
-        method: 'GET',
+        url: URL_LIST_DATA_PRODUCT_RELEASES,
+        method: HTTP_GET,
         qs: query,
         path,
       },
@@ -1366,7 +1440,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -1379,17 +1453,15 @@ class DpxV1 extends BaseService {
   /**
    * Retire a release of an existing data product.
    *
-   * Retire a release of an existing data product.
-   *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.releaseId - Data product release id.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DpxV1.Response<DpxV1.DataProductVersion>>}
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
   public retireDataProductRelease(
-    params: DpxV1.RetireDataProductReleaseParams
-  ): Promise<DpxV1.Response<DpxV1.DataProductVersion>> {
+    params: DphV1.RetireDataProductReleaseParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId'];
     const _validParams = ['dataProductId', 'releaseId', 'headers'];
@@ -1403,12 +1475,12 @@ class DpxV1 extends BaseService {
       'release_id': _params.releaseId,
     };
 
-    const sdkHeaders = getSdkHeaders(DpxV1.DEFAULT_SERVICE_NAME, 'v1', 'retireDataProductRelease');
+    const sdkHeaders = getSdkHeaders(SERVICE_NAME, SERVICE_VERSION, LIST_DATA_PRODUCT_RELEASES);
 
     const parameters = {
       options: {
-        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/retire',
-        method: 'POST',
+        url: URL_RETIRE_DATA_PRODUCT_RELEASE,
+        method: HTTP_POST,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1416,7 +1488,7 @@ class DpxV1 extends BaseService {
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
+            'Accept': CONTENT_TYPE_JSON,
           },
           _params.headers
         ),
@@ -1431,7 +1503,7 @@ class DpxV1 extends BaseService {
  * interfaces
  ************************/
 
-namespace DpxV1 {
+namespace DphV1 {
   /** An operation response. */
   export interface Response<T = any> {
     result: T;
@@ -1464,9 +1536,14 @@ namespace DpxV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `getServiceIdCredentials` operation. */
+  export interface GetServiceIdCredentialsParams {
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `initialize` operation. */
   export interface InitializeParams {
-    /** Data product exchange container. */
+    /** Container reference. */
     container?: ContainerReference;
     /** List of configuration options to (re-)initialize. */
     include?: InitializeConstants.Include[] | string[];
@@ -1479,8 +1556,9 @@ namespace DpxV1 {
     export enum Include {
       DELIVERY_METHODS = 'delivery_methods',
       DOMAINS_MULTI_INDUSTRY = 'domains_multi_industry',
-      WORKFLOWS = 'workflows',
       DATA_PRODUCT_SAMPLES = 'data_product_samples',
+      WORKFLOWS = 'workflows',
+      PROJECT = 'project',
     }
   }
 
@@ -1544,8 +1622,8 @@ namespace DpxV1 {
   export interface CreateDataProductDraftParams {
     /** Data product ID. */
     dataProductId: string;
-    /** The asset referenced by the data product version. */
-    asset: AssetReference;
+    /** New asset input properties. */
+    asset: AssetPrototype;
     /** The data product version number. */
     version?: string;
     /** The state of the data product version. If not specified, the data product version will be created in `draft`
@@ -1564,37 +1642,30 @@ namespace DpxV1 {
      *  description will default to the description of the previous version of the data product.
      */
     description?: string;
-    /** Tags on the new data product version. If this is the first version of a data product, tags defaults to an
-     *  empty list. If this is a new version of an existing data product, tags will default to the list of tags on the
-     *  previous version of the data product.
-     */
+    /** Tags on the data product. */
     tags?: string[];
-    /** Use cases that the data product version serves. If this is the first version of a data product, use cases
-     *  defaults to an empty list. If this is a new version of an existing data product, use cases will default to the
-     *  list of use cases on the previous version of the data product.
-     */
+    /** A list of use cases associated with the data product version. */
     useCases?: UseCase[];
-    /** Domain that the data product version belongs to. If this is the first version of a data product, this field
-     *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
-     *  previous version of the data product.
-     */
-    domain?: Domain;
-    /** The types of the parts included in this data product version. If this is the first version of a data
-     *  product, this field defaults to an empty list. If this is a new version of an existing data product, the types
-     *  will default to the types of the previous version of the data product.
-     */
+    /** Types of parts on the data product. */
     types?: CreateDataProductDraftConstants.Types[] | string[];
-    /** The outgoing parts of this data product version to be delivered to consumers. If this is the first version
-     *  of a data product, this field defaults to an empty list. If this is a new version of an existing data product,
-     *  the data product parts will default to the parts list from the previous version of the data product.
-     */
-    partsOut?: DataProductPart[];
-    /** The contract terms that bind interactions with this data product version. */
+    /** Contract terms binding various aspects of the data product. */
     contractTerms?: DataProductContractTerms[];
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
     isRestricted?: boolean;
+    /** Domain that the data product version belongs to. If this is the first version of a data product, this field
+     *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
+     *  previous version of the data product.
+     */
+    domain?: Domain;
+    /** The outgoing parts of this data product version to be delivered to consumers. If this is the first version
+     *  of a data product, this field defaults to an empty list. If this is a new version of an existing data product,
+     *  the data product parts will default to the parts list from the previous version of the data product.
+     */
+    partsOut?: DataProductPart[];
+    /** The workflows associated with the data product version. */
+    workflows?: DataProductWorkflows;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -1802,32 +1873,46 @@ namespace DpxV1 {
   export interface AssetPartReference {
     /** The unique identifier of the asset. */
     id?: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container: ContainerReference;
     /** The type of the asset. */
     type?: string;
   }
 
-  /** The asset referenced by the data product version. */
+  /** New asset input properties. */
+  export interface AssetPrototype {
+    /** The unique identifier of the asset. */
+    id?: string;
+    container: ContainerIdentity;
+  }
+
+  /** AssetReference. */
   export interface AssetReference {
     /** The unique identifier of the asset. */
     id?: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container: ContainerReference;
   }
 
-  /** Data product exchange container. */
+  /** ContainerIdentity. */
+  export interface ContainerIdentity {
+    /** Container identifier. */
+    id: string;
+  }
+
+  /** Container reference. */
   export interface ContainerReference {
     /** Container identifier. */
     id: string;
     /** Container type. */
-    type?: ContainerReference.Constants.Type | string;
+    type: ContainerReference.Constants.Type | string;
   }
   export namespace ContainerReference {
     export namespace Constants {
       /** Container type. */
       export enum Type {
         CATALOG = 'catalog',
+        PROJECT = 'project',
       }
     }
   }
@@ -1867,7 +1952,7 @@ namespace DpxV1 {
   export interface DataProduct {
     /** Data product identifier. */
     id: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container: ContainerReference;
     /** Summary of Data Product Version object. */
     latest_release?: DataProductVersionSummary;
@@ -1877,7 +1962,6 @@ namespace DpxV1 {
 
   /** DataProductContractTerms. */
   export interface DataProductContractTerms {
-    /** The asset referenced by the data product version. */
     asset?: AssetReference;
     /** ID of the contract terms. */
     id?: string;
@@ -1903,14 +1987,16 @@ namespace DpxV1 {
     id: string;
   }
 
-  /** DataProductPart. */
+  /** The approval workflows associated with the data product version. */
+  export interface DataProductOrderAccessRequest {
+    /** The workflow approvers associated with the data product version. */
+    task_assignee_users?: string[];
+  }
+
+  /** Data Product Part. */
   export interface DataProductPart {
     /** The asset represented in this part. */
     asset: AssetPartReference;
-    /** The revision number of the asset represented in this part. */
-    revision?: number;
-    /** The time for when the part was last updated. */
-    updated_at?: string;
     /** Delivery methods describing the delivery options available for this part. */
     delivery_methods?: DeliveryMethod[];
   }
@@ -1931,7 +2017,7 @@ namespace DpxV1 {
   export interface DataProductSummary {
     /** Data product identifier. */
     id: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container: ContainerReference;
   }
 
@@ -1953,45 +2039,46 @@ namespace DpxV1 {
     version: string;
     /** The state of the data product version. */
     state: DataProductVersion.Constants.State | string;
-    /** Data product identifier. */
-    data_product: DataProductIdentity;
+    /** Data product reference. */
+    data_product: DataProductVersionDataProduct;
     /** The name of the data product version. A name can contain letters, numbers, understores, dashes, spaces or
      *  periods. Names are mutable and reusable.
      */
     name: string;
     /** The description of the data product version. */
     description: string;
+    /** Tags on the data product. */
+    tags: string[];
+    /** A list of use cases associated with the data product version. */
+    use_cases: UseCase[];
+    /** Types of parts on the data product. */
+    types: DataProductVersion.Constants.Types[] | string[];
+    /** Contract terms binding various aspects of the data product. */
+    contract_terms: DataProductContractTerms[];
+    /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
+     *  the data product requires explicit approval before data is delivered.
+     */
+    is_restricted: boolean;
     /** The identifier of the data product version. */
     id: string;
-    /** The asset referenced by the data product version. */
     asset: AssetReference;
-    /** Tags on the data product. */
-    tags?: string[];
-    /** A list of use cases associated with the data product version. */
-    use_cases?: UseCase[];
     /** Domain that the data product version belongs to. If this is the first version of a data product, this field
      *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
      *  previous version of the data product.
      */
     domain: Domain;
-    /** Types of parts on the data product. */
-    types?: DataProductVersion.Constants.Types[] | string[];
     /** Outgoing parts of a data product used to deliver the data product to consumers. */
     parts_out: DataProductPart[];
     /** The user who published this data product version. */
     published_by?: string;
     /** The time when this data product version was published. */
     published_at?: string;
-    /** Contract terms binding various aspects of the data product. */
-    contract_terms?: DataProductContractTerms[];
     /** The creator of this data product version. */
     created_by: string;
     /** The time when this data product version was created. */
     created_at: string;
-    /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
-     *  the data product requires explicit approval before data is delivered.
-     */
-    is_restricted?: boolean;
+    /** The workflows associated with the data product version. */
+    workflows?: DataProductWorkflows;
   }
   export namespace DataProductVersion {
     export namespace Constants {
@@ -2007,6 +2094,14 @@ namespace DpxV1 {
         CODE = 'code',
       }
     }
+  }
+
+  /** Data product reference. */
+  export interface DataProductVersionDataProduct {
+    /** Data product identifier. */
+    id: string;
+    /** Container reference. */
+    container: ContainerReference;
   }
 
   /** New data product version input properties. */
@@ -2029,39 +2124,32 @@ namespace DpxV1 {
      *  description will default to the description of the previous version of the data product.
      */
     description?: string;
-    /** The asset referenced by the data product version. */
-    asset: AssetReference;
-    /** Tags on the new data product version. If this is the first version of a data product, tags defaults to an
-     *  empty list. If this is a new version of an existing data product, tags will default to the list of tags on the
-     *  previous version of the data product.
-     */
+    /** Tags on the data product. */
     tags?: string[];
-    /** Use cases that the data product version serves. If this is the first version of a data product, use cases
-     *  defaults to an empty list. If this is a new version of an existing data product, use cases will default to the
-     *  list of use cases on the previous version of the data product.
-     */
+    /** A list of use cases associated with the data product version. */
     use_cases?: UseCase[];
-    /** Domain that the data product version belongs to. If this is the first version of a data product, this field
-     *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
-     *  previous version of the data product.
-     */
-    domain?: Domain;
-    /** The types of the parts included in this data product version. If this is the first version of a data
-     *  product, this field defaults to an empty list. If this is a new version of an existing data product, the types
-     *  will default to the types of the previous version of the data product.
-     */
+    /** Types of parts on the data product. */
     types?: DataProductVersionPrototype.Constants.Types[] | string[];
-    /** The outgoing parts of this data product version to be delivered to consumers. If this is the first version
-     *  of a data product, this field defaults to an empty list. If this is a new version of an existing data product,
-     *  the data product parts will default to the parts list from the previous version of the data product.
-     */
-    parts_out?: DataProductPart[];
-    /** The contract terms that bind interactions with this data product version. */
+    /** Contract terms binding various aspects of the data product. */
     contract_terms?: DataProductContractTerms[];
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
     is_restricted?: boolean;
+    /** New asset input properties. */
+    asset: AssetPrototype;
+    /** Domain that the data product version belongs to. If this is the first version of a data product, this field
+     *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
+     *  previous version of the data product.
+     */
+    domain?: Domain;
+    /** The outgoing parts of this data product version to be delivered to consumers. If this is the first version
+     *  of a data product, this field defaults to an empty list. If this is a new version of an existing data product,
+     *  the data product parts will default to the parts list from the previous version of the data product.
+     */
+    parts_out?: DataProductPart[];
+    /** The workflows associated with the data product version. */
+    workflows?: DataProductWorkflows;
   }
   export namespace DataProductVersionPrototype {
     export namespace Constants {
@@ -2071,7 +2159,7 @@ namespace DpxV1 {
         AVAILABLE = 'available',
         RETIRED = 'retired',
       }
-      /** The types of the parts included in this data product version. If this is the first version of a data product, this field defaults to an empty list. If this is a new version of an existing data product, the types will default to the types of the previous version of the data product. */
+      /** Types of parts on the data product. */
       export enum Types {
         DATA = 'data',
         CODE = 'code',
@@ -2085,17 +2173,28 @@ namespace DpxV1 {
     version: string;
     /** The state of the data product version. */
     state: DataProductVersionSummary.Constants.State | string;
-    /** Data product identifier. */
-    data_product: DataProductIdentity;
+    /** Data product reference. */
+    data_product: DataProductVersionSummaryDataProduct;
     /** The name of the data product version. A name can contain letters, numbers, understores, dashes, spaces or
      *  periods. Names are mutable and reusable.
      */
     name: string;
     /** The description of the data product version. */
     description: string;
+    /** Tags on the data product. */
+    tags: string[];
+    /** A list of use cases associated with the data product version. */
+    use_cases: UseCase[];
+    /** Types of parts on the data product. */
+    types: DataProductVersionSummary.Constants.Types[] | string[];
+    /** Contract terms binding various aspects of the data product. */
+    contract_terms: DataProductContractTerms[];
+    /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
+     *  the data product requires explicit approval before data is delivered.
+     */
+    is_restricted: boolean;
     /** The identifier of the data product version. */
     id: string;
-    /** The asset referenced by the data product version. */
     asset: AssetReference;
   }
   export namespace DataProductVersionSummary {
@@ -2106,14 +2205,33 @@ namespace DpxV1 {
         AVAILABLE = 'available',
         RETIRED = 'retired',
       }
+      /** Types of parts on the data product. */
+      export enum Types {
+        DATA = 'data',
+        CODE = 'code',
+      }
     }
+  }
+
+  /** Data product reference. */
+  export interface DataProductVersionSummaryDataProduct {
+    /** Data product identifier. */
+    id: string;
+    /** Container reference. */
+    container: ContainerReference;
+  }
+
+  /** The workflows associated with the data product version. */
+  export interface DataProductWorkflows {
+    /** The approval workflows associated with the data product version. */
+    order_access_request?: DataProductOrderAccessRequest;
   }
 
   /** DeliveryMethod. */
   export interface DeliveryMethod {
     /** The ID of the delivery method. */
     id: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container: ContainerReference;
   }
 
@@ -2123,7 +2241,7 @@ namespace DpxV1 {
     id: string;
     /** The display name of the domain. */
     name?: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container?: ContainerReference;
   }
 
@@ -2170,6 +2288,7 @@ namespace DpxV1 {
         ENTITLEMENT_ENFORCEMENT = 'entitlement_enforcement',
         DELETED = 'deleted',
         NOT_IMPLEMENTED = 'not_implemented',
+        FEATURE_NOT_ENABLED = 'feature_not_enabled',
       }
     }
   }
@@ -2182,7 +2301,7 @@ namespace DpxV1 {
 
   /** Resource defining initialization parameters. */
   export interface InitializeResource {
-    /** Data product exchange container. */
+    /** Container reference. */
     container?: ContainerReference;
     /** Link to monitor the status of the initialize operation. */
     href?: string;
@@ -2252,13 +2371,21 @@ namespace DpxV1 {
     start: string;
   }
 
+  /** Service id credentials. */
+  export interface ServiceIdCredentials {
+    /** Name of the api key of the service id. */
+    name?: string;
+    /** Created date of the api key of the service id. */
+    created_at?: string;
+  }
+
   /** UseCase. */
   export interface UseCase {
     /** The id of the use case associated with the data product. */
     id: string;
     /** The display name of the use case associated with the data product. */
     name?: string;
-    /** Data product exchange container. */
+    /** Container reference. */
     container?: ContainerReference;
   }
 
@@ -2274,19 +2401,19 @@ namespace DpxV1 {
 
     protected pageContext: any;
 
-    protected client: DpxV1;
+    protected client: DphV1;
 
-    protected params: DpxV1.ListDataProductsParams;
+    protected params: DphV1.ListDataProductsParams;
 
     /**
      * Construct a DataProductsPager object.
      *
-     * @param {DpxV1}  client - The service client instance used to invoke listDataProducts()
+     * @param {DphV1}  client - The service client instance used to invoke listDataProducts()
      * @param {Object} [params] - The parameters to be passed to listDataProducts()
      * @constructor
      * @returns {DataProductsPager}
      */
-    constructor(client: DpxV1, params?: DpxV1.ListDataProductsParams) {
+    constructor(client: DphV1, params?: DphV1.ListDataProductsParams) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -2307,9 +2434,9 @@ namespace DpxV1 {
 
     /**
      * Returns the next page of results by invoking listDataProducts().
-     * @returns {Promise<DpxV1.DataProductSummary[]>}
+     * @returns {Promise<DphV1.DataProductSummary[]>}
      */
-    public async getNext(): Promise<DpxV1.DataProductSummary[]> {
+    public async getNext(): Promise<DphV1.DataProductSummary[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -2333,9 +2460,9 @@ namespace DpxV1 {
 
     /**
      * Returns all results by invoking listDataProducts() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<DpxV1.DataProductSummary[]>}
+     * @returns {Promise<DphV1.DataProductSummary[]>}
      */
-    public async getAll(): Promise<DpxV1.DataProductSummary[]> {
+    public async getAll(): Promise<DphV1.DataProductSummary[]> {
       const results: DataProductSummary[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
@@ -2353,19 +2480,19 @@ namespace DpxV1 {
 
     protected pageContext: any;
 
-    protected client: DpxV1;
+    protected client: DphV1;
 
-    protected params: DpxV1.ListDataProductDraftsParams;
+    protected params: DphV1.ListDataProductDraftsParams;
 
     /**
      * Construct a DataProductDraftsPager object.
      *
-     * @param {DpxV1}  client - The service client instance used to invoke listDataProductDrafts()
+     * @param {DphV1}  client - The service client instance used to invoke listDataProductDrafts()
      * @param {Object} params - The parameters to be passed to listDataProductDrafts()
      * @constructor
      * @returns {DataProductDraftsPager}
      */
-    constructor(client: DpxV1, params: DpxV1.ListDataProductDraftsParams) {
+    constructor(client: DphV1, params: DphV1.ListDataProductDraftsParams) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -2386,9 +2513,9 @@ namespace DpxV1 {
 
     /**
      * Returns the next page of results by invoking listDataProductDrafts().
-     * @returns {Promise<DpxV1.DataProductVersionSummary[]>}
+     * @returns {Promise<DphV1.DataProductVersionSummary[]>}
      */
-    public async getNext(): Promise<DpxV1.DataProductVersionSummary[]> {
+    public async getNext(): Promise<DphV1.DataProductVersionSummary[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -2412,9 +2539,9 @@ namespace DpxV1 {
 
     /**
      * Returns all results by invoking listDataProductDrafts() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<DpxV1.DataProductVersionSummary[]>}
+     * @returns {Promise<DphV1.DataProductVersionSummary[]>}
      */
-    public async getAll(): Promise<DpxV1.DataProductVersionSummary[]> {
+    public async getAll(): Promise<DphV1.DataProductVersionSummary[]> {
       const results: DataProductVersionSummary[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
@@ -2432,19 +2559,19 @@ namespace DpxV1 {
 
     protected pageContext: any;
 
-    protected client: DpxV1;
+    protected client: DphV1;
 
-    protected params: DpxV1.ListDataProductReleasesParams;
+    protected params: DphV1.ListDataProductReleasesParams;
 
     /**
      * Construct a DataProductReleasesPager object.
      *
-     * @param {DpxV1}  client - The service client instance used to invoke listDataProductReleases()
+     * @param {DphV1}  client - The service client instance used to invoke listDataProductReleases()
      * @param {Object} params - The parameters to be passed to listDataProductReleases()
      * @constructor
      * @returns {DataProductReleasesPager}
      */
-    constructor(client: DpxV1, params: DpxV1.ListDataProductReleasesParams) {
+    constructor(client: DphV1, params: DphV1.ListDataProductReleasesParams) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -2465,9 +2592,9 @@ namespace DpxV1 {
 
     /**
      * Returns the next page of results by invoking listDataProductReleases().
-     * @returns {Promise<DpxV1.DataProductVersionSummary[]>}
+     * @returns {Promise<DphV1.DataProductVersionSummary[]>}
      */
-    public async getNext(): Promise<DpxV1.DataProductVersionSummary[]> {
+    public async getNext(): Promise<DphV1.DataProductVersionSummary[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -2491,9 +2618,9 @@ namespace DpxV1 {
 
     /**
      * Returns all results by invoking listDataProductReleases() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<DpxV1.DataProductVersionSummary[]>}
+     * @returns {Promise<DphV1.DataProductVersionSummary[]>}
      */
-    public async getAll(): Promise<DpxV1.DataProductVersionSummary[]> {
+    public async getAll(): Promise<DphV1.DataProductVersionSummary[]> {
       const results: DataProductVersionSummary[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
@@ -2504,4 +2631,4 @@ namespace DpxV1 {
   }
 }
 
-export = DpxV1;
+export = DphV1;

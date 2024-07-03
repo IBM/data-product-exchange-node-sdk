@@ -20,10 +20,9 @@ const nock = require('nock');
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
+const unitTestUtils = require('ibm-cloud-sdk-core/sdk-test-utilities');
 
-const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
-const DpxV1 = require('../../dist/dpx/v1');
-
+const { NoAuthAuthenticator } = sdkCorePackage;
 const {
   getOptions,
   checkUrlAndMethod,
@@ -31,18 +30,19 @@ const {
   expectToBePromise,
   checkForSuccessfulExecution,
 } = unitTestUtils;
+const DphV1 = require('../../dist/dph/v1');
 
-const dpxServiceOptions = {
+const dphServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
-  url: 'https://data-product-exchange-api-service.cloud.ibm.com/data_product_exchange/v1',
+  url: 'https://data-product-exchange-api-service.cloud.ibm.com/data_product_exchange/v1/123456',
 };
 
-const dpxService = new DpxV1(dpxServiceOptions);
+const dphService = new DphV1(dphServiceOptions);
 
 let createRequestMock = null;
 function mock_createRequest() {
   if (!createRequestMock) {
-    createRequestMock = jest.spyOn(dpxService, 'createRequest');
+    createRequestMock = jest.spyOn(dphService, 'createRequest');
     createRequestMock.mockImplementation(() => Promise.resolve());
   }
 }
@@ -57,7 +57,7 @@ function unmock_createRequest() {
 const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 
-describe('DpxV1', () => {
+describe('DphV1', () => {
   beforeEach(() => {
     mock_createRequest();
   });
@@ -71,13 +71,13 @@ describe('DpxV1', () => {
 
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
-      const testInstance = DpxV1.newInstance();
+      const testInstance = DphV1.newInstance();
 
       expect(getAuthenticatorMock).toHaveBeenCalled();
       expect(testInstance.baseOptions.authenticator).toBeInstanceOf(NoAuthAuthenticator);
-      expect(testInstance.baseOptions.serviceName).toBe(DpxV1.DEFAULT_SERVICE_NAME);
-      expect(testInstance.baseOptions.serviceUrl).toBe(DpxV1.DEFAULT_SERVICE_URL);
-      expect(testInstance).toBeInstanceOf(DpxV1);
+      expect(testInstance.baseOptions.serviceName).toBe(DphV1.DEFAULT_SERVICE_NAME);
+      expect(testInstance.baseOptions.serviceUrl).toBe(DphV1.DEFAULT_SERVICE_URL);
+      expect(testInstance).toBeInstanceOf(DphV1);
     });
 
     test('should set serviceName, serviceUrl, and authenticator when provided', () => {
@@ -87,13 +87,13 @@ describe('DpxV1', () => {
         serviceName: 'my-service',
       };
 
-      const testInstance = DpxV1.newInstance(options);
+      const testInstance = DphV1.newInstance(options);
 
       expect(getAuthenticatorMock).not.toHaveBeenCalled();
       expect(testInstance.baseOptions.authenticator).toBeInstanceOf(NoAuthAuthenticator);
       expect(testInstance.baseOptions.serviceUrl).toBe('custom.com');
       expect(testInstance.baseOptions.serviceName).toBe('my-service');
-      expect(testInstance).toBeInstanceOf(DpxV1);
+      expect(testInstance).toBeInstanceOf(DphV1);
     });
   });
 
@@ -104,7 +104,7 @@ describe('DpxV1', () => {
         serviceUrl: 'custom.com',
       };
 
-      const testInstance = new DpxV1(options);
+      const testInstance = new DphV1(options);
 
       expect(testInstance.baseOptions.serviceUrl).toBe('custom.com');
     });
@@ -114,9 +114,9 @@ describe('DpxV1', () => {
         authenticator: new NoAuthAuthenticator(),
       };
 
-      const testInstance = new DpxV1(options);
+      const testInstance = new DphV1(options);
 
-      expect(testInstance.baseOptions.serviceUrl).toBe(DpxV1.DEFAULT_SERVICE_URL);
+      expect(testInstance.baseOptions.serviceUrl).toBe(DphV1.DEFAULT_SERVICE_URL);
     });
   });
 
@@ -129,7 +129,7 @@ describe('DpxV1', () => {
           containerId,
         };
 
-        const getInitializeStatusResult = dpxService.getInitializeStatus(getInitializeStatusParams);
+        const getInitializeStatusResult = dphService.getInitializeStatus(getInitializeStatusParams);
 
         // all methods should return a Promise
         expectToBePromise(getInitializeStatusResult);
@@ -156,12 +156,12 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __getInitializeStatusTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __getInitializeStatusTest();
       });
 
@@ -176,13 +176,79 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.getInitializeStatus(getInitializeStatusParams);
+        dphService.getInitializeStatus(getInitializeStatusParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        dpxService.getInitializeStatus({});
+        dphService.getInitializeStatus({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('getServiceIdCredentials', () => {
+    describe('positive tests', () => {
+      function __getServiceIdCredentialsTest() {
+        // Construct the params object for operation getServiceIdCredentials
+        const getServiceIdCredentialsParams = {};
+
+        const getServiceIdCredentialsResult = dphService.getServiceIdCredentials(
+          getServiceIdCredentialsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getServiceIdCredentialsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/credentials',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getServiceIdCredentialsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getServiceIdCredentialsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getServiceIdCredentialsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getServiceIdCredentialsParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getServiceIdCredentials(getServiceIdCredentialsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        dphService.getServiceIdCredentials({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -201,13 +267,19 @@ describe('DpxV1', () => {
       function __initializeTest() {
         // Construct the params object for operation initialize
         const container = containerReferenceModel;
-        const include = ['delivery_methods', 'data_product_samples', 'domains_multi_industry'];
+        const include = [
+          'delivery_methods',
+          'domains_multi_industry',
+          'data_product_samples',
+          'workflows',
+          'project',
+        ];
         const initializeParams = {
           container,
           include,
         };
 
-        const initializeResult = dpxService.initialize(initializeParams);
+        const initializeResult = dphService.initialize(initializeParams);
 
         // all methods should return a Promise
         expectToBePromise(initializeResult);
@@ -235,12 +307,12 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __initializeTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __initializeTest();
       });
 
@@ -255,13 +327,13 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.initialize(initializeParams);
+        dphService.initialize(initializeParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        dpxService.initialize({});
+        dphService.initialize({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -273,7 +345,7 @@ describe('DpxV1', () => {
         // Construct the params object for operation manageApiKeys
         const manageApiKeysParams = {};
 
-        const manageApiKeysResult = dpxService.manageApiKeys(manageApiKeysParams);
+        const manageApiKeysResult = dphService.manageApiKeys(manageApiKeysParams);
 
         // all methods should return a Promise
         expectToBePromise(manageApiKeysResult);
@@ -299,12 +371,12 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __manageApiKeysTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __manageApiKeysTest();
       });
 
@@ -319,13 +391,13 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.manageApiKeys(manageApiKeysParams);
+        dphService.manageApiKeys(manageApiKeysParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        dpxService.manageApiKeys({});
+        dphService.manageApiKeys({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -342,7 +414,7 @@ describe('DpxV1', () => {
           start,
         };
 
-        const listDataProductsResult = dpxService.listDataProducts(listDataProductsParams);
+        const listDataProductsResult = dphService.listDataProducts(listDataProductsParams);
 
         // all methods should return a Promise
         expectToBePromise(listDataProductsResult);
@@ -366,12 +438,12 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __listDataProductsTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __listDataProductsTest();
       });
 
@@ -386,19 +458,19 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.listDataProducts(listDataProductsParams);
+        dphService.listDataProducts(listDataProductsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        dpxService.listDataProducts({});
+        dphService.listDataProducts({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
 
     describe('DataProductsPager tests', () => {
-      const serviceUrl = dpxServiceOptions.url;
+      const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products';
       const mockPagerResponse1 =
         '{"next":{"start":"1"},"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
@@ -424,7 +496,7 @@ describe('DpxV1', () => {
           limit: 10,
         };
         const allResults = [];
-        const pager = new DpxV1.DataProductsPager(dpxService, params);
+        const pager = new DphV1.DataProductsPager(dphService, params);
         while (pager.hasNext()) {
           const nextPage = await pager.getNext();
           expect(nextPage).not.toBeNull();
@@ -438,7 +510,7 @@ describe('DpxV1', () => {
         const params = {
           limit: 10,
         };
-        const pager = new DpxV1.DataProductsPager(dpxService, params);
+        const pager = new DphV1.DataProductsPager(dphService, params);
         const allResults = await pager.getAll();
         expect(allResults).not.toBeNull();
         expect(allResults).toHaveLength(2);
@@ -461,17 +533,50 @@ describe('DpxV1', () => {
         type: 'catalog',
       };
 
+      // UseCase
+      const useCaseModel = {
+        id: 'testString',
+        name: 'testString',
+        container: containerReferenceModel,
+      };
+
       // AssetReference
       const assetReferenceModel = {
         id: '2b0bf220-079c-11ee-be56-0242ac120002',
         container: containerReferenceModel,
       };
 
-      // UseCase
-      const useCaseModel = {
+      // ContractTermsDocumentAttachment
+      const contractTermsDocumentAttachmentModel = {
         id: 'testString',
+      };
+
+      // ContractTermsDocument
+      const contractTermsDocumentModel = {
+        url: 'testString',
+        type: 'terms_and_conditions',
         name: 'testString',
-        container: containerReferenceModel,
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        attachment: contractTermsDocumentAttachmentModel,
+        upload_url: 'testString',
+      };
+
+      // DataProductContractTerms
+      const dataProductContractTermsModel = {
+        asset: assetReferenceModel,
+        id: 'testString',
+        documents: [contractTermsDocumentModel],
+      };
+
+      // ContainerIdentity
+      const containerIdentityModel = {
+        id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
+      };
+
+      // AssetPrototype
+      const assetPrototypeModel = {
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        container: containerIdentityModel,
       };
 
       // Domain
@@ -497,31 +602,17 @@ describe('DpxV1', () => {
       // DataProductPart
       const dataProductPartModel = {
         asset: assetPartReferenceModel,
-        revision: 1,
-        updated_at: '2023-07-01T22:22:34.876Z',
         delivery_methods: [deliveryMethodModel],
       };
 
-      // ContractTermsDocumentAttachment
-      const contractTermsDocumentAttachmentModel = {
-        id: 'testString',
+      // DataProductOrderAccessRequest
+      const dataProductOrderAccessRequestModel = {
+        task_assignee_users: ['testString'],
       };
 
-      // ContractTermsDocument
-      const contractTermsDocumentModel = {
-        url: 'testString',
-        type: 'terms_and_conditions',
-        name: 'testString',
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        attachment: contractTermsDocumentAttachmentModel,
-        upload_url: 'testString',
-      };
-
-      // DataProductContractTerms
-      const dataProductContractTermsModel = {
-        asset: assetReferenceModel,
-        id: 'testString',
-        documents: [contractTermsDocumentModel],
+      // DataProductWorkflows
+      const dataProductWorkflowsModel = {
+        order_access_request: dataProductOrderAccessRequestModel,
       };
 
       // DataProductVersionPrototype
@@ -531,14 +622,15 @@ describe('DpxV1', () => {
         data_product: dataProductIdentityModel,
         name: 'My New Data Product',
         description: 'This is a description of My Data Product.',
-        asset: assetReferenceModel,
         tags: ['testString'],
         use_cases: [useCaseModel],
-        domain: domainModel,
         types: ['data'],
-        parts_out: [dataProductPartModel],
         contract_terms: [dataProductContractTermsModel],
         is_restricted: true,
+        asset: assetPrototypeModel,
+        domain: domainModel,
+        parts_out: [dataProductPartModel],
+        workflows: dataProductWorkflowsModel,
       };
 
       function __createDataProductTest() {
@@ -548,7 +640,7 @@ describe('DpxV1', () => {
           drafts,
         };
 
-        const createDataProductResult = dpxService.createDataProduct(createDataProductParams);
+        const createDataProductResult = dphService.createDataProduct(createDataProductParams);
 
         // all methods should return a Promise
         expectToBePromise(createDataProductResult);
@@ -571,12 +663,12 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __createDataProductTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __createDataProductTest();
       });
 
@@ -593,7 +685,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.createDataProduct(createDataProductParams);
+        dphService.createDataProduct(createDataProductParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -602,7 +694,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.createDataProduct({});
+          await dphService.createDataProduct({});
         } catch (e) {
           err = e;
         }
@@ -613,7 +705,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.createDataProduct();
+          await dphService.createDataProduct();
         } catch (e) {
           err = e;
         }
@@ -627,12 +719,12 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __getDataProductTest() {
         // Construct the params object for operation getDataProduct
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
+        const dataProductId = 'testString';
         const getDataProductParams = {
           dataProductId,
         };
 
-        const getDataProductResult = dpxService.getDataProduct(getDataProductParams);
+        const getDataProductResult = dphService.getDataProduct(getDataProductParams);
 
         // all methods should return a Promise
         expectToBePromise(getDataProductResult);
@@ -659,18 +751,18 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __getDataProductTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __getDataProductTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
+        const dataProductId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getDataProductParams = {
@@ -681,7 +773,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.getDataProduct(getDataProductParams);
+        dphService.getDataProduct(getDataProductParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -690,7 +782,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.getDataProduct({});
+          await dphService.getDataProduct({});
         } catch (e) {
           err = e;
         }
@@ -701,7 +793,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.getDataProduct();
+          await dphService.getDataProduct();
         } catch (e) {
           err = e;
         }
@@ -715,10 +807,9 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __completeDraftContractTermsDocumentTest() {
         // Construct the params object for operation completeDraftContractTermsDocument
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const completeDraftContractTermsDocumentParams = {
           dataProductId,
@@ -728,7 +819,7 @@ describe('DpxV1', () => {
         };
 
         const completeDraftContractTermsDocumentResult =
-          dpxService.completeDraftContractTermsDocument(completeDraftContractTermsDocumentParams);
+          dphService.completeDraftContractTermsDocument(completeDraftContractTermsDocumentParams);
 
         // all methods should return a Promise
         expectToBePromise(completeDraftContractTermsDocumentResult);
@@ -758,21 +849,20 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __completeDraftContractTermsDocumentTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __completeDraftContractTermsDocumentTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -787,7 +877,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.completeDraftContractTermsDocument(completeDraftContractTermsDocumentParams);
+        dphService.completeDraftContractTermsDocument(completeDraftContractTermsDocumentParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -796,7 +886,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.completeDraftContractTermsDocument({});
+          await dphService.completeDraftContractTermsDocument({});
         } catch (e) {
           err = e;
         }
@@ -807,7 +897,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.completeDraftContractTermsDocument();
+          await dphService.completeDraftContractTermsDocument();
         } catch (e) {
           err = e;
         }
@@ -821,7 +911,7 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __listDataProductDraftsTest() {
         // Construct the params object for operation listDataProductDrafts
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
+        const dataProductId = 'testString';
         const assetContainerId = 'testString';
         const version = 'testString';
         const limit = 200;
@@ -834,7 +924,7 @@ describe('DpxV1', () => {
           start,
         };
 
-        const listDataProductDraftsResult = dpxService.listDataProductDrafts(
+        const listDataProductDraftsResult = dphService.listDataProductDrafts(
           listDataProductDraftsParams
         );
 
@@ -867,18 +957,18 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __listDataProductDraftsTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __listDataProductDraftsTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
+        const dataProductId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const listDataProductDraftsParams = {
@@ -889,7 +979,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.listDataProductDrafts(listDataProductDraftsParams);
+        dphService.listDataProductDrafts(listDataProductDraftsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -898,7 +988,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.listDataProductDrafts({});
+          await dphService.listDataProductDrafts({});
         } catch (e) {
           err = e;
         }
@@ -909,7 +999,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.listDataProductDrafts();
+          await dphService.listDataProductDrafts();
         } catch (e) {
           err = e;
         }
@@ -919,13 +1009,12 @@ describe('DpxV1', () => {
     });
 
     describe('DataProductDraftsPager tests', () => {
-      const serviceUrl = dpxServiceOptions.url;
-      const path =
-        '/data_product_exchange/v1/data_products/b38df608-d34b-4d58-8136-ed25e6c6684e/drafts';
+      const serviceUrl = dphServiceOptions.url;
+      const path = '/data_product_exchange/v1/data_products/testString/drafts';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e"},"name":"My Data Product","description":"This is a description of My Data Product.","id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e"},"name":"My Data Product","description":"This is a description of My Data Product.","id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -943,13 +1032,13 @@ describe('DpxV1', () => {
 
       test('getNext()', async () => {
         const params = {
-          dataProductId: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+          dataProductId: 'testString',
           assetContainerId: 'testString',
           version: 'testString',
           limit: 10,
         };
         const allResults = [];
-        const pager = new DpxV1.DataProductDraftsPager(dpxService, params);
+        const pager = new DphV1.DataProductDraftsPager(dphService, params);
         while (pager.hasNext()) {
           const nextPage = await pager.getNext();
           expect(nextPage).not.toBeNull();
@@ -961,12 +1050,12 @@ describe('DpxV1', () => {
 
       test('getAll()', async () => {
         const params = {
-          dataProductId: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+          dataProductId: 'testString',
           assetContainerId: 'testString',
           version: 'testString',
           limit: 10,
         };
-        const pager = new DpxV1.DataProductDraftsPager(dpxService, params);
+        const pager = new DphV1.DataProductDraftsPager(dphService, params);
         const allResults = await pager.getAll();
         expect(allResults).not.toBeNull();
         expect(allResults).toHaveLength(2);
@@ -978,10 +1067,33 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // ContainerIdentity
+      const containerIdentityModel = {
+        id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
+      };
+
+      // AssetPrototype
+      const assetPrototypeModel = {
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        container: containerIdentityModel,
+      };
+
+      // DataProductIdentity
+      const dataProductIdentityModel = {
+        id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+      };
+
       // ContainerReference
       const containerReferenceModel = {
         id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
         type: 'catalog',
+      };
+
+      // UseCase
+      const useCaseModel = {
+        id: 'testString',
+        name: 'testString',
+        container: containerReferenceModel,
       };
 
       // AssetReference
@@ -990,16 +1102,26 @@ describe('DpxV1', () => {
         container: containerReferenceModel,
       };
 
-      // DataProductIdentity
-      const dataProductIdentityModel = {
-        id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+      // ContractTermsDocumentAttachment
+      const contractTermsDocumentAttachmentModel = {
+        id: 'testString',
       };
 
-      // UseCase
-      const useCaseModel = {
-        id: 'testString',
+      // ContractTermsDocument
+      const contractTermsDocumentModel = {
+        url: 'testString',
+        type: 'terms_and_conditions',
         name: 'testString',
-        container: containerReferenceModel,
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        attachment: contractTermsDocumentAttachmentModel,
+        upload_url: 'testString',
+      };
+
+      // DataProductContractTerms
+      const dataProductContractTermsModel = {
+        asset: assetReferenceModel,
+        id: 'testString',
+        documents: [contractTermsDocumentModel],
       };
 
       // Domain
@@ -1025,37 +1147,23 @@ describe('DpxV1', () => {
       // DataProductPart
       const dataProductPartModel = {
         asset: assetPartReferenceModel,
-        revision: 1,
-        updated_at: '2023-07-01T22:22:34.876Z',
         delivery_methods: [deliveryMethodModel],
       };
 
-      // ContractTermsDocumentAttachment
-      const contractTermsDocumentAttachmentModel = {
-        id: 'testString',
+      // DataProductOrderAccessRequest
+      const dataProductOrderAccessRequestModel = {
+        task_assignee_users: ['testString'],
       };
 
-      // ContractTermsDocument
-      const contractTermsDocumentModel = {
-        url: 'testString',
-        type: 'terms_and_conditions',
-        name: 'testString',
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        attachment: contractTermsDocumentAttachmentModel,
-        upload_url: 'testString',
-      };
-
-      // DataProductContractTerms
-      const dataProductContractTermsModel = {
-        asset: assetReferenceModel,
-        id: 'testString',
-        documents: [contractTermsDocumentModel],
+      // DataProductWorkflows
+      const dataProductWorkflowsModel = {
+        order_access_request: dataProductOrderAccessRequestModel,
       };
 
       function __createDataProductDraftTest() {
         // Construct the params object for operation createDataProductDraft
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const asset = assetReferenceModel;
+        const dataProductId = 'testString';
+        const asset = assetPrototypeModel;
         const version = '1.2.0';
         const state = 'draft';
         const dataProduct = dataProductIdentityModel;
@@ -1063,11 +1171,12 @@ describe('DpxV1', () => {
         const description = 'testString';
         const tags = ['testString'];
         const useCases = [useCaseModel];
-        const domain = domainModel;
         const types = ['data'];
-        const partsOut = [dataProductPartModel];
         const contractTerms = [dataProductContractTermsModel];
         const isRestricted = true;
+        const domain = domainModel;
+        const partsOut = [dataProductPartModel];
+        const workflows = dataProductWorkflowsModel;
         const createDataProductDraftParams = {
           dataProductId,
           asset,
@@ -1078,14 +1187,15 @@ describe('DpxV1', () => {
           description,
           tags,
           useCases,
-          domain,
           types,
-          partsOut,
           contractTerms,
           isRestricted,
+          domain,
+          partsOut,
+          workflows,
         };
 
-        const createDataProductDraftResult = dpxService.createDataProductDraft(
+        const createDataProductDraftResult = dphService.createDataProductDraft(
           createDataProductDraftParams
         );
 
@@ -1113,11 +1223,12 @@ describe('DpxV1', () => {
         expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.tags).toEqual(tags);
         expect(mockRequestOptions.body.use_cases).toEqual(useCases);
-        expect(mockRequestOptions.body.domain).toEqual(domain);
         expect(mockRequestOptions.body.types).toEqual(types);
-        expect(mockRequestOptions.body.parts_out).toEqual(partsOut);
         expect(mockRequestOptions.body.contract_terms).toEqual(contractTerms);
         expect(mockRequestOptions.body.is_restricted).toEqual(isRestricted);
+        expect(mockRequestOptions.body.domain).toEqual(domain);
+        expect(mockRequestOptions.body.parts_out).toEqual(partsOut);
+        expect(mockRequestOptions.body.workflows).toEqual(workflows);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
       }
 
@@ -1127,19 +1238,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __createDataProductDraftTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __createDataProductDraftTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const asset = assetReferenceModel;
+        const dataProductId = 'testString';
+        const asset = assetPrototypeModel;
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createDataProductDraftParams = {
@@ -1151,7 +1262,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.createDataProductDraft(createDataProductDraftParams);
+        dphService.createDataProductDraft(createDataProductDraftParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1160,7 +1271,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.createDataProductDraft({});
+          await dphService.createDataProductDraft({});
         } catch (e) {
           err = e;
         }
@@ -1171,7 +1282,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.createDataProductDraft();
+          await dphService.createDataProductDraft();
         } catch (e) {
           err = e;
         }
@@ -1192,10 +1303,9 @@ describe('DpxV1', () => {
 
       function __createDraftContractTermsDocumentTest() {
         // Construct the params object for operation createDraftContractTermsDocument
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const type = 'terms_and_conditions';
         const name = 'Terms and conditions document';
         const id = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
@@ -1214,7 +1324,7 @@ describe('DpxV1', () => {
           uploadUrl,
         };
 
-        const createDraftContractTermsDocumentResult = dpxService.createDraftContractTermsDocument(
+        const createDraftContractTermsDocumentResult = dphService.createDraftContractTermsDocument(
           createDraftContractTermsDocumentParams
         );
 
@@ -1251,21 +1361,20 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __createDraftContractTermsDocumentTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __createDraftContractTermsDocumentTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const type = 'terms_and_conditions';
         const name = 'Terms and conditions document';
         const id = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
@@ -1284,7 +1393,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.createDraftContractTermsDocument(createDraftContractTermsDocumentParams);
+        dphService.createDraftContractTermsDocument(createDraftContractTermsDocumentParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1293,7 +1402,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.createDraftContractTermsDocument({});
+          await dphService.createDraftContractTermsDocument({});
         } catch (e) {
           err = e;
         }
@@ -1304,7 +1413,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.createDraftContractTermsDocument();
+          await dphService.createDraftContractTermsDocument();
         } catch (e) {
           err = e;
         }
@@ -1318,14 +1427,14 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __getDataProductDraftTest() {
         // Construct the params object for operation getDataProductDraft
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const getDataProductDraftParams = {
           dataProductId,
           draftId,
         };
 
-        const getDataProductDraftResult = dpxService.getDataProductDraft(getDataProductDraftParams);
+        const getDataProductDraftResult = dphService.getDataProductDraft(getDataProductDraftParams);
 
         // all methods should return a Promise
         expectToBePromise(getDataProductDraftResult);
@@ -1353,19 +1462,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __getDataProductDraftTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __getDataProductDraftTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getDataProductDraftParams = {
@@ -1377,7 +1486,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.getDataProductDraft(getDataProductDraftParams);
+        dphService.getDataProductDraft(getDataProductDraftParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1386,7 +1495,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.getDataProductDraft({});
+          await dphService.getDataProductDraft({});
         } catch (e) {
           err = e;
         }
@@ -1397,7 +1506,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.getDataProductDraft();
+          await dphService.getDataProductDraft();
         } catch (e) {
           err = e;
         }
@@ -1411,14 +1520,14 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __deleteDataProductDraftTest() {
         // Construct the params object for operation deleteDataProductDraft
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const deleteDataProductDraftParams = {
           dataProductId,
           draftId,
         };
 
-        const deleteDataProductDraftResult = dpxService.deleteDataProductDraft(
+        const deleteDataProductDraftResult = dphService.deleteDataProductDraft(
           deleteDataProductDraftParams
         );
 
@@ -1448,19 +1557,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __deleteDataProductDraftTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __deleteDataProductDraftTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const deleteDataProductDraftParams = {
@@ -1472,7 +1581,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.deleteDataProductDraft(deleteDataProductDraftParams);
+        dphService.deleteDataProductDraft(deleteDataProductDraftParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1481,7 +1590,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.deleteDataProductDraft({});
+          await dphService.deleteDataProductDraft({});
         } catch (e) {
           err = e;
         }
@@ -1492,7 +1601,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.deleteDataProductDraft();
+          await dphService.deleteDataProductDraft();
         } catch (e) {
           err = e;
         }
@@ -1516,8 +1625,8 @@ describe('DpxV1', () => {
 
       function __updateDataProductDraftTest() {
         // Construct the params object for operation updateDataProductDraft
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const jsonPatchInstructions = [jsonPatchOperationModel];
         const updateDataProductDraftParams = {
           dataProductId,
@@ -1525,7 +1634,7 @@ describe('DpxV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductDraftResult = dpxService.updateDataProductDraft(
+        const updateDataProductDraftResult = dphService.updateDataProductDraft(
           updateDataProductDraftParams
         );
 
@@ -1556,19 +1665,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __updateDataProductDraftTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __updateDataProductDraftTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const jsonPatchInstructions = [jsonPatchOperationModel];
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -1582,7 +1691,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.updateDataProductDraft(updateDataProductDraftParams);
+        dphService.updateDataProductDraft(updateDataProductDraftParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1591,7 +1700,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.updateDataProductDraft({});
+          await dphService.updateDataProductDraft({});
         } catch (e) {
           err = e;
         }
@@ -1602,7 +1711,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.updateDataProductDraft();
+          await dphService.updateDataProductDraft();
         } catch (e) {
           err = e;
         }
@@ -1616,10 +1725,9 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __getDraftContractTermsDocumentTest() {
         // Construct the params object for operation getDraftContractTermsDocument
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const getDraftContractTermsDocumentParams = {
           dataProductId,
@@ -1628,7 +1736,7 @@ describe('DpxV1', () => {
           documentId,
         };
 
-        const getDraftContractTermsDocumentResult = dpxService.getDraftContractTermsDocument(
+        const getDraftContractTermsDocumentResult = dphService.getDraftContractTermsDocument(
           getDraftContractTermsDocumentParams
         );
 
@@ -1660,21 +1768,20 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __getDraftContractTermsDocumentTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __getDraftContractTermsDocumentTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -1689,7 +1796,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.getDraftContractTermsDocument(getDraftContractTermsDocumentParams);
+        dphService.getDraftContractTermsDocument(getDraftContractTermsDocumentParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1698,7 +1805,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.getDraftContractTermsDocument({});
+          await dphService.getDraftContractTermsDocument({});
         } catch (e) {
           err = e;
         }
@@ -1709,7 +1816,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.getDraftContractTermsDocument();
+          await dphService.getDraftContractTermsDocument();
         } catch (e) {
           err = e;
         }
@@ -1723,10 +1830,9 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __deleteDraftContractTermsDocumentTest() {
         // Construct the params object for operation deleteDraftContractTermsDocument
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const deleteDraftContractTermsDocumentParams = {
           dataProductId,
@@ -1735,7 +1841,7 @@ describe('DpxV1', () => {
           documentId,
         };
 
-        const deleteDraftContractTermsDocumentResult = dpxService.deleteDraftContractTermsDocument(
+        const deleteDraftContractTermsDocumentResult = dphService.deleteDraftContractTermsDocument(
           deleteDraftContractTermsDocumentParams
         );
 
@@ -1767,21 +1873,20 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __deleteDraftContractTermsDocumentTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __deleteDraftContractTermsDocumentTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -1796,7 +1901,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.deleteDraftContractTermsDocument(deleteDraftContractTermsDocumentParams);
+        dphService.deleteDraftContractTermsDocument(deleteDraftContractTermsDocumentParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1805,7 +1910,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.deleteDraftContractTermsDocument({});
+          await dphService.deleteDraftContractTermsDocument({});
         } catch (e) {
           err = e;
         }
@@ -1816,7 +1921,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.deleteDraftContractTermsDocument();
+          await dphService.deleteDraftContractTermsDocument();
         } catch (e) {
           err = e;
         }
@@ -1840,10 +1945,9 @@ describe('DpxV1', () => {
 
       function __updateDraftContractTermsDocumentTest() {
         // Construct the params object for operation updateDraftContractTermsDocument
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const jsonPatchInstructions = [jsonPatchOperationModel];
         const updateDraftContractTermsDocumentParams = {
@@ -1854,7 +1958,7 @@ describe('DpxV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDraftContractTermsDocumentResult = dpxService.updateDraftContractTermsDocument(
+        const updateDraftContractTermsDocumentResult = dphService.updateDraftContractTermsDocument(
           updateDraftContractTermsDocumentParams
         );
 
@@ -1887,21 +1991,20 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __updateDraftContractTermsDocumentTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __updateDraftContractTermsDocumentTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const jsonPatchInstructions = [jsonPatchOperationModel];
         const userAccept = 'fake/accept';
@@ -1918,7 +2021,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.updateDraftContractTermsDocument(updateDraftContractTermsDocumentParams);
+        dphService.updateDraftContractTermsDocument(updateDraftContractTermsDocumentParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1927,7 +2030,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.updateDraftContractTermsDocument({});
+          await dphService.updateDraftContractTermsDocument({});
         } catch (e) {
           err = e;
         }
@@ -1938,7 +2041,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.updateDraftContractTermsDocument();
+          await dphService.updateDraftContractTermsDocument();
         } catch (e) {
           err = e;
         }
@@ -1952,14 +2055,14 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __publishDataProductDraftTest() {
         // Construct the params object for operation publishDataProductDraft
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const publishDataProductDraftParams = {
           dataProductId,
           draftId,
         };
 
-        const publishDataProductDraftResult = dpxService.publishDataProductDraft(
+        const publishDataProductDraftResult = dphService.publishDataProductDraft(
           publishDataProductDraftParams
         );
 
@@ -1989,19 +2092,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __publishDataProductDraftTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __publishDataProductDraftTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const draftId = '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const draftId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const publishDataProductDraftParams = {
@@ -2013,7 +2116,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.publishDataProductDraft(publishDataProductDraftParams);
+        dphService.publishDataProductDraft(publishDataProductDraftParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2022,7 +2125,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.publishDataProductDraft({});
+          await dphService.publishDataProductDraft({});
         } catch (e) {
           err = e;
         }
@@ -2033,7 +2136,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.publishDataProductDraft();
+          await dphService.publishDataProductDraft();
         } catch (e) {
           err = e;
         }
@@ -2047,15 +2150,14 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __getDataProductReleaseTest() {
         // Construct the params object for operation getDataProductRelease
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
         const getDataProductReleaseParams = {
           dataProductId,
           releaseId,
         };
 
-        const getDataProductReleaseResult = dpxService.getDataProductRelease(
+        const getDataProductReleaseResult = dphService.getDataProductRelease(
           getDataProductReleaseParams
         );
 
@@ -2085,20 +2187,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __getDataProductReleaseTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __getDataProductReleaseTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getDataProductReleaseParams = {
@@ -2110,7 +2211,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.getDataProductRelease(getDataProductReleaseParams);
+        dphService.getDataProductRelease(getDataProductReleaseParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2119,7 +2220,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.getDataProductRelease({});
+          await dphService.getDataProductRelease({});
         } catch (e) {
           err = e;
         }
@@ -2130,7 +2231,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.getDataProductRelease();
+          await dphService.getDataProductRelease();
         } catch (e) {
           err = e;
         }
@@ -2154,9 +2255,8 @@ describe('DpxV1', () => {
 
       function __updateDataProductReleaseTest() {
         // Construct the params object for operation updateDataProductRelease
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
         const jsonPatchInstructions = [jsonPatchOperationModel];
         const updateDataProductReleaseParams = {
           dataProductId,
@@ -2164,7 +2264,7 @@ describe('DpxV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductReleaseResult = dpxService.updateDataProductRelease(
+        const updateDataProductReleaseResult = dphService.updateDataProductRelease(
           updateDataProductReleaseParams
         );
 
@@ -2195,20 +2295,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __updateDataProductReleaseTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __updateDataProductReleaseTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
         const jsonPatchInstructions = [jsonPatchOperationModel];
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -2222,7 +2321,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.updateDataProductRelease(updateDataProductReleaseParams);
+        dphService.updateDataProductRelease(updateDataProductReleaseParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2231,7 +2330,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.updateDataProductRelease({});
+          await dphService.updateDataProductRelease({});
         } catch (e) {
           err = e;
         }
@@ -2242,7 +2341,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.updateDataProductRelease();
+          await dphService.updateDataProductRelease();
         } catch (e) {
           err = e;
         }
@@ -2256,11 +2355,9 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __getReleaseContractTermsDocumentTest() {
         // Construct the params object for operation getReleaseContractTermsDocument
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const getReleaseContractTermsDocumentParams = {
           dataProductId,
@@ -2269,7 +2366,7 @@ describe('DpxV1', () => {
           documentId,
         };
 
-        const getReleaseContractTermsDocumentResult = dpxService.getReleaseContractTermsDocument(
+        const getReleaseContractTermsDocumentResult = dphService.getReleaseContractTermsDocument(
           getReleaseContractTermsDocumentParams
         );
 
@@ -2301,22 +2398,20 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __getReleaseContractTermsDocumentTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __getReleaseContractTermsDocumentTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
-        const contractTermsId =
-          '598183cd-b910-4e8d-9a97-97097afda3c1@e4fe2f87-0e56-46dd-b3b8-e9af32309e82';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
+        const contractTermsId = 'testString';
         const documentId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -2331,7 +2426,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.getReleaseContractTermsDocument(getReleaseContractTermsDocumentParams);
+        dphService.getReleaseContractTermsDocument(getReleaseContractTermsDocumentParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2340,7 +2435,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.getReleaseContractTermsDocument({});
+          await dphService.getReleaseContractTermsDocument({});
         } catch (e) {
           err = e;
         }
@@ -2351,7 +2446,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.getReleaseContractTermsDocument();
+          await dphService.getReleaseContractTermsDocument();
         } catch (e) {
           err = e;
         }
@@ -2365,7 +2460,7 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __listDataProductReleasesTest() {
         // Construct the params object for operation listDataProductReleases
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
+        const dataProductId = 'testString';
         const assetContainerId = 'testString';
         const state = ['available'];
         const version = 'testString';
@@ -2380,7 +2475,7 @@ describe('DpxV1', () => {
           start,
         };
 
-        const listDataProductReleasesResult = dpxService.listDataProductReleases(
+        const listDataProductReleasesResult = dphService.listDataProductReleases(
           listDataProductReleasesParams
         );
 
@@ -2414,18 +2509,18 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __listDataProductReleasesTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __listDataProductReleasesTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
+        const dataProductId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const listDataProductReleasesParams = {
@@ -2436,7 +2531,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.listDataProductReleases(listDataProductReleasesParams);
+        dphService.listDataProductReleases(listDataProductReleasesParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2445,7 +2540,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.listDataProductReleases({});
+          await dphService.listDataProductReleases({});
         } catch (e) {
           err = e;
         }
@@ -2456,7 +2551,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.listDataProductReleases();
+          await dphService.listDataProductReleases();
         } catch (e) {
           err = e;
         }
@@ -2466,13 +2561,12 @@ describe('DpxV1', () => {
     });
 
     describe('DataProductReleasesPager tests', () => {
-      const serviceUrl = dpxServiceOptions.url;
-      const path =
-        '/data_product_exchange/v1/data_products/b38df608-d34b-4d58-8136-ed25e6c6684e/releases';
+      const serviceUrl = dphServiceOptions.url;
+      const path = '/data_product_exchange/v1/data_products/testString/releases';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e"},"name":"My Data Product","description":"This is a description of My Data Product.","id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e"},"name":"My Data Product","description":"This is a description of My Data Product.","id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -2490,14 +2584,14 @@ describe('DpxV1', () => {
 
       test('getNext()', async () => {
         const params = {
-          dataProductId: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+          dataProductId: 'testString',
           assetContainerId: 'testString',
           state: ['available'],
           version: 'testString',
           limit: 10,
         };
         const allResults = [];
-        const pager = new DpxV1.DataProductReleasesPager(dpxService, params);
+        const pager = new DphV1.DataProductReleasesPager(dphService, params);
         while (pager.hasNext()) {
           const nextPage = await pager.getNext();
           expect(nextPage).not.toBeNull();
@@ -2509,13 +2603,13 @@ describe('DpxV1', () => {
 
       test('getAll()', async () => {
         const params = {
-          dataProductId: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+          dataProductId: 'testString',
           assetContainerId: 'testString',
           state: ['available'],
           version: 'testString',
           limit: 10,
         };
-        const pager = new DpxV1.DataProductReleasesPager(dpxService, params);
+        const pager = new DphV1.DataProductReleasesPager(dphService, params);
         const allResults = await pager.getAll();
         expect(allResults).not.toBeNull();
         expect(allResults).toHaveLength(2);
@@ -2527,15 +2621,14 @@ describe('DpxV1', () => {
     describe('positive tests', () => {
       function __retireDataProductReleaseTest() {
         // Construct the params object for operation retireDataProductRelease
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
         const retireDataProductReleaseParams = {
           dataProductId,
           releaseId,
         };
 
-        const retireDataProductReleaseResult = dpxService.retireDataProductRelease(
+        const retireDataProductReleaseResult = dphService.retireDataProductRelease(
           retireDataProductReleaseParams
         );
 
@@ -2565,20 +2658,19 @@ describe('DpxV1', () => {
 
         // enable retries and test again
         createRequestMock.mockClear();
-        dpxService.enableRetries();
+        dphService.enableRetries();
         __retireDataProductReleaseTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
-        dpxService.disableRetries();
+        dphService.disableRetries();
         __retireDataProductReleaseTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const dataProductId = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
-        const releaseId =
-          '2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const dataProductId = 'testString';
+        const releaseId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const retireDataProductReleaseParams = {
@@ -2590,7 +2682,7 @@ describe('DpxV1', () => {
           },
         };
 
-        dpxService.retireDataProductRelease(retireDataProductReleaseParams);
+        dphService.retireDataProductRelease(retireDataProductReleaseParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2599,7 +2691,7 @@ describe('DpxV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await dpxService.retireDataProductRelease({});
+          await dphService.retireDataProductRelease({});
         } catch (e) {
           err = e;
         }
@@ -2610,7 +2702,7 @@ describe('DpxV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await dpxService.retireDataProductRelease();
+          await dphService.retireDataProductRelease();
         } catch (e) {
           err = e;
         }
