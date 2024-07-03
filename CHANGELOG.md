@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.0.5...v0.1.0) (2024-07-03)
+
+
+### Features
+
+* drop dpx 0.0.5 support \n\n BREAKING CHANGE: upgraded into dph ([#7](https://github.com/IBM/data-product-exchange-node-sdk/issues/7)) ([c4c4ba1](https://github.com/IBM/data-product-exchange-node-sdk/commit/c4c4ba15707954940ce490e2f2c7317c6b8044c6))
+
 ## [0.0.5](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.0.4...v0.0.5) (2024-03-19)
 
 
