@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.92.0-af5c89a5-20240617-153232
+ * IBM OpenAPI SDK Code Generator Version: 3.96.0-d6dec9d7-20241008-212902
  */
 
 /* eslint-disable max-classes-per-file */
@@ -94,7 +94,7 @@ const {
 /**
  * Data Product Hub API Service
  *
- * API Version: 1.0.1
+ * API Version: 1.0.0
  */
 
 class DphV1 extends BaseService {
@@ -117,7 +117,7 @@ class DphV1 extends BaseService {
     options = options || {};
 
     if (!options.serviceName) {
-      options.serviceName = SERVICE_NAME;
+      options.serviceName = this.DEFAULT_SERVICE_NAME;
     }
     if (!options.authenticator) {
       options.authenticator = getAuthenticatorFromEnvironment(options.serviceName);
@@ -256,15 +256,15 @@ class DphV1 extends BaseService {
    * data product hub</li><li>`domains_multi_industry` - Taxonomy of domains and use cases applicable to multiple
    * industries</li><li>`data_product_samples` - Sample data products used to illustrate capabilities of the data
    * product hub</li><li>`workflows` - Workflows to enable restricted data products</li><li>`project` - A default
-   * project for exporting data assets to files</li></ul><br/><br/>If a resource depends on resources that are not
-   * specified in the request, these dependent resources will be automatically initialized. E.g., initializing
-   * `data_product_samples` will also initialize `domains_multi_industry` and `delivery_methods` even if they are not
-   * specified in the request because it depends on them.<br/><br/>If initializing the data product hub for the first
-   * time, do not specify a container. The default data product catalog will be created.<br/>For first time
-   * initialization, it is recommended that at least `delivery_methods` and `domains_multi_industry` is included in the
-   * initialize operation.<br/><br/>If the data product hub has already been initialized, you may call this API again to
-   * initialize new resources, such as new delivery methods. In this case, specify the default data product catalog
-   * container information.
+   * project for exporting data assets to files</li><li>`catalog_configurations` - Catalog configurations for the
+   * default data product catalog</li></ul><br/><br/>If a resource depends on resources that are not specified in the
+   * request, these dependent resources will be automatically initialized. E.g., initializing `data_product_samples`
+   * will also initialize `domains_multi_industry` and `delivery_methods` even if they are not specified in the request
+   * because it depends on them.<br/><br/>If initializing the data product hub for the first time, do not specify a
+   * container. The default data product catalog will be created.<br/>For first time initialization, it is recommended
+   * that at least `delivery_methods` and `domains_multi_industry` is included in the initialize operation.<br/><br/>If
+   * the data product hub has already been initialized, you may call this API again to initialize new resources, such as
+   * new delivery methods. In this case, specify the default data product catalog container information.
    *
    * @param {Object} [params] - The parameters to send to the service.
    * @param {ContainerReference} [params.container] - Container reference.
@@ -681,7 +681,7 @@ class DphV1 extends BaseService {
       'domain',
       'partsOut',
       'workflows',
-      'headers',
+      'headers'
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -750,10 +750,7 @@ class DphV1 extends BaseService {
    * @param {string} params.contractTermsId - Contract terms id.
    * @param {string} params.type - Type of the contract document.
    * @param {string} params.name - Name of the contract document.
-   * @param {string} params.id - Id uniquely identifying this document within the contract terms instance.
    * @param {string} [params.url] - URL that can be used to retrieve the contract document.
-   * @param {ContractTermsDocumentAttachment} [params.attachment] - Attachment associated witht the document.
-   * @param {string} [params.uploadUrl] - URL which can be used to upload document file.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.ContractTermsDocument>>}
    */
@@ -761,18 +758,15 @@ class DphV1 extends BaseService {
     params: DphV1.CreateDraftContractTermsDocumentParams
   ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
-    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name', 'id'];
+    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name'];
     const _validParams = [
       'dataProductId',
       'draftId',
       'contractTermsId',
       'type',
       'name',
-      'id',
       'url',
-      'attachment',
-      'uploadUrl',
-      'headers',
+      'headers'
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -782,10 +776,7 @@ class DphV1 extends BaseService {
     const body = {
       'type': _params.type,
       'name': _params.name,
-      'id': _params.id,
       'url': _params.url,
-      'attachment': _params.attachment,
-      'upload_url': _params.uploadUrl,
     };
 
     const path = {
@@ -1085,6 +1076,8 @@ class DphV1 extends BaseService {
   /**
    * Update a contract document.
    *
+   * Use this API to update the properties of a contract document that is identified by a valid ID.
+   *
    * Specify patch operations using http://jsonpatch.com/ syntax.
    *
    * Supported patch operations include:
@@ -1111,7 +1104,7 @@ class DphV1 extends BaseService {
       'draftId',
       'contractTermsId',
       'documentId',
-      'jsonPatchInstructions',
+      'jsonPatchInstructions'
     ];
     const _validParams = [
       'dataProductId',
@@ -1119,7 +1112,7 @@ class DphV1 extends BaseService {
       'contractTermsId',
       'documentId',
       'jsonPatchInstructions',
-      'headers',
+      'headers'
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -1220,6 +1213,8 @@ class DphV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.releaseId - Data product release id.
+   * @param {boolean} [params.checkCallerApproval] - If the value is true, then it will be verfied whether the caller is
+   * present in the data access request pre-approved user list.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductVersion>>}
    */
@@ -1228,11 +1223,15 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductVersion>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId'];
-    const _validParams = ['dataProductId', 'releaseId', 'headers'];
+    const _validParams = ['dataProductId', 'releaseId', 'checkCallerApproval', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
+
+    const query = {
+      'check_caller_approval': _params.checkCallerApproval,
+    };
 
     const path = {
       'data_product_id': _params.dataProductId,
@@ -1245,6 +1244,7 @@ class DphV1 extends BaseService {
       options: {
         url: URL_GET_DATA_PRODUCT_RELEASE,
         method: HTTP_GET,
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1407,7 +1407,7 @@ class DphV1 extends BaseService {
       'version',
       'limit',
       'start',
-      'headers',
+      'headers'
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -1559,6 +1559,9 @@ namespace DphV1 {
       DATA_PRODUCT_SAMPLES = 'data_product_samples',
       WORKFLOWS = 'workflows',
       PROJECT = 'project',
+      CATALOG_CONFIGURATIONS = 'catalog_configurations',
+      FUNCTIONAL_ADMIN_USER_GROUP = 'functional_admin_user_group',
+      ACCOUNT_OWNER_INTO_CATALOG_MEMBERS = 'account_owner_into_catalog_members',
     }
   }
 
@@ -1696,14 +1699,8 @@ namespace DphV1 {
     type: CreateDraftContractTermsDocumentConstants.Type | string;
     /** Name of the contract document. */
     name: string;
-    /** Id uniquely identifying this document within the contract terms instance. */
-    id: string;
     /** URL that can be used to retrieve the contract document. */
     url?: string;
-    /** Attachment associated witht the document. */
-    attachment?: ContractTermsDocumentAttachment;
-    /** URL which can be used to upload document file. */
-    uploadUrl?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -1801,6 +1798,10 @@ namespace DphV1 {
     dataProductId: string;
     /** Data product release id. */
     releaseId: string;
+    /** If the value is true, then it will be verfied whether the caller is present in the data access request
+     *  pre-approved user list.
+     */
+    checkCallerApproval?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -1869,7 +1870,9 @@ namespace DphV1 {
    * model interfaces
    ************************/
 
-  /** The asset represented in this part. */
+  /**
+   * The asset represented in this part.
+   */
   export interface AssetPartReference {
     /** The unique identifier of the asset. */
     id?: string;
@@ -1879,14 +1882,18 @@ namespace DphV1 {
     type?: string;
   }
 
-  /** New asset input properties. */
+  /**
+   * New asset input properties.
+   */
   export interface AssetPrototype {
     /** The unique identifier of the asset. */
     id?: string;
     container: ContainerIdentity;
   }
 
-  /** AssetReference. */
+  /**
+   * AssetReference.
+   */
   export interface AssetReference {
     /** The unique identifier of the asset. */
     id?: string;
@@ -1894,13 +1901,17 @@ namespace DphV1 {
     container: ContainerReference;
   }
 
-  /** ContainerIdentity. */
+  /**
+   * ContainerIdentity.
+   */
   export interface ContainerIdentity {
     /** Container identifier. */
     id: string;
   }
 
-  /** Container reference. */
+  /**
+   * Container reference.
+   */
   export interface ContainerReference {
     /** Container identifier. */
     id: string;
@@ -1917,7 +1928,9 @@ namespace DphV1 {
     }
   }
 
-  /** Standard contract terms document, which is used for get and list contract terms responses. */
+  /**
+   * Standard contract terms document, which is used for get and list contract terms responses.
+   */
   export interface ContractTermsDocument {
     /** URL that can be used to retrieve the contract document. */
     url?: string;
@@ -1942,16 +1955,22 @@ namespace DphV1 {
     }
   }
 
-  /** Attachment associated witht the document. */
+  /**
+   * Attachment associated witht the document.
+   */
   export interface ContractTermsDocumentAttachment {
     /** Id representing the corresponding attachment. */
     id?: string;
   }
 
-  /** Data Product. */
+  /**
+   * Data Product.
+   */
   export interface DataProduct {
     /** Data product identifier. */
     id: string;
+    /** A data product draft version object. */
+    release?: DataProductDraftVersionRelease;
     /** Container reference. */
     container: ContainerReference;
     /** Summary of Data Product Version object. */
@@ -1960,16 +1979,29 @@ namespace DphV1 {
     drafts?: DataProductVersionSummary[];
   }
 
-  /** DataProductContractTerms. */
+  /**
+   * DataProductContractTerms.
+   */
   export interface DataProductContractTerms {
     asset?: AssetReference;
     /** ID of the contract terms. */
     id?: string;
     /** Collection of contract terms documents. */
     documents?: ContractTermsDocument[];
+    error_msg?: string;
   }
 
-  /** A collection of data product draft summaries. */
+  /**
+   * A custom workflow definition to be used to create a workflow to approve a data product subscription.
+   */
+  export interface DataProductCustomWorkflowDefinition {
+    /** ID of a workflow definition. */
+    id?: string;
+  }
+
+  /**
+   * A collection of data product draft summaries.
+   */
   export interface DataProductDraftCollection {
     /** Set a limit on the number of results returned. */
     limit: number;
@@ -1981,19 +2013,39 @@ namespace DphV1 {
     drafts: DataProductVersionSummary[];
   }
 
-  /** Data product identifier. */
+  /**
+   * A data product draft version object.
+   */
+  export interface DataProductDraftVersionRelease {
+    /** ID of a draft version of data product. */
+    id?: string;
+  }
+
+  /**
+   * Data product identifier.
+   */
   export interface DataProductIdentity {
     /** Data product identifier. */
     id: string;
+    /** A data product draft version object. */
+    release?: DataProductDraftVersionRelease;
   }
 
-  /** The approval workflows associated with the data product version. */
+  /**
+   * The approval workflows associated with the data product version.
+   */
   export interface DataProductOrderAccessRequest {
     /** The workflow approvers associated with the data product version. */
     task_assignee_users?: string[];
+    /** The list of users or groups whose request will get pre-approved associated with the data product version. */
+    pre_approved_users?: string[];
+    /** A custom workflow definition to be used to create a workflow to approve a data product subscription. */
+    custom_workflow_definition?: DataProductCustomWorkflowDefinition;
   }
 
-  /** Data Product Part. */
+  /**
+   * Data Product Part.
+   */
   export interface DataProductPart {
     /** The asset represented in this part. */
     asset: AssetPartReference;
@@ -2001,7 +2053,9 @@ namespace DphV1 {
     delivery_methods?: DeliveryMethod[];
   }
 
-  /** A collection of data product release summaries. */
+  /**
+   * A collection of data product release summaries.
+   */
   export interface DataProductReleaseCollection {
     /** Set a limit on the number of results returned. */
     limit: number;
@@ -2013,15 +2067,21 @@ namespace DphV1 {
     releases: DataProductVersionSummary[];
   }
 
-  /** Data Product Summary. */
+  /**
+   * Data Product Summary.
+   */
   export interface DataProductSummary {
     /** Data product identifier. */
     id: string;
+    /** A data product draft version object. */
+    release?: DataProductDraftVersionRelease;
     /** Container reference. */
     container: ContainerReference;
   }
 
-  /** A collection of data product summaries. */
+  /**
+   * A collection of data product summaries.
+   */
   export interface DataProductSummaryCollection {
     /** Set a limit on the number of results returned. */
     limit: number;
@@ -2033,7 +2093,9 @@ namespace DphV1 {
     data_products: DataProductSummary[];
   }
 
-  /** Data Product version. */
+  /**
+   * Data Product version.
+   */
   export interface DataProductVersion {
     /** The data product version number. */
     version: string;
@@ -2079,6 +2141,8 @@ namespace DphV1 {
     created_at: string;
     /** The workflows associated with the data product version. */
     workflows?: DataProductWorkflows;
+    /** Metadata properties on data products. */
+    properties?: JsonObject;
   }
   export namespace DataProductVersion {
     export namespace Constants {
@@ -2096,15 +2160,21 @@ namespace DphV1 {
     }
   }
 
-  /** Data product reference. */
+  /**
+   * Data product reference.
+   */
   export interface DataProductVersionDataProduct {
     /** Data product identifier. */
     id: string;
+    /** A data product draft version object. */
+    release?: DataProductDraftVersionRelease;
     /** Container reference. */
     container: ContainerReference;
   }
 
-  /** New data product version input properties. */
+  /**
+   * New data product version input properties.
+   */
   export interface DataProductVersionPrototype {
     /** The data product version number. */
     version?: string;
@@ -2167,7 +2237,9 @@ namespace DphV1 {
     }
   }
 
-  /** Summary of Data Product Version object. */
+  /**
+   * Summary of Data Product Version object.
+   */
   export interface DataProductVersionSummary {
     /** The data product version number. */
     version: string;
@@ -2213,21 +2285,29 @@ namespace DphV1 {
     }
   }
 
-  /** Data product reference. */
+  /**
+   * Data product reference.
+   */
   export interface DataProductVersionSummaryDataProduct {
     /** Data product identifier. */
     id: string;
+    /** A data product draft version object. */
+    release?: DataProductDraftVersionRelease;
     /** Container reference. */
     container: ContainerReference;
   }
 
-  /** The workflows associated with the data product version. */
+  /**
+   * The workflows associated with the data product version.
+   */
   export interface DataProductWorkflows {
     /** The approval workflows associated with the data product version. */
     order_access_request?: DataProductOrderAccessRequest;
   }
 
-  /** DeliveryMethod. */
+  /**
+   * DeliveryMethod.
+   */
   export interface DeliveryMethod {
     /** The ID of the delivery method. */
     id: string;
@@ -2235,7 +2315,11 @@ namespace DphV1 {
     container: ContainerReference;
   }
 
-  /** Domain that the data product version belongs to. If this is the first version of a data product, this field is required. If this is a new version of an existing data product, the domain will default to the domain of the previous version of the data product. */
+  /**
+   * Domain that the data product version belongs to. If this is the first version of a data product, this field is
+   * required. If this is a new version of an existing data product, the domain will default to the domain of the
+   * previous version of the data product.
+   */
   export interface Domain {
     /** The ID of the domain. */
     id: string;
@@ -2245,7 +2329,9 @@ namespace DphV1 {
     container?: ContainerReference;
   }
 
-  /** Detailed error information. */
+  /**
+   * Detailed error information.
+   */
   export interface ErrorModelResource {
     /** Error code. */
     code?: ErrorModelResource.Constants.Code | string;
@@ -2273,6 +2359,7 @@ namespace DphV1 {
         FETCH_ERROR = 'fetch_error',
         UPDATE_ERROR = 'update_error',
         DELETE_ERROR = 'delete_error',
+        PATCH_ERROR = 'patch_error',
         DATA_ERROR = 'data_error',
         DATABASE_ERROR = 'database_error',
         DATABASE_QUERY_ERROR = 'database_query_error',
@@ -2293,13 +2380,17 @@ namespace DphV1 {
     }
   }
 
-  /** First page in the collection. */
+  /**
+   * First page in the collection.
+   */
   export interface FirstPage {
     /** Link to the first page in the collection. */
     href: string;
   }
 
-  /** Resource defining initialization parameters. */
+  /**
+   * Resource defining initialization parameters.
+   */
   export interface InitializeResource {
     /** Container reference. */
     container?: ContainerReference;
@@ -2317,6 +2408,8 @@ namespace DphV1 {
     last_finished_at?: string;
     /** Initialized options. */
     initialized_options?: InitializedOption[];
+    /** Resource defining provided workflow definitions. */
+    workflows?: ProvidedCatalogWorkflows;
   }
   export namespace InitializeResource {
     export namespace Constants {
@@ -2330,7 +2423,9 @@ namespace DphV1 {
     }
   }
 
-  /** List of options successfully initialized. */
+  /**
+   * List of options successfully initialized.
+   */
   export interface InitializedOption {
     /** The name of the option. */
     name?: string;
@@ -2338,7 +2433,9 @@ namespace DphV1 {
     version?: number;
   }
 
-  /** This model represents an individual patch operation to be performed on a JSON document, as defined by RFC 6902. */
+  /**
+   * This model represents an individual patch operation to be performed on a JSON document, as defined by RFC 6902.
+   */
   export interface JsonPatchOperation {
     /** The operation to be performed. */
     op: JsonPatchOperation.Constants.Op | string;
@@ -2363,7 +2460,9 @@ namespace DphV1 {
     }
   }
 
-  /** Next page in the collection. */
+  /**
+   * Next page in the collection.
+   */
   export interface NextPage {
     /** Link to the next page in the collection. */
     href: string;
@@ -2371,7 +2470,27 @@ namespace DphV1 {
     start: string;
   }
 
-  /** Service id credentials. */
+  /**
+   * Resource defining provided workflow definitions.
+   */
+  export interface ProvidedCatalogWorkflows {
+    /** A reference to a workflow definition. */
+    data_access?: ProvidedWorkflowResource;
+    /** A reference to a workflow definition. */
+    request_new_product?: ProvidedWorkflowResource;
+  }
+
+  /**
+   * A reference to a workflow definition.
+   */
+  export interface ProvidedWorkflowResource {
+    /** Reference to a workflow definition. */
+    definition?: WorkflowDefinitionReference;
+  }
+
+  /**
+   * Service id credentials.
+   */
   export interface ServiceIdCredentials {
     /** Name of the api key of the service id. */
     name?: string;
@@ -2379,7 +2498,9 @@ namespace DphV1 {
     created_at?: string;
   }
 
-  /** UseCase. */
+  /**
+   * UseCase.
+   */
   export interface UseCase {
     /** The id of the use case associated with the data product. */
     id: string;
@@ -2387,6 +2508,14 @@ namespace DphV1 {
     name?: string;
     /** Container reference. */
     container?: ContainerReference;
+  }
+
+  /**
+   * Reference to a workflow definition.
+   */
+  export interface WorkflowDefinitionReference {
+    /** ID of a workflow definition. */
+    id?: string;
   }
 
   /*************************

@@ -273,6 +273,7 @@ describe('DphV1', () => {
           'data_product_samples',
           'workflows',
           'project',
+          'catalog_configurations'
         ];
         const initializeParams = {
           container,
@@ -473,9 +474,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
+        '{"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -522,9 +523,15 @@ describe('DphV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // DataProductDraftVersionRelease
+      const dataProductDraftVersionReleaseModel = {
+        id: '18bdbde1-918e-4ecf-aa23-6727bf319e14',
+      };
+
       // DataProductIdentity
       const dataProductIdentityModel = {
         id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+        release: dataProductDraftVersionReleaseModel,
       };
 
       // ContainerReference
@@ -566,6 +573,7 @@ describe('DphV1', () => {
         asset: assetReferenceModel,
         id: 'testString',
         documents: [contractTermsDocumentModel],
+        error_msg: 'testString',
       };
 
       // ContainerIdentity
@@ -605,9 +613,16 @@ describe('DphV1', () => {
         delivery_methods: [deliveryMethodModel],
       };
 
+      // DataProductCustomWorkflowDefinition
+      const dataProductCustomWorkflowDefinitionModel = {
+        id: '18bdbde1-918e-4ecf-aa23-6727bf319e14',
+      };
+
       // DataProductOrderAccessRequest
       const dataProductOrderAccessRequestModel = {
         task_assignee_users: ['testString'],
+        pre_approved_users: ['testString'],
+        custom_workflow_definition: dataProductCustomWorkflowDefinitionModel,
       };
 
       // DataProductWorkflows
@@ -1012,9 +1027,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products/testString/drafts';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -1078,9 +1093,15 @@ describe('DphV1', () => {
         container: containerIdentityModel,
       };
 
+      // DataProductDraftVersionRelease
+      const dataProductDraftVersionReleaseModel = {
+        id: '8bf83660-11fe-4427-a72a-8d8359af24e3',
+      };
+
       // DataProductIdentity
       const dataProductIdentityModel = {
         id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+        release: dataProductDraftVersionReleaseModel,
       };
 
       // ContainerReference
@@ -1122,6 +1143,7 @@ describe('DphV1', () => {
         asset: assetReferenceModel,
         id: 'testString',
         documents: [contractTermsDocumentModel],
+        error_msg: 'testString',
       };
 
       // Domain
@@ -1150,9 +1172,16 @@ describe('DphV1', () => {
         delivery_methods: [deliveryMethodModel],
       };
 
+      // DataProductCustomWorkflowDefinition
+      const dataProductCustomWorkflowDefinitionModel = {
+        id: '18bdbde1-918e-4ecf-aa23-6727bf319e14',
+      };
+
       // DataProductOrderAccessRequest
       const dataProductOrderAccessRequestModel = {
         task_assignee_users: ['testString'],
+        pre_approved_users: ['testString'],
+        custom_workflow_definition: dataProductCustomWorkflowDefinitionModel,
       };
 
       // DataProductWorkflows
@@ -1294,13 +1323,6 @@ describe('DphV1', () => {
 
   describe('createDraftContractTermsDocument', () => {
     describe('positive tests', () => {
-      // Request models needed by this operation.
-
-      // ContractTermsDocumentAttachment
-      const contractTermsDocumentAttachmentModel = {
-        id: 'testString',
-      };
-
       function __createDraftContractTermsDocumentTest() {
         // Construct the params object for operation createDraftContractTermsDocument
         const dataProductId = 'testString';
@@ -1308,20 +1330,14 @@ describe('DphV1', () => {
         const contractTermsId = 'testString';
         const type = 'terms_and_conditions';
         const name = 'Terms and conditions document';
-        const id = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
         const url = 'testString';
-        const attachment = contractTermsDocumentAttachmentModel;
-        const uploadUrl = 'testString';
         const createDraftContractTermsDocumentParams = {
           dataProductId,
           draftId,
           contractTermsId,
           type,
           name,
-          id,
           url,
-          attachment,
-          uploadUrl,
         };
 
         const createDraftContractTermsDocumentResult = dphService.createDraftContractTermsDocument(
@@ -1336,20 +1352,13 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.type).toEqual(type);
         expect(mockRequestOptions.body.name).toEqual(name);
-        expect(mockRequestOptions.body.id).toEqual(id);
         expect(mockRequestOptions.body.url).toEqual(url);
-        expect(mockRequestOptions.body.attachment).toEqual(attachment);
-        expect(mockRequestOptions.body.upload_url).toEqual(uploadUrl);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
         expect(mockRequestOptions.path.draft_id).toEqual(draftId);
         expect(mockRequestOptions.path.contract_terms_id).toEqual(contractTermsId);
@@ -1377,7 +1386,6 @@ describe('DphV1', () => {
         const contractTermsId = 'testString';
         const type = 'terms_and_conditions';
         const name = 'Terms and conditions document';
-        const id = 'b38df608-d34b-4d58-8136-ed25e6c6684e';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createDraftContractTermsDocumentParams = {
@@ -1386,7 +1394,6 @@ describe('DphV1', () => {
           contractTermsId,
           type,
           name,
-          id,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -2152,9 +2159,11 @@ describe('DphV1', () => {
         // Construct the params object for operation getDataProductRelease
         const dataProductId = 'testString';
         const releaseId = 'testString';
+        const checkCallerApproval = false;
         const getDataProductReleaseParams = {
           dataProductId,
           releaseId,
+          checkCallerApproval,
         };
 
         const getDataProductReleaseResult = dphService.getDataProductRelease(
@@ -2177,6 +2186,7 @@ describe('DphV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.check_caller_approval).toEqual(checkCallerApproval);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
         expect(mockRequestOptions.path.release_id).toEqual(releaseId);
       }
@@ -2564,9 +2574,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products/testString/releases';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}]}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
