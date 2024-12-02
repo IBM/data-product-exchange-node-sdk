@@ -681,7 +681,7 @@ class DphV1 extends BaseService {
       'domain',
       'partsOut',
       'workflows',
-      'headers'
+      'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -766,7 +766,7 @@ class DphV1 extends BaseService {
       'type',
       'name',
       'url',
-      'headers'
+      'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -1104,7 +1104,7 @@ class DphV1 extends BaseService {
       'draftId',
       'contractTermsId',
       'documentId',
-      'jsonPatchInstructions'
+      'jsonPatchInstructions',
     ];
     const _validParams = [
       'dataProductId',
@@ -1112,7 +1112,7 @@ class DphV1 extends BaseService {
       'contractTermsId',
       'documentId',
       'jsonPatchInstructions',
-      'headers'
+      'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -1407,7 +1407,7 @@ class DphV1 extends BaseService {
       'version',
       'limit',
       'start',
-      'headers'
+      'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {

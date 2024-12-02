@@ -273,7 +273,7 @@ describe('DphV1', () => {
           'data_product_samples',
           'workflows',
           'project',
-          'catalog_configurations'
+          'catalog_configurations',
         ];
         const initializeParams = {
           container,
@@ -1352,7 +1352,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);

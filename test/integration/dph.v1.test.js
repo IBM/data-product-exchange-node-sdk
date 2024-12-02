@@ -109,7 +109,7 @@ describe('DphV1_integration', () => {
         'data_product_samples',
         'workflows',
         'project',
-        'catalog_configurations'
+        'catalog_configurations',
       ],
     };
 
@@ -214,7 +214,7 @@ describe('DphV1_integration', () => {
       id: `3f0688f0-69c3-441e-b49b-7c223daa1804`,
       name: `Risk Management`,
       container: containerReferenceModel,
-    }
+    };
 
     // DataProductPart
     const dataProductPartModel = {
@@ -587,7 +587,7 @@ describe('DphV1_integration', () => {
       id: `3f0688f0-69c3-441e-b49b-7c223daa1804`,
       name: `Risk Management`,
       container: containerReferenceModel,
-    }
+    };
 
     // DataProductPart
     const dataProductPartModel = {
@@ -600,7 +600,8 @@ describe('DphV1_integration', () => {
       version: '2.0.0',
       state: 'draft',
       name: 'New Delete Draft DP using Node SDK',
-      description: 'This is a description of My Data Product which will get deleted using NODE SDK.',
+      description:
+        'This is a description of My Data Product which will get deleted using NODE SDK.',
       types: ['data'],
       asset: assetPrototypeModel,
       domain: domainModel,
@@ -708,5 +709,4 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
-
 });
