@@ -85,6 +85,7 @@ describe('DphV1_integration', () => {
     dphService = DphV1.newInstance();
 
     expect(dphService).not.toBeNull();
+
     const config = readExternalSources(DphV1.DEFAULT_SERVICE_NAME);
     expect(config).not.toBeNull();
 
@@ -96,7 +97,7 @@ describe('DphV1_integration', () => {
 
     // ContainerReference
     const containerReferenceModel = {
-      id: 'b6ce8fdf-e91a-49e9-857b-f41ef2a9596f',
+      id: 'a7ca67e8-1fac-4061-ae9b-7604e15c4ab3',
       type: 'catalog',
     };
 
@@ -108,11 +109,11 @@ describe('DphV1_integration', () => {
         'data_product_samples',
         'workflows',
         'project',
+        'catalog_configurations',
       ],
     };
 
     const res = await dphService.initialize(params);
-    // console.log(`res : ${res}`);
     expect(res).toBeDefined();
     expect(res.status).toBe(202);
     expect(res.result).toBeDefined();
@@ -121,8 +122,68 @@ describe('DphV1_integration', () => {
     getStatusByCatalogIdLink = res.result.container.id;
   });
 
+  test('getInitializeStatus()', async () => {
+    const params = {
+      containerId: getStatusByCatalogIdLink,
+    };
+
+    const res = await dphService.getInitializeStatus(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getServiceIdCredentials()', async () => {
+    const res = await dphService.getServiceIdCredentials();
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('manageApiKeys()', async () => {
+    const res = await dphService.manageApiKeys();
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+  });
+
   test('createDataProduct()', async () => {
     // Request models needed by this operation.
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: createDataProductByCatalogIdLink,
+      type: 'catalog',
+    };
+
+    // AssetReference
+    const assetReferenceModel = {
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      container: containerReferenceModel,
+    };
+
+    // ContractTermsDocumentAttachment
+    const contractTermsDocumentAttachmentModel = {
+      id: 'testString',
+    };
+
+    // ContractTermsDocument
+    const contractTermsDocumentModel = {
+      url: 'testString',
+      type: 'terms_and_conditions',
+      name: 'testString',
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      attachment: contractTermsDocumentAttachmentModel,
+      upload_url: 'testString',
+    };
+
+    // DataProductContractTerms
+    const dataProductContractTermsModel = {
+      asset: assetReferenceModel,
+      id: 'testString',
+      documents: [contractTermsDocumentModel],
+      error_msg: 'testString',
+    };
 
     // ContainerIdentity
     const containerIdentityModel = {
@@ -131,16 +192,46 @@ describe('DphV1_integration', () => {
 
     // AssetPrototype
     const assetPrototypeModel = {
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
       container: containerIdentityModel,
+    };
+
+    // AssetPartReference
+    const assetPartReferenceModel = {
+      id: '16a8f683-f947-48d9-a92c-b81758b1a5f5',
+      container: containerReferenceModel,
+      type: 'data_asset',
+    };
+
+    // DeliveryMethod
+    const deliveryMethodModel = {
+      id: '8848fd43-7384-4435-aff3-6a9f113768c4',
+      container: containerReferenceModel,
+    };
+
+    // Domain
+    const domainModel = {
+      id: `3f0688f0-69c3-441e-b49b-7c223daa1804`,
+      name: `Risk Management`,
+      container: containerReferenceModel,
+    };
+
+    // DataProductPart
+    const dataProductPartModel = {
+      asset: assetPartReferenceModel,
+      delivery_methods: [deliveryMethodModel],
     };
 
     // DataProductVersionPrototype
     const dataProductVersionPrototypeModel = {
-      version: '2.0.0',
-      name: 'My New Data Product from NodeIntegration',
-      description: 'This is a description of My Data Product.',
+      version: '1.0.0',
+      state: 'draft',
+      name: 'My New Data Product using Node SDK',
+      description: 'My Data Product generation using NODE SDK.',
       types: ['data'],
       asset: assetPrototypeModel,
+      domain: domainModel,
+      parts_out: [dataProductPartModel],
     };
 
     const params = {
@@ -168,6 +259,10 @@ describe('DphV1_integration', () => {
     getListOfReleasesOfDataProductByDataProductIdLink = res.result.id;
     updateReleaseOfDataProductByDataProductIdLink = res.result.id;
     uploadContractTermsDocByDataProductIdLink = res.result.id;
+    createAContractTermsDocByContractTermsIdLink = res.result.drafts[0].contract_terms[0].id;
+    getAReleaseContractTermsByContractTermsIdLink = createAContractTermsDocByContractTermsIdLink;
+    createAContractTermsDocByDraftIdLink = res.result.drafts[0].id;
+    getDraftByDraftIdLink = res.result.drafts[0].id;
   });
 
   test('getDataProduct()', async () => {
@@ -215,85 +310,9 @@ describe('DphV1_integration', () => {
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
 
-  test('createDataProductDraft()', async () => {
-    // Request models needed by this operation.
-
-    // ContainerIdentity
-    const containerIdentityModel = {
-      id: createDataProductByCatalogIdLink,
-    };
-
-    // AssetPrototype
-    const assetPrototypeModel = {
-      container: containerIdentityModel,
-    };
-
-    // ContainerReference
-    const containerReferenceModel = {
-      id: createDataProductByCatalogIdLink,
-      type: 'catalog',
-    };
-
-    // Domain
-    const domainModel = {
-      id: 'bfd63b0f-7d67-4aeb-a0d3-0e33e98194a6',
-      name: 'Audit',
-      container: containerReferenceModel,
-    };
-
-    // AssetPartReference
-    const assetPartReferenceModel = {
-      id: '46eb6b10-e193-4e7a-8567-dfec02941130',
-      container: containerReferenceModel,
-      type: 'data_asset',
-    };
-
-    // DeliveryMethod
-    const deliveryMethodModel = {
-      id: 'b026d5d5-c31f-45f2-8c11-b9476b72afc2',
-      container: containerReferenceModel,
-    };
-
-    // DataProductPart
-    const dataProductPartModel = {
-      asset: assetPartReferenceModel,
-      delivery_methods: [deliveryMethodModel],
-    };
-
-    const params = {
-      dataProductId: createNewDraftByDataProductIdLink,
-      asset: assetPrototypeModel,
-      version: '2.1.0',
-      name: 'New DPD creation from NodeIntegrationTest',
-      description: 'Create new data product draft',
-      domain: domainModel,
-      partsOut: [dataProductPartModel],
-    };
-
-    const res = await dphService.createDataProductDraft(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(201);
-    expect(res.result).toBeDefined();
-    getADraftContractDocumentByDraftIdLink = res.result.id;
-    updateADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-    createAContractTermsDocByContractTermsIdLink = res.result.contract_terms[0].id;
-    updateContractDocumentByDraftIdLink = res.result.id;
-    getAReleaseContractTermsByContractTermsIdLink = res.result.contract_terms[0].id;
-    completeADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-    getDraftByDraftIdLink = res.result.id;
-    publishADraftByDraftIdLink = res.result.id;
-    updateADraftByDraftIdLink = res.result.id;
-    createAContractTermsDocByDraftIdLink = res.result.id;
-    deleteAContractDocumentByDraftIdLink = res.result.id;
-    deleteADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-    deleteADraftByDraftIdLink = res.result.id;
-    completeADraftByDraftIdLink = res.result.id;
-    getADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-  });
-
   test('getDataProductDraft()', async () => {
     const params = {
-      dataProductId: getADraftOfDataProductByDataProductIdLink,
+      dataProductId: '-',
       draftId: getDraftByDraftIdLink,
     };
 
@@ -310,12 +329,12 @@ describe('DphV1_integration', () => {
     const jsonPatchOperationModel = {
       op: 'replace',
       path: '/description',
-      value: 'New description for my data product',
+      value: 'Updated the description using Node SDK.',
     };
 
     const params = {
-      dataProductId: updateDraftOfDataProductByDataProductIdLink,
-      draftId: updateADraftByDraftIdLink,
+      dataProductId: '-',
+      draftId: createAContractTermsDocByDraftIdLink,
       jsonPatchInstructions: [jsonPatchOperationModel],
     };
 
@@ -326,16 +345,13 @@ describe('DphV1_integration', () => {
   });
 
   test('createDraftContractTermsDocument()', async () => {
-    // Request models needed by this operation.
-
     const params = {
       dataProductId: uploadContractTermsDocByDataProductIdLink,
       draftId: createAContractTermsDocByDraftIdLink,
       contractTermsId: createAContractTermsDocByContractTermsIdLink,
       type: 'terms_and_conditions',
       name: 'Terms and conditions document',
-      id: '96d844ba-07ba-454c-ac43-3d9a4d323222',
-      url: 'https://data.un.org/Host.aspx?Content=UNdataUse',
+      url: 'https://www.ibm.com/contract_document',
     };
 
     const res = await dphService.createDraftContractTermsDocument(params);
@@ -352,8 +368,8 @@ describe('DphV1_integration', () => {
   test('getDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: getContractDocumentByDataProductIdLink,
-      draftId: getADraftContractDocumentByDraftIdLink,
-      contractTermsId: getADraftByContractTermsIdLink,
+      draftId: createAContractTermsDocByDraftIdLink,
+      contractTermsId: createAContractTermsDocByContractTermsIdLink,
       documentId: getContractTermsDocumentByIdDocumentIdLink,
     };
 
@@ -368,16 +384,16 @@ describe('DphV1_integration', () => {
 
     // JsonPatchOperation
     const jsonPatchOperationModel = {
-      op: 'replace',
-      path: '/type',
-      value: 'terms_and_conditions',
+      op: 'add',
+      path: '/name',
+      value: 'updated Terms and Conditions',
     };
 
     const params = {
-      dataProductId: updateContractDocumentByDataProductIdLink,
-      draftId: updateContractDocumentByDraftIdLink,
-      contractTermsId: updateADraftByContractTermsIdLink,
-      documentId: updateContractTermsDocumentByDocumentIdLink,
+      dataProductId: getContractDocumentByDataProductIdLink,
+      draftId: createAContractTermsDocByDraftIdLink,
+      contractTermsId: createAContractTermsDocByContractTermsIdLink,
+      documentId: getContractTermsDocumentByIdDocumentIdLink,
       jsonPatchInstructions: [jsonPatchOperationModel],
     };
 
@@ -390,7 +406,7 @@ describe('DphV1_integration', () => {
   test('publishDataProductDraft()', async () => {
     const params = {
       dataProductId: publishADraftOfDataProductByDataProductIdLink,
-      draftId: publishADraftByDraftIdLink,
+      draftId: getDraftByDraftIdLink,
     };
 
     const res = await dphService.publishDataProductDraft(params);
@@ -403,71 +419,11 @@ describe('DphV1_integration', () => {
     getAReleaseByReleaseIdLink = res.result.id;
   });
 
-  test('listDataProductDrafts()', async () => {
-    const params = {
-      dataProductId: getListOfDataProductDraftsByDataProductIdLink,
-      limit: 200,
-    };
-
-    const res = await dphService.listDataProductDrafts(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-  });
-
-  test('listDataProductDrafts() via DataProductDraftsPager', async () => {
-    const params = {
-      dataProductId: getListOfDataProductDraftsByDataProductIdLink,
-      limit: 10,
-    };
-
-    const allResults = [];
-
-    // Test getNext().
-    let pager = new DphV1.DataProductDraftsPager(dphService, params);
-    while (pager.hasNext()) {
-      const nextPage = await pager.getNext();
-      expect(nextPage).not.toBeNull();
-      allResults.push(...nextPage);
-    }
-
-    // Test getAll().
-    pager = new DphV1.DataProductDraftsPager(dphService, params);
-    const allItems = await pager.getAll();
-    expect(allItems).not.toBeNull();
-    expect(allItems).toHaveLength(allResults.length);
-    console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
-  });
-
-  test('getInitializeStatus()', async () => {
-    const params = {
-      containerId: getStatusByCatalogIdLink,
-    };
-
-    const res = await dphService.getInitializeStatus(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-  });
-
-  test('getServiceIdCredentials()', async () => {
-    const res = await dphService.getServiceIdCredentials();
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-  });
-
-  test('manageApiKeys()', async () => {
-    const res = await dphService.manageApiKeys();
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-  });
-
   test('getDataProductRelease()', async () => {
     const params = {
       dataProductId: getAReleaseOfDataProductByDataProductIdLink,
       releaseId: getAReleaseByReleaseIdLink,
+      checkCallerApproval: false,
     };
 
     const res = await dphService.getDataProductRelease(params);
@@ -515,6 +471,8 @@ describe('DphV1_integration', () => {
   test('listDataProductReleases()', async () => {
     const params = {
       dataProductId: getListOfReleasesOfDataProductByDataProductIdLink,
+      assetContainerId: createDataProductByCatalogIdLink,
+      state: ['available'],
       limit: 200,
     };
 
@@ -527,6 +485,8 @@ describe('DphV1_integration', () => {
   test('listDataProductReleases() via DataProductReleasesPager', async () => {
     const params = {
       dataProductId: getListOfReleasesOfDataProductByDataProductIdLink,
+      assetContainerId: createDataProductByCatalogIdLink,
+      state: ['available'],
       limit: 10,
     };
 
@@ -560,8 +520,43 @@ describe('DphV1_integration', () => {
     expect(res.result).toBeDefined();
   });
 
-  test('createDataProductDraftForDeleteOp()', async () => {
+  test('createDataProductDraft()', async () => {
     // Request models needed by this operation.
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: createDataProductByCatalogIdLink,
+      type: 'catalog',
+    };
+
+    // AssetReference
+    const assetReferenceModel = {
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      container: containerReferenceModel,
+    };
+
+    // ContractTermsDocumentAttachment
+    const contractTermsDocumentAttachmentModel = {
+      id: 'testString',
+    };
+
+    // ContractTermsDocument
+    const contractTermsDocumentModel = {
+      url: 'testString',
+      type: 'terms_and_conditions',
+      name: 'testString',
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      attachment: contractTermsDocumentAttachmentModel,
+      upload_url: 'testString',
+    };
+
+    // DataProductContractTerms
+    const dataProductContractTermsModel = {
+      asset: assetReferenceModel,
+      id: 'testString',
+      documents: [contractTermsDocumentModel],
+      error_msg: 'testString',
+    };
 
     // ContainerIdentity
     const containerIdentityModel = {
@@ -570,32 +565,27 @@ describe('DphV1_integration', () => {
 
     // AssetPrototype
     const assetPrototypeModel = {
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
       container: containerIdentityModel,
-    };
-
-    // ContainerReference
-    const containerReferenceModel = {
-      id: createDataProductByCatalogIdLink,
-      type: 'catalog',
-    };
-
-    // Domain
-    const domainModel = {
-      id: 'bfd63b0f-7d67-4aeb-a0d3-0e33e98194a6',
-      name: 'Audit',
-      container: containerReferenceModel,
     };
 
     // AssetPartReference
     const assetPartReferenceModel = {
-      id: '46eb6b10-e193-4e7a-8567-dfec02941130',
+      id: '16a8f683-f947-48d9-a92c-b81758b1a5f5',
       container: containerReferenceModel,
       type: 'data_asset',
     };
 
     // DeliveryMethod
     const deliveryMethodModel = {
-      id: 'b026d5d5-c31f-45f2-8c11-b9476b72afc2',
+      id: '8848fd43-7384-4435-aff3-6a9f113768c4',
+      container: containerReferenceModel,
+    };
+
+    // Domain
+    const domainModel = {
+      id: `3f0688f0-69c3-441e-b49b-7c223daa1804`,
+      name: `Risk Management`,
       container: containerReferenceModel,
     };
 
@@ -605,47 +595,81 @@ describe('DphV1_integration', () => {
       delivery_methods: [deliveryMethodModel],
     };
 
-    const params = {
-      dataProductId: createNewDraftByDataProductIdLink,
+    // DataProductVersionPrototype
+    const dataProductVersionPrototypeModel = {
+      version: '2.0.0',
+      state: 'draft',
+      name: 'New Delete Draft DP using Node SDK',
+      description:
+        'This is a description of My Data Product which will get deleted using NODE SDK.',
+      types: ['data'],
       asset: assetPrototypeModel,
-      version: '2.2.0',
-      name: 'New DPD creation from NodeIntegrationTest',
-      description: 'Create new data product draft',
       domain: domainModel,
-      partsOut: [dataProductPartModel],
+      parts_out: [dataProductPartModel],
     };
 
-    const res = await dphService.createDataProductDraft(params);
+    const params = {
+      drafts: [dataProductVersionPrototypeModel],
+    };
+
+    const res = await dphService.createDataProduct(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(201);
     expect(res.result).toBeDefined();
-    getADraftContractDocumentByDraftIdLink = res.result.id;
-    updateADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-    createAContractTermsDocByContractTermsIdLink = res.result.contract_terms[0].id;
-    updateContractDocumentByDraftIdLink = res.result.id;
-    getAReleaseContractTermsByContractTermsIdLink = res.result.contract_terms[0].id;
-    completeADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-    getDraftByDraftIdLink = res.result.id;
-    publishADraftByDraftIdLink = res.result.id;
-    updateADraftByDraftIdLink = res.result.id;
-    createAContractTermsDocByDraftIdLink = res.result.id;
-    deleteAContractDocumentByDraftIdLink = res.result.id;
-    deleteADraftByContractTermsIdLink = res.result.contract_terms[0].id;
-    deleteADraftByDraftIdLink = res.result.id;
-    completeADraftByDraftIdLink = res.result.id;
-    getADraftByContractTermsIdLink = res.result.contract_terms[0].id;
+    deleteAContractDocumentByDraftIdLink = res.result.drafts[0].id;
+    deleteADraftByContractTermsIdLink = res.result.drafts[0].contract_terms[0].id;
+    createAContractTermsDocByContractTermsIdLink = res.result.drafts[0].contract_terms[0].id;
+    deleteADraftByDraftIdLink = res.result.drafts[0].id;
+    createAContractTermsDocByDraftIdLink = res.result.drafts[0].id;
+  });
+
+  test('listDataProductDrafts()', async () => {
+    const params = {
+      dataProductId: getListOfDataProductDraftsByDataProductIdLink,
+      assetContainerId: createDataProductByCatalogIdLink,
+      limit: 200,
+    };
+
+    const res = await dphService.listDataProductDrafts(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('listDataProductDrafts() via DataProductDraftsPager', async () => {
+    const params = {
+      dataProductId: '-',
+      assetContainerId: createDataProductByCatalogIdLink,
+      limit: 10,
+    };
+
+    const allResults = [];
+
+    // Test getNext().
+    let pager = new DphV1.DataProductDraftsPager(dphService, params);
+    while (pager.hasNext()) {
+      const nextPage = await pager.getNext();
+      expect(nextPage).not.toBeNull();
+      allResults.push(...nextPage);
+    }
+
+    // Test getAll().
+    pager = new DphV1.DataProductDraftsPager(dphService, params);
+    const allItems = await pager.getAll();
+    expect(allItems).not.toBeNull();
+    expect(allItems).toHaveLength(allResults.length);
+    console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
 
   test('createDraftContractTermsDocumentForDeleteOp()', async () => {
     // Request models needed by this operation.
 
     const params = {
-      dataProductId: uploadContractTermsDocByDataProductIdLink,
+      dataProductId: '-',
       draftId: createAContractTermsDocByDraftIdLink,
       contractTermsId: createAContractTermsDocByContractTermsIdLink,
       type: 'terms_and_conditions',
       name: 'Terms and conditions document',
-      id: '96d844ba-07ba-454c-ac43-3d9a4d323222',
       url: 'https://data.un.org/Host.aspx?Content=UNdataUse',
     };
 
@@ -662,7 +686,7 @@ describe('DphV1_integration', () => {
 
   test('deleteDraftContractTermsDocument()', async () => {
     const params = {
-      dataProductId: deleteContractDocumentByDataProductIdLink,
+      dataProductId: '-',
       draftId: deleteAContractDocumentByDraftIdLink,
       contractTermsId: deleteADraftByContractTermsIdLink,
       documentId: deleteContractTermsDocumentByDocumentIdLink,
@@ -676,7 +700,7 @@ describe('DphV1_integration', () => {
 
   test('deleteDataProductDraft()', async () => {
     const params = {
-      dataProductId: deleteDraftOfDataProductByDataProductIdLink,
+      dataProductId: '-',
       draftId: deleteADraftByDraftIdLink,
     };
 
