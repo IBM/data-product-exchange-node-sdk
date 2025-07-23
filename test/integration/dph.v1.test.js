@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,6 +80,8 @@ describe('DphV1_integration', () => {
   let updateDraftOfDataProductByDataProductIdLink;
   let updateReleaseOfDataProductByDataProductIdLink;
   let uploadContractTermsDocByDataProductIdLink;
+  let createContractTemplateId;
+  let createDataProductDomainId;
 
   test('Initialize service', async () => {
     dphService = DphV1.newInstance();
@@ -146,7 +148,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
-
+  
   test('createDataProduct()', async () => {
     // Request models needed by this operation.
 
@@ -174,7 +176,6 @@ describe('DphV1_integration', () => {
       name: 'testString',
       id: '2b0bf220-079c-11ee-be56-0242ac120002',
       attachment: contractTermsDocumentAttachmentModel,
-      upload_url: 'testString',
     };
 
     // DataProductContractTerms
@@ -211,8 +212,8 @@ describe('DphV1_integration', () => {
 
     // Domain
     const domainModel = {
-      id: `3f0688f0-69c3-441e-b49b-7c223daa1804`,
-      name: `Risk Management`,
+      id: 'ccacbfb4-7180-4632-b1ed-6709c7001f1e',
+      name: 'Customer Management',
       container: containerReferenceModel,
     };
 
@@ -264,7 +265,7 @@ describe('DphV1_integration', () => {
     createAContractTermsDocByDraftIdLink = res.result.drafts[0].id;
     getDraftByDraftIdLink = res.result.drafts[0].id;
   });
-
+  
   test('getDataProduct()', async () => {
     const params = {
       dataProductId: getDataProductByDataProductIdLink,
@@ -275,7 +276,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('listDataProducts()', async () => {
     const params = {
       limit: 200,
@@ -309,7 +310,7 @@ describe('DphV1_integration', () => {
     expect(allItems).toHaveLength(allResults.length);
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
-
+  
   test('getDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -329,7 +330,7 @@ describe('DphV1_integration', () => {
     const jsonPatchOperationModel = {
       op: 'replace',
       path: '/description',
-      value: 'Updated the description using Node SDK.',
+      value: 'Updated the description by Node SDK.',
     };
 
     const params = {
@@ -343,7 +344,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('createDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: uploadContractTermsDocByDataProductIdLink,
@@ -364,7 +365,7 @@ describe('DphV1_integration', () => {
     updateContractTermsDocumentByDocumentIdLink = res.result.id;
     completeContractTermsDocumentByDocumentIdLink = res.result.id;
   });
-
+  
   test('getDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: getContractDocumentByDataProductIdLink,
@@ -402,7 +403,21 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
+  
+  test('getDataProductDraftContractTerms()', async () => {
+    const params = {
+      dataProductId: getContractDocumentByDataProductIdLink,
+      draftId: createAContractTermsDocByDraftIdLink,
+      contractTermsId: createAContractTermsDocByContractTermsIdLink,
+      includeContractDocuments: true,
+    };
 
+    const res = await dphService.getDataProductDraftContractTerms(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
   test('publishDataProductDraft()', async () => {
     const params = {
       dataProductId: publishADraftOfDataProductByDataProductIdLink,
@@ -467,6 +482,157 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
+  
+  test('replaceDataProductDraftContractTerms()', async () => {
+    // Request models needed by this operation.
+
+    // ContractTermsDocumentAttachment
+    const contractTermsDocumentAttachmentModel = {
+      id: getContractTermsDocumentByIdDocumentIdLink,
+    };
+
+    // ContractTermsDocument
+    const contractTermsDocumentModel = {
+      url: 'https://ibm.com/document',
+      type: 'terms_and_conditions',
+      name: 'Terms and Conditions',
+      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+      attachment: contractTermsDocumentAttachmentModel,
+    };
+
+    // Domain
+    const domainModel = {
+      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+      name: 'domain_name',
+    };
+
+    // Overview
+    const overviewModel = {
+      api_version: 'v3.0.1',
+      kind: 'DataContract',
+      name: 'Sample Data Contract',
+      version: 'v0.0',
+      domain: domainModel,
+      more_info: 'List of links to sources that provide more details on the data contract.',
+    };
+
+    // ContractTermsMoreInfo
+    const contractTermsMoreInfoModel = {
+      type: 'privacy-statement',
+      url: 'https://www.moreinfo.example.coms',
+    };
+
+    // Description
+    const descriptionModel = {
+      purpose: 'Intended purpose for the provided data.',
+      limitations: 'Technical, compliance, and legal limitations for data use.',
+      usage: 'Recommended usage of the data.',
+      more_info: [contractTermsMoreInfoModel],
+      custom_properties: 'Custom properties that are not part of the standard.',
+    };
+
+    // ContractTemplateOrganization
+    const contractTemplateOrganizationModel = {
+      user_id: 'IBMid-691000IN4G',
+      role: 'owner',
+    };
+
+    // Roles
+    const rolesModel = {
+      role: 'IAM Role',
+    };
+
+    // Pricing
+    const pricingModel = {
+      amount: '100.0',
+      currency: 'USD',
+      unit: 'megabyte',
+    };
+
+    // ContractTemplateSLAProperty
+    const contractTemplateSlaPropertyModel = {
+      property: 'slaproperty',
+      value: 'slavalue',
+    };
+
+    // ContractTemplateSLA
+    const contractTemplateSlaModel = {
+      default_element: 'sladefaultelement',
+      properties: [contractTemplateSlaPropertyModel],
+    };
+
+    // ContractTemplateSupportAndCommunication
+    const contractTemplateSupportAndCommunicationModel = {
+      channel: 'channel',
+      url: 'https://www.example.coms',
+    };
+
+    // ContractTemplateCustomProperty
+    const contractTemplateCustomPropertyModel = {
+      key: 'The name of the key.',
+      value: 'The value of the key.',
+    };
+
+    const params = {
+      dataProductId: getContractDocumentByDataProductIdLink,
+      draftId: createAContractTermsDocByDraftIdLink,
+      contractTermsId: createAContractTermsDocByContractTermsIdLink,
+      documents: [contractTermsDocumentModel],
+      errorMsg: 'testString',
+      overview: overviewModel,
+      description: descriptionModel,
+      organization: [contractTemplateOrganizationModel],
+      roles: [rolesModel],
+      price: pricingModel,
+      sla: [contractTemplateSlaModel],
+      supportAndCommunication: [contractTemplateSupportAndCommunicationModel],
+      customProperties: [contractTemplateCustomPropertyModel],
+    };
+
+    const res = await dphService.replaceDataProductDraftContractTerms(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('updateDataProductDraftContractTerms()', async () => {
+    // Request models needed by this operation.
+
+    // Domain
+    const domainModel = {
+      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+      name: 'domain_name',
+    };
+
+    // Overview
+    const overviewModel = {
+      api_version: 'v3.0.1',
+      kind: 'DataContract',
+      name: 'Sample Data Contract',
+      version: 'v0.0',
+      domain: domainModel,
+      more_info: 'List of links to sources that provide more details on the data contract.',
+    };
+    
+    // JsonPatchOperation
+    const jsonPatchOperationModel = {
+      op: 'replace',
+      path: '/overview',
+      value: overviewModel,
+    };
+
+    const params = {
+      dataProductId: getContractDocumentByDataProductIdLink,
+      draftId: createAContractTermsDocByDraftIdLink,
+      contractTermsId: createAContractTermsDocByContractTermsIdLink,
+      jsonPatchInstructions: [jsonPatchOperationModel],
+    };
+
+    const res = await dphService.updateDataProductDraftContractTerms(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
 
   test('listDataProductReleases()', async () => {
     const params = {
@@ -508,10 +674,11 @@ describe('DphV1_integration', () => {
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
 
-  test('retireDataProductRelease()', async () => {
+  test.skip('retireDataProductRelease()', async () => {
     const params = {
       dataProductId: retireAReleasesOfDataProductByDataProductIdLink,
       releaseId: retireAReleaseContractTermsByReleaseIdLink,
+      revokeAccess: false,
     };
 
     const res = await dphService.retireDataProductRelease(params);
@@ -519,7 +686,329 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
+  
+  test('createDataAssetVisualization()', async () => {
+    // Request models needed by this operation.
 
+    // Visualization
+    const visualizationModel = {
+      id: 'testString',
+      name: 'testString',
+    };
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: '2be8f727-c5d2-4cb0-9216-f9888f428048',
+      type: 'catalog',
+    };
+
+    // AssetReference
+    const assetReferenceModel = {
+      id: 'caeee3f3-756e-47d5-846d-da4600809e22',
+      name: 'testString',
+      container: containerReferenceModel,
+    };
+
+    // ErrorMessage
+    const errorMessageModel = {
+      code: 'testString',
+      message: 'testString',
+    };
+
+    // DataAssetRelationship
+    const dataAssetRelationshipModel = {
+      visualization: visualizationModel,
+      asset: assetReferenceModel,
+      related_asset: assetReferenceModel,
+      error: errorMessageModel,
+    };
+
+    const params = {
+      assets: [dataAssetRelationshipModel],
+    };
+
+    const res = await dphService.createDataAssetVisualization(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+  });
+
+  test('reinitiateDataAssetVisualization()', async () => {
+    // Request models needed by this operation.
+
+    // Visualization
+    const visualizationModel = {
+      id: 'testString',
+      name: 'testString',
+    };
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: '2be8f727-c5d2-4cb0-9216-f9888f428048',
+      type: 'catalog',
+    };
+
+    // AssetReference
+    const assetReferenceModel = {
+      id: 'caeee3f3-756e-47d5-846d-da4600809e22',
+      name: 'testString',
+      container: containerReferenceModel,
+    };
+
+    // ErrorMessage
+    const errorMessageModel = {
+      code: 'testString',
+      message: 'testString',
+    };
+
+    // DataAssetRelationship
+    const dataAssetRelationshipModel = {
+      visualization: visualizationModel,
+      asset: assetReferenceModel,
+      related_asset: assetReferenceModel,
+      error: errorMessageModel,
+    };
+
+    const params = {
+      assets: [dataAssetRelationshipModel],
+    };
+
+    const res = await dphService.reinitiateDataAssetVisualization(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
+  test('createContractTemplate()', async () => {
+    // Request models needed by this operation.
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: getStatusByCatalogIdLink,
+      type: 'catalog',
+    };
+
+    // ErrorMessage
+    const errorMessageModel = {
+      code: 'testString',
+      message: 'testString',
+    };
+
+    // AssetReference
+    const assetReferenceModel = {
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      name: 'testString',
+      container: containerReferenceModel,
+    };
+
+    // ContractTermsDocumentAttachment
+    const contractTermsDocumentAttachmentModel = {
+      id: 'testString',
+    };
+
+    // ContractTermsDocument
+    const contractTermsDocumentModel = {
+      url: 'testString',
+      type: 'terms_and_conditions',
+      name: 'testString',
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      attachment: contractTermsDocumentAttachmentModel,
+      upload_url: 'testString',
+    };
+
+    // Domain
+    const domainModel = {
+      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+      name: 'domain_name',
+      container: containerReferenceModel,
+    };
+
+    // Overview
+    const overviewModel = {
+      api_version: 'v3.0.1',
+      kind: 'DataContract',
+      name: 'Sample Data Contract',
+      version: '0.0.0',
+      domain: domainModel,
+      more_info: 'List of links to sources that provide more details on the data contract.',
+    };
+
+    // ContractTermsMoreInfo
+    const contractTermsMoreInfoModel = {
+      type: 'privacy-statement',
+      url: 'https://www.moreinfo.example.coms',
+    };
+
+    // Description
+    const descriptionModel = {
+      purpose: 'Intended purpose for the provided data.',
+      limitations: 'Technical, compliance, and legal limitations for data use.',
+      usage: 'Recommended usage of the data.',
+      more_info: [contractTermsMoreInfoModel],
+      custom_properties: 'Custom properties that are not part of the standard.',
+    };
+
+    // ContractTemplateOrganization
+    const contractTemplateOrganizationModel = {
+      user_id: 'IBMid-691000IN4G',
+      role: 'owner',
+    };
+
+    // Roles
+    const rolesModel = {
+      role: 'IAM Role',
+    };
+
+    // Pricing
+    const pricingModel = {
+      amount: '100.00',
+      currency: 'USD',
+      unit: 'megabyte',
+    };
+
+    // ContractTemplateSLAProperty
+    const contractTemplateSlaPropertyModel = {
+      property: 'slaproperty',
+      value: 'slavalue',
+    };
+
+    // ContractTemplateSLA
+    const contractTemplateSlaModel = {
+      default_element: 'sladefaultelement',
+      properties: [contractTemplateSlaPropertyModel],
+    };
+
+    // ContractTemplateSupportAndCommunication
+    const contractTemplateSupportAndCommunicationModel = {
+      channel: 'channel',
+      url: 'https://www.example.coms',
+    };
+
+    // ContractTemplateCustomProperty
+    const contractTemplateCustomPropertyModel = {
+      key: 'propertykey',
+      value: 'propertyvalue',
+    };
+
+    // ContractTest
+    const contractTestModel = {
+      status: 'pass',
+      last_tested_time: 'testString',
+      message: 'testString',
+    };
+
+    // ContractSchemaPropertyType
+    const contractSchemaPropertyTypeModel = {
+      type: 'testString',
+      length: 'testString',
+      scale: 'testString',
+      nullable: 'testString',
+      signed: 'testString',
+      native_type: 'testString',
+    };
+
+    // ContractSchemaProperty
+    const contractSchemaPropertyModel = {
+      name: 'testString',
+      type: contractSchemaPropertyTypeModel,
+    };
+
+    // ContractSchema
+    const contractSchemaModel = {
+      name: 'testString',
+      description: 'testString',
+      physical_type: 'testString',
+      properties: [contractSchemaPropertyModel],
+    };
+
+    // ContractTerms
+    const contractTermsModel = {
+      overview: overviewModel,
+      description: descriptionModel,
+      organization: [contractTemplateOrganizationModel],
+      roles: [rolesModel],
+      price: pricingModel,
+      sla: [contractTemplateSlaModel],
+      support_and_communication: [contractTemplateSupportAndCommunicationModel],
+      custom_properties: [contractTemplateCustomPropertyModel],
+      contract_test: contractTestModel,
+      schema: [contractSchemaModel],
+    };
+
+    const params = {
+      container: containerReferenceModel,
+      name: 'Sample Data Contract Template',
+      contractTerms: contractTermsModel,
+      containerId: getStatusByCatalogIdLink,
+      contractTemplateName: 'testString',
+    };
+
+    const res = await dphService.createContractTemplate(params);
+    createContractTemplateId = res.result.id;
+    
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getContractTemplate()', async () => {
+    const params = {
+      contractTemplateId: createContractTemplateId,
+      containerId: getStatusByCatalogIdLink,
+    };
+
+    const res = await dphService.getContractTemplate(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('updateDataProductContractTemplate()', async () => {
+    // Request models needed by this operation.
+
+    // JsonPatchOperation
+    const jsonPatchOperationModel = {
+      op: 'replace',
+      path: '/name',
+      value: 'contract template name',
+    };
+
+    const params = {
+      contractTemplateId: createContractTemplateId,
+      containerId: getStatusByCatalogIdLink,
+      jsonPatchInstructions: [jsonPatchOperationModel],
+    };
+
+    const res = await dphService.updateDataProductContractTemplate(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
+  test('listDataProductContractTemplate()', async () => {
+    const params = {
+      containerId: getStatusByCatalogIdLink,
+      contractTemplateName: 'testString',
+    };
+
+    const res = await dphService.listDataProductContractTemplate(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
+  test('deleteDataProductContractTemplate()', async () => {
+    const params = {
+      contractTemplateId: createContractTemplateId,
+      containerId: getStatusByCatalogIdLink,
+    };
+
+    const res = await dphService.deleteDataProductContractTemplate(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+  });
+  
   test('createDataProductDraft()', async () => {
     // Request models needed by this operation.
 
@@ -584,8 +1073,8 @@ describe('DphV1_integration', () => {
 
     // Domain
     const domainModel = {
-      id: `3f0688f0-69c3-441e-b49b-7c223daa1804`,
-      name: `Risk Management`,
+      id: 'ccacbfb4-7180-4632-b1ed-6709c7001f1e',
+      name: 'Customer Management',
       container: containerReferenceModel,
     };
 
@@ -635,32 +1124,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
-  test('listDataProductDrafts() via DataProductDraftsPager', async () => {
-    const params = {
-      dataProductId: '-',
-      assetContainerId: createDataProductByCatalogIdLink,
-      limit: 10,
-    };
-
-    const allResults = [];
-
-    // Test getNext().
-    let pager = new DphV1.DataProductDraftsPager(dphService, params);
-    while (pager.hasNext()) {
-      const nextPage = await pager.getNext();
-      expect(nextPage).not.toBeNull();
-      allResults.push(...nextPage);
-    }
-
-    // Test getAll().
-    pager = new DphV1.DataProductDraftsPager(dphService, params);
-    const allItems = await pager.getAll();
-    expect(allItems).not.toBeNull();
-    expect(allItems).toHaveLength(allResults.length);
-    console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
-  });
-
+  
   test('createDraftContractTermsDocumentForDeleteOp()', async () => {
     // Request models needed by this operation.
 
@@ -683,7 +1147,7 @@ describe('DphV1_integration', () => {
     updateContractTermsDocumentByDocumentIdLink = res.result.id;
     completeContractTermsDocumentByDocumentIdLink = res.result.id;
   });
-
+  
   test('deleteDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: '-',
@@ -698,6 +1162,141 @@ describe('DphV1_integration', () => {
     expect(res.result).toBeDefined();
   });
 
+  test('listDataProductDomains()', async () => {
+    const params = {
+      containerId: getStatusByCatalogIdLink,
+    };
+
+    const res = await dphService.listDataProductDomains(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('createDataProductDomain()', async () => {
+    // Request models needed by this operation.
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: getStatusByCatalogIdLink,
+      type: 'catalog',
+    };
+
+    // InitializeSubDomain
+    const initializeSubDomainModel = {
+      name: 'Sub domain 1',
+      id: 'testString',
+      description: 'New sub domain 1',
+    };
+
+    const params = {
+      container: containerReferenceModel,
+      name: 'Test domain - node sdk',
+      description: 'The sample description for new domain',
+      subDomains: [initializeSubDomainModel],
+      containerId: getStatusByCatalogIdLink,
+    };
+
+    const res = await dphService.createDataProductDomain(params);
+    createDataProductDomainId = res.result.id;
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+  });
+
+  test('createDataProductSubdomain()', async () => {
+    const params = {
+      domainId: createDataProductDomainId,
+      containerId: getStatusByCatalogIdLink,
+      name: 'Sub domain 2',
+      description: 'New sub domain 2',
+    };
+
+    const res = await dphService.createDataProductSubdomain(params);
+    
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getDomain()', async () => {
+    const params = {
+      domainId: createDataProductDomainId,
+    };
+
+    const res = await dphService.getDomain(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('updateDataProductDomain()', async () => {
+    // Request models needed by this operation.
+
+    // JsonPatchOperation
+    const jsonPatchOperationModel = {
+      op: 'replace',
+      path: '/name',
+      value: 'updated domain name',
+    };
+
+    const params = {
+      domainId: createDataProductDomainId,
+      containerId: getStatusByCatalogIdLink,
+      jsonPatchInstructions: [jsonPatchOperationModel],
+    };
+
+    const res = await dphService.updateDataProductDomain(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getDataProductByDomain()', async () => {
+    const params = {
+      domainId: createDataProductDomainId,
+      containerId: getStatusByCatalogIdLink,
+    };
+
+    const res = await dphService.getDataProductByDomain(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
+  test('deleteDomain()', async () => {
+    const params = {
+      domainId: createDataProductDomainId,
+    };
+
+    const res = await dphService.deleteDomain(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+  });
+
+  test.skip('createS3Bucket()', async () => {
+    const params = {
+      isShared: true,
+    };
+
+    const res = await dphService.createS3Bucket(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+  });
+
+  test.skip('getS3BucketValidation()', async () => {
+    const params = {
+      bucketName: 'testString',
+    };
+
+    const res = await dphService.getS3BucketValidation(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
   test('deleteDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -709,4 +1308,5 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
+
 });

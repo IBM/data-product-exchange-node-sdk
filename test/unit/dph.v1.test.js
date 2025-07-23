@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ const {
   checkUrlAndMethod,
   checkMediaHeaders,
   expectToBePromise,
+  checkUserHeader,
   checkForSuccessfulExecution,
 } = unitTestUtils;
 const DphV1 = require('../../dist/dph/v1');
@@ -404,6 +405,216 @@ describe('DphV1', () => {
     });
   });
 
+  describe('createDataAssetVisualization', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // Visualization
+      const visualizationModel = {
+        id: 'testString',
+        name: 'testString',
+      };
+
+      // ContainerReference
+      const containerReferenceModel = {
+        id: '2be8f727-c5d2-4cb0-9216-f9888f428048',
+        type: 'catalog',
+      };
+
+      // AssetReference
+      const assetReferenceModel = {
+        id: 'caeee3f3-756e-47d5-846d-da4600809e22',
+        name: 'testString',
+        container: containerReferenceModel,
+      };
+
+      // ErrorMessage
+      const errorMessageModel = {
+        code: 'testString',
+        message: 'testString',
+      };
+
+      // DataAssetRelationship
+      const dataAssetRelationshipModel = {
+        visualization: visualizationModel,
+        asset: assetReferenceModel,
+        related_asset: assetReferenceModel,
+        error: errorMessageModel,
+      };
+
+      function __createDataAssetVisualizationTest() {
+        // Construct the params object for operation createDataAssetVisualization
+        const assets = [dataAssetRelationshipModel];
+        const createDataAssetVisualizationParams = {
+          assets,
+        };
+
+        const createDataAssetVisualizationResult = dphService.createDataAssetVisualization(
+          createDataAssetVisualizationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createDataAssetVisualizationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_asset/visualization',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.assets).toEqual(assets);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createDataAssetVisualizationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createDataAssetVisualizationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createDataAssetVisualizationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createDataAssetVisualizationParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createDataAssetVisualization(createDataAssetVisualizationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        dphService.createDataAssetVisualization({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('reinitiateDataAssetVisualization', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // Visualization
+      const visualizationModel = {
+        id: 'testString',
+        name: 'testString',
+      };
+
+      // ContainerReference
+      const containerReferenceModel = {
+        id: '2be8f727-c5d2-4cb0-9216-f9888f428048',
+        type: 'catalog',
+      };
+
+      // AssetReference
+      const assetReferenceModel = {
+        id: 'caeee3f3-756e-47d5-846d-da4600809e22',
+        name: 'testString',
+        container: containerReferenceModel,
+      };
+
+      // ErrorMessage
+      const errorMessageModel = {
+        code: 'testString',
+        message: 'testString',
+      };
+
+      // DataAssetRelationship
+      const dataAssetRelationshipModel = {
+        visualization: visualizationModel,
+        asset: assetReferenceModel,
+        related_asset: assetReferenceModel,
+        error: errorMessageModel,
+      };
+
+      function __reinitiateDataAssetVisualizationTest() {
+        // Construct the params object for operation reinitiateDataAssetVisualization
+        const assets = [dataAssetRelationshipModel];
+        const reinitiateDataAssetVisualizationParams = {
+          assets,
+        };
+
+        const reinitiateDataAssetVisualizationResult = dphService.reinitiateDataAssetVisualization(
+          reinitiateDataAssetVisualizationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(reinitiateDataAssetVisualizationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_asset/visualization/reinitiate',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.assets).toEqual(assets);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __reinitiateDataAssetVisualizationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __reinitiateDataAssetVisualizationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __reinitiateDataAssetVisualizationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const reinitiateDataAssetVisualizationParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.reinitiateDataAssetVisualization(reinitiateDataAssetVisualizationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        dphService.reinitiateDataAssetVisualization({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
   describe('listDataProducts', () => {
     describe('positive tests', () => {
       function __listDataProductsTest() {
@@ -474,9 +685,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"name":"name"}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}]}';
+        '{"total_count":2,"limit":1,"data_products":[{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"name":"name"}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -550,6 +761,7 @@ describe('DphV1', () => {
       // AssetReference
       const assetReferenceModel = {
         id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        name: 'testString',
         container: containerReferenceModel,
       };
 
@@ -568,25 +780,6 @@ describe('DphV1', () => {
         upload_url: 'testString',
       };
 
-      // DataProductContractTerms
-      const dataProductContractTermsModel = {
-        asset: assetReferenceModel,
-        id: 'testString',
-        documents: [contractTermsDocumentModel],
-        error_msg: 'testString',
-      };
-
-      // ContainerIdentity
-      const containerIdentityModel = {
-        id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
-      };
-
-      // AssetPrototype
-      const assetPrototypeModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        container: containerIdentityModel,
-      };
-
       // Domain
       const domainModel = {
         id: 'testString',
@@ -594,17 +787,154 @@ describe('DphV1', () => {
         container: containerReferenceModel,
       };
 
+      // Overview
+      const overviewModel = {
+        api_version: 'v3.0.1',
+        kind: 'DataContract',
+        name: 'Sample Data Contract',
+        version: '0.0.0',
+        domain: domainModel,
+        more_info: 'List of links to sources that provide more details on the data contract.',
+      };
+
+      // ContractTermsMoreInfo
+      const contractTermsMoreInfoModel = {
+        type: 'privacy-statement',
+        url: 'https://moreinfo.example.com',
+      };
+
+      // Description
+      const descriptionModel = {
+        purpose: 'Used for customer behavior analysis.',
+        limitations: 'Data cannot be used for marketing.',
+        usage: 'Data should be used only for analytics.',
+        more_info: [contractTermsMoreInfoModel],
+        custom_properties: '{"property1":"value1"}',
+      };
+
+      // ContractTemplateOrganization
+      const contractTemplateOrganizationModel = {
+        user_id: 'IBMid-691000IN4G',
+        role: 'owner',
+      };
+
+      // Roles
+      const rolesModel = {
+        role: 'owner',
+      };
+
+      // Pricing
+      const pricingModel = {
+        amount: '100.0',
+        currency: 'USD',
+        unit: 'megabyte',
+      };
+
+      // ContractTemplateSLAProperty
+      const contractTemplateSlaPropertyModel = {
+        property: 'Uptime Guarantee',
+        value: '99.9',
+      };
+
+      // ContractTemplateSLA
+      const contractTemplateSlaModel = {
+        default_element: 'Standard SLA Policy',
+        properties: [contractTemplateSlaPropertyModel],
+      };
+
+      // ContractTemplateSupportAndCommunication
+      const contractTemplateSupportAndCommunicationModel = {
+        channel: 'Email Support',
+        url: 'https://support.example.com',
+      };
+
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        key: 'customPropertyKey',
+        value: 'customPropertyValue',
+      };
+
+      // ContractTest
+      const contractTestModel = {
+        status: 'pass',
+        last_tested_time: 'testString',
+        message: 'testString',
+      };
+
+      // ContractSchemaPropertyType
+      const contractSchemaPropertyTypeModel = {
+        type: 'testString',
+        length: 'testString',
+        scale: 'testString',
+        nullable: 'testString',
+        signed: 'testString',
+        native_type: 'testString',
+      };
+
+      // ContractSchemaProperty
+      const contractSchemaPropertyModel = {
+        name: 'testString',
+        type: contractSchemaPropertyTypeModel,
+      };
+
+      // ContractSchema
+      const contractSchemaModel = {
+        name: 'testString',
+        description: 'testString',
+        physical_type: 'testString',
+        properties: [contractSchemaPropertyModel],
+      };
+
+      // ContractTerms
+      const contractTermsModel = {
+        asset: assetReferenceModel,
+        id: 'testString',
+        documents: [contractTermsDocumentModel],
+        error_msg: 'testString',
+        overview: overviewModel,
+        description: descriptionModel,
+        organization: [contractTemplateOrganizationModel],
+        roles: [rolesModel],
+        price: pricingModel,
+        sla: [contractTemplateSlaModel],
+        support_and_communication: [contractTemplateSupportAndCommunicationModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        contract_test: contractTestModel,
+        schema: [contractSchemaModel],
+      };
+
       // AssetPartReference
       const assetPartReferenceModel = {
         id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        name: 'testString',
         container: containerReferenceModel,
         type: 'data_asset',
+      };
+
+      // EngineDetailsModel
+      const engineDetailsModelModel = {
+        display_name: 'Iceberg Engine',
+        engine_id: 'presto767',
+        engine_port: '34567',
+        engine_host: 'a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud',
+        associated_catalogs: ['testString'],
+      };
+
+      // ProducerInputModel
+      const producerInputModelModel = {
+        engine_details: engineDetailsModelModel,
+      };
+
+      // DeliveryMethodPropertiesModel
+      const deliveryMethodPropertiesModelModel = {
+        producer_input: producerInputModelModel,
       };
 
       // DeliveryMethod
       const deliveryMethodModel = {
         id: '09cf5fcc-cb9d-4995-a8e4-16517b25229f',
         container: containerReferenceModel,
+        getproperties: deliveryMethodPropertiesModelModel,
       };
 
       // DataProductPart
@@ -630,8 +960,24 @@ describe('DphV1', () => {
         order_access_request: dataProductOrderAccessRequestModel,
       };
 
-      // DataProductVersionPrototype
-      const dataProductVersionPrototypeModel = {
+      // AssetListAccessControl
+      const assetListAccessControlModel = {
+        owner: 'IBMid-696000KYV9',
+      };
+
+      // ContainerIdentity
+      const containerIdentityModel = {
+        id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
+      };
+
+      // AssetPrototype
+      const assetPrototypeModel = {
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        container: containerIdentityModel,
+      };
+
+      // DataProductDraftPrototype
+      const dataProductDraftPrototypeModel = {
         version: '1.0.0',
         state: 'draft',
         data_product: dataProductIdentityModel,
@@ -640,19 +986,28 @@ describe('DphV1', () => {
         tags: ['testString'],
         use_cases: [useCaseModel],
         types: ['data'],
-        contract_terms: [dataProductContractTermsModel],
-        is_restricted: true,
-        asset: assetPrototypeModel,
+        contract_terms: [contractTermsModel],
         domain: domainModel,
         parts_out: [dataProductPartModel],
         workflows: dataProductWorkflowsModel,
+        dataview_enabled: true,
+        comments:
+          'Comments by a producer that are provided either at the time of data product version creation or retiring',
+        access_control: assetListAccessControlModel,
+        last_updated_at: '2019-01-01T12:00:00.000Z',
+        is_restricted: true,
+        asset: assetPrototypeModel,
       };
 
       function __createDataProductTest() {
         // Construct the params object for operation createDataProduct
-        const drafts = [dataProductVersionPrototypeModel];
+        const drafts = [dataProductDraftPrototypeModel];
+        const limit = 200;
+        const start = 'testString';
         const createDataProductParams = {
           drafts,
+          limit,
+          start,
         };
 
         const createDataProductResult = dphService.createDataProduct(createDataProductParams);
@@ -670,6 +1025,8 @@ describe('DphV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.drafts).toEqual(drafts);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.start).toEqual(start);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
@@ -689,7 +1046,7 @@ describe('DphV1', () => {
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const drafts = [dataProductVersionPrototypeModel];
+        const drafts = [dataProductDraftPrototypeModel];
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createDataProductParams = {
@@ -1027,9 +1384,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products/testString/drafts';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"schema":[{"name":"name","description":"description","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"}}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","associated_catalogs":["associated_catalogs"]}}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"schema":[{"name":"name","description":"description","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"}}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","associated_catalogs":["associated_catalogs"]}}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -1120,6 +1477,7 @@ describe('DphV1', () => {
       // AssetReference
       const assetReferenceModel = {
         id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        name: 'testString',
         container: containerReferenceModel,
       };
 
@@ -1138,14 +1496,6 @@ describe('DphV1', () => {
         upload_url: 'testString',
       };
 
-      // DataProductContractTerms
-      const dataProductContractTermsModel = {
-        asset: assetReferenceModel,
-        id: 'testString',
-        documents: [contractTermsDocumentModel],
-        error_msg: 'testString',
-      };
-
       // Domain
       const domainModel = {
         id: 'testString',
@@ -1153,17 +1503,154 @@ describe('DphV1', () => {
         container: containerReferenceModel,
       };
 
+      // Overview
+      const overviewModel = {
+        api_version: 'v3.0.1',
+        kind: 'DataContract',
+        name: 'Sample Data Contract',
+        version: '0.0.0',
+        domain: domainModel,
+        more_info: 'List of links to sources that provide more details on the data contract.',
+      };
+
+      // ContractTermsMoreInfo
+      const contractTermsMoreInfoModel = {
+        type: 'privacy-statement',
+        url: 'https://moreinfo.example.com',
+      };
+
+      // Description
+      const descriptionModel = {
+        purpose: 'Used for customer behavior analysis.',
+        limitations: 'Data cannot be used for marketing.',
+        usage: 'Data should be used only for analytics.',
+        more_info: [contractTermsMoreInfoModel],
+        custom_properties: '{"property1":"value1"}',
+      };
+
+      // ContractTemplateOrganization
+      const contractTemplateOrganizationModel = {
+        user_id: 'IBMid-691000IN4G',
+        role: 'owner',
+      };
+
+      // Roles
+      const rolesModel = {
+        role: 'owner',
+      };
+
+      // Pricing
+      const pricingModel = {
+        amount: '100.0',
+        currency: 'USD',
+        unit: 'megabyte',
+      };
+
+      // ContractTemplateSLAProperty
+      const contractTemplateSlaPropertyModel = {
+        property: 'Uptime Guarantee',
+        value: '99.9',
+      };
+
+      // ContractTemplateSLA
+      const contractTemplateSlaModel = {
+        default_element: 'Standard SLA Policy',
+        properties: [contractTemplateSlaPropertyModel],
+      };
+
+      // ContractTemplateSupportAndCommunication
+      const contractTemplateSupportAndCommunicationModel = {
+        channel: 'Email Support',
+        url: 'https://support.example.com',
+      };
+
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        key: 'customPropertyKey',
+        value: 'customPropertyValue',
+      };
+
+      // ContractTest
+      const contractTestModel = {
+        status: 'pass',
+        last_tested_time: 'testString',
+        message: 'testString',
+      };
+
+      // ContractSchemaPropertyType
+      const contractSchemaPropertyTypeModel = {
+        type: 'testString',
+        length: 'testString',
+        scale: 'testString',
+        nullable: 'testString',
+        signed: 'testString',
+        native_type: 'testString',
+      };
+
+      // ContractSchemaProperty
+      const contractSchemaPropertyModel = {
+        name: 'testString',
+        type: contractSchemaPropertyTypeModel,
+      };
+
+      // ContractSchema
+      const contractSchemaModel = {
+        name: 'testString',
+        description: 'testString',
+        physical_type: 'testString',
+        properties: [contractSchemaPropertyModel],
+      };
+
+      // ContractTerms
+      const contractTermsModel = {
+        asset: assetReferenceModel,
+        id: 'testString',
+        documents: [contractTermsDocumentModel],
+        error_msg: 'testString',
+        overview: overviewModel,
+        description: descriptionModel,
+        organization: [contractTemplateOrganizationModel],
+        roles: [rolesModel],
+        price: pricingModel,
+        sla: [contractTemplateSlaModel],
+        support_and_communication: [contractTemplateSupportAndCommunicationModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        contract_test: contractTestModel,
+        schema: [contractSchemaModel],
+      };
+
       // AssetPartReference
       const assetPartReferenceModel = {
         id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        name: 'testString',
         container: containerReferenceModel,
         type: 'data_asset',
+      };
+
+      // EngineDetailsModel
+      const engineDetailsModelModel = {
+        display_name: 'Iceberg Engine',
+        engine_id: 'presto767',
+        engine_port: '34567',
+        engine_host: 'a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud',
+        associated_catalogs: ['testString'],
+      };
+
+      // ProducerInputModel
+      const producerInputModelModel = {
+        engine_details: engineDetailsModelModel,
+      };
+
+      // DeliveryMethodPropertiesModel
+      const deliveryMethodPropertiesModelModel = {
+        producer_input: producerInputModelModel,
       };
 
       // DeliveryMethod
       const deliveryMethodModel = {
         id: '09cf5fcc-cb9d-4995-a8e4-16517b25229f',
         container: containerReferenceModel,
+        getproperties: deliveryMethodPropertiesModelModel,
       };
 
       // DataProductPart
@@ -1189,6 +1676,11 @@ describe('DphV1', () => {
         order_access_request: dataProductOrderAccessRequestModel,
       };
 
+      // AssetListAccessControl
+      const assetListAccessControlModel = {
+        owner: 'IBMid-696000KYV9',
+      };
+
       function __createDataProductDraftTest() {
         // Construct the params object for operation createDataProductDraft
         const dataProductId = 'testString';
@@ -1201,11 +1693,15 @@ describe('DphV1', () => {
         const tags = ['testString'];
         const useCases = [useCaseModel];
         const types = ['data'];
-        const contractTerms = [dataProductContractTermsModel];
-        const isRestricted = true;
+        const contractTerms = [contractTermsModel];
         const domain = domainModel;
         const partsOut = [dataProductPartModel];
         const workflows = dataProductWorkflowsModel;
+        const dataviewEnabled = true;
+        const comments = 'testString';
+        const accessControl = assetListAccessControlModel;
+        const lastUpdatedAt = '2019-01-01T12:00:00.000Z';
+        const isRestricted = true;
         const createDataProductDraftParams = {
           dataProductId,
           asset,
@@ -1218,10 +1714,14 @@ describe('DphV1', () => {
           useCases,
           types,
           contractTerms,
-          isRestricted,
           domain,
           partsOut,
           workflows,
+          dataviewEnabled,
+          comments,
+          accessControl,
+          lastUpdatedAt,
+          isRestricted,
         };
 
         const createDataProductDraftResult = dphService.createDataProductDraft(
@@ -1254,10 +1754,14 @@ describe('DphV1', () => {
         expect(mockRequestOptions.body.use_cases).toEqual(useCases);
         expect(mockRequestOptions.body.types).toEqual(types);
         expect(mockRequestOptions.body.contract_terms).toEqual(contractTerms);
-        expect(mockRequestOptions.body.is_restricted).toEqual(isRestricted);
         expect(mockRequestOptions.body.domain).toEqual(domain);
         expect(mockRequestOptions.body.parts_out).toEqual(partsOut);
         expect(mockRequestOptions.body.workflows).toEqual(workflows);
+        expect(mockRequestOptions.body.dataview_enabled).toEqual(dataviewEnabled);
+        expect(mockRequestOptions.body.comments).toEqual(comments);
+        expect(mockRequestOptions.body.access_control).toEqual(accessControl);
+        expect(mockRequestOptions.body.last_updated_at).toEqual(lastUpdatedAt);
+        expect(mockRequestOptions.body.is_restricted).toEqual(isRestricted);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
       }
 
@@ -2062,6 +2566,505 @@ describe('DphV1', () => {
     });
   });
 
+  describe('getDataProductDraftContractTerms', () => {
+    describe('positive tests', () => {
+      function __getDataProductDraftContractTermsTest() {
+        // Construct the params object for operation getDataProductDraftContractTerms
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
+        const accept = 'application/odcs+yaml';
+        const includeContractDocuments = true;
+        const getDataProductDraftContractTermsParams = {
+          dataProductId,
+          draftId,
+          contractTermsId,
+          accept,
+          includeContractDocuments,
+        };
+
+        const getDataProductDraftContractTermsResult = dphService.getDataProductDraftContractTerms(
+          getDataProductDraftContractTermsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getDataProductDraftContractTermsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}',
+          'GET'
+        );
+        const expectedAccept = accept;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'Accept', accept);
+        expect(mockRequestOptions.qs.include_contract_documents).toEqual(includeContractDocuments);
+        expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
+        expect(mockRequestOptions.path.draft_id).toEqual(draftId);
+        expect(mockRequestOptions.path.contract_terms_id).toEqual(contractTermsId);
+        expect(mockRequestOptions.responseType).toBe('stream');
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDataProductDraftContractTermsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getDataProductDraftContractTermsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getDataProductDraftContractTermsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDataProductDraftContractTermsParams = {
+          dataProductId,
+          draftId,
+          contractTermsId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getDataProductDraftContractTerms(getDataProductDraftContractTermsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getDataProductDraftContractTerms({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getDataProductDraftContractTerms();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('replaceDataProductDraftContractTerms', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ContainerReference
+      const containerReferenceModel = {
+        id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
+        type: 'catalog',
+      };
+
+      // AssetReference
+      const assetReferenceModel = {
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        name: 'testString',
+        container: containerReferenceModel,
+      };
+
+      // ContractTermsDocumentAttachment
+      const contractTermsDocumentAttachmentModel = {
+        id: 'testString',
+      };
+
+      // ContractTermsDocument
+      const contractTermsDocumentModel = {
+        url: 'https://ibm.com/document',
+        type: 'terms_and_conditions',
+        name: 'Terms and Conditions',
+        id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+        attachment: contractTermsDocumentAttachmentModel,
+        upload_url: 'testString',
+      };
+
+      // Domain
+      const domainModel = {
+        id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+        name: 'domain_name',
+        container: containerReferenceModel,
+      };
+
+      // Overview
+      const overviewModel = {
+        api_version: 'v3.0.1',
+        kind: 'DataContract',
+        name: 'Sample Data Contract',
+        version: 'v0.0',
+        domain: domainModel,
+        more_info: 'List of links to sources that provide more details on the data contract.',
+      };
+
+      // ContractTermsMoreInfo
+      const contractTermsMoreInfoModel = {
+        type: 'privacy-statement',
+        url: 'https://www.moreinfo.example.coms',
+      };
+
+      // Description
+      const descriptionModel = {
+        purpose: 'Intended purpose for the provided data.',
+        limitations: 'Technical, compliance, and legal limitations for data use.',
+        usage: 'Recommended usage of the data.',
+        more_info: [contractTermsMoreInfoModel],
+        custom_properties: 'Custom properties that are not part of the standard.',
+      };
+
+      // ContractTemplateOrganization
+      const contractTemplateOrganizationModel = {
+        user_id: 'IBMid-691000IN4G',
+        role: 'owner',
+      };
+
+      // Roles
+      const rolesModel = {
+        role: 'IAM Role',
+      };
+
+      // Pricing
+      const pricingModel = {
+        amount: '100.0',
+        currency: 'USD',
+        unit: 'megabyte',
+      };
+
+      // ContractTemplateSLAProperty
+      const contractTemplateSlaPropertyModel = {
+        property: 'slaproperty',
+        value: 'slavalue',
+      };
+
+      // ContractTemplateSLA
+      const contractTemplateSlaModel = {
+        default_element: 'sladefaultelement',
+        properties: [contractTemplateSlaPropertyModel],
+      };
+
+      // ContractTemplateSupportAndCommunication
+      const contractTemplateSupportAndCommunicationModel = {
+        channel: 'channel',
+        url: 'https://www.example.coms',
+      };
+
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        key: 'The name of the key.',
+        value: 'The value of the key.',
+      };
+
+      // ContractTest
+      const contractTestModel = {
+        status: 'pass',
+        last_tested_time: 'testString',
+        message: 'testString',
+      };
+
+      // ContractSchemaPropertyType
+      const contractSchemaPropertyTypeModel = {
+        type: 'testString',
+        length: 'testString',
+        scale: 'testString',
+        nullable: 'testString',
+        signed: 'testString',
+        native_type: 'testString',
+      };
+
+      // ContractSchemaProperty
+      const contractSchemaPropertyModel = {
+        name: 'testString',
+        type: contractSchemaPropertyTypeModel,
+      };
+
+      // ContractSchema
+      const contractSchemaModel = {
+        name: 'testString',
+        description: 'testString',
+        physical_type: 'testString',
+        properties: [contractSchemaPropertyModel],
+      };
+
+      function __replaceDataProductDraftContractTermsTest() {
+        // Construct the params object for operation replaceDataProductDraftContractTerms
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
+        const asset = assetReferenceModel;
+        const id = 'testString';
+        const documents = [contractTermsDocumentModel];
+        const errorMsg = 'testString';
+        const overview = overviewModel;
+        const description = descriptionModel;
+        const organization = [contractTemplateOrganizationModel];
+        const roles = [rolesModel];
+        const price = pricingModel;
+        const sla = [contractTemplateSlaModel];
+        const supportAndCommunication = [contractTemplateSupportAndCommunicationModel];
+        const customProperties = [contractTemplateCustomPropertyModel];
+        const contractTest = contractTestModel;
+        const schema = [contractSchemaModel];
+        const replaceDataProductDraftContractTermsParams = {
+          dataProductId,
+          draftId,
+          contractTermsId,
+          asset,
+          id,
+          documents,
+          errorMsg,
+          overview,
+          description,
+          organization,
+          roles,
+          price,
+          sla,
+          supportAndCommunication,
+          customProperties,
+          contractTest,
+          schema,
+        };
+
+        const replaceDataProductDraftContractTermsResult =
+          dphService.replaceDataProductDraftContractTerms(
+            replaceDataProductDraftContractTermsParams
+          );
+
+        // all methods should return a Promise
+        expectToBePromise(replaceDataProductDraftContractTermsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}',
+          'PUT'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.asset).toEqual(asset);
+        expect(mockRequestOptions.body.id).toEqual(id);
+        expect(mockRequestOptions.body.documents).toEqual(documents);
+        expect(mockRequestOptions.body.error_msg).toEqual(errorMsg);
+        expect(mockRequestOptions.body.overview).toEqual(overview);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.organization).toEqual(organization);
+        expect(mockRequestOptions.body.roles).toEqual(roles);
+        expect(mockRequestOptions.body.price).toEqual(price);
+        expect(mockRequestOptions.body.sla).toEqual(sla);
+        expect(mockRequestOptions.body.support_and_communication).toEqual(supportAndCommunication);
+        expect(mockRequestOptions.body.custom_properties).toEqual(customProperties);
+        expect(mockRequestOptions.body.contract_test).toEqual(contractTest);
+        expect(mockRequestOptions.body.schema).toEqual(schema);
+        expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
+        expect(mockRequestOptions.path.draft_id).toEqual(draftId);
+        expect(mockRequestOptions.path.contract_terms_id).toEqual(contractTermsId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __replaceDataProductDraftContractTermsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __replaceDataProductDraftContractTermsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __replaceDataProductDraftContractTermsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const replaceDataProductDraftContractTermsParams = {
+          dataProductId,
+          draftId,
+          contractTermsId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.replaceDataProductDraftContractTerms(replaceDataProductDraftContractTermsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.replaceDataProductDraftContractTerms({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.replaceDataProductDraftContractTerms();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateDataProductDraftContractTerms', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // JsonPatchOperation
+      const jsonPatchOperationModel = {
+        op: 'add',
+        path: 'testString',
+        from: 'testString',
+        value: 'testString',
+      };
+
+      function __updateDataProductDraftContractTermsTest() {
+        // Construct the params object for operation updateDataProductDraftContractTerms
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
+        const jsonPatchInstructions = [jsonPatchOperationModel];
+        const updateDataProductDraftContractTermsParams = {
+          dataProductId,
+          draftId,
+          contractTermsId,
+          jsonPatchInstructions,
+        };
+
+        const updateDataProductDraftContractTermsResult =
+          dphService.updateDataProductDraftContractTerms(updateDataProductDraftContractTermsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateDataProductDraftContractTermsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body).toEqual(jsonPatchInstructions);
+        expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
+        expect(mockRequestOptions.path.draft_id).toEqual(draftId);
+        expect(mockRequestOptions.path.contract_terms_id).toEqual(contractTermsId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateDataProductDraftContractTermsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __updateDataProductDraftContractTermsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __updateDataProductDraftContractTermsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const dataProductId = 'testString';
+        const draftId = 'testString';
+        const contractTermsId = 'testString';
+        const jsonPatchInstructions = [jsonPatchOperationModel];
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateDataProductDraftContractTermsParams = {
+          dataProductId,
+          draftId,
+          contractTermsId,
+          jsonPatchInstructions,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.updateDataProductDraftContractTerms(updateDataProductDraftContractTermsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.updateDataProductDraftContractTerms({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.updateDataProductDraftContractTerms();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('publishDataProductDraft', () => {
     describe('positive tests', () => {
       function __publishDataProductDraftTest() {
@@ -2578,9 +3581,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products/testString/releases';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"schema":[{"name":"name","description":"description","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"}}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","associated_catalogs":["associated_catalogs"]}}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg"}],"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"schema":[{"name":"name","description":"description","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"}}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","associated_catalogs":["associated_catalogs"]}}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -2637,9 +3640,11 @@ describe('DphV1', () => {
         // Construct the params object for operation retireDataProductRelease
         const dataProductId = 'testString';
         const releaseId = 'testString';
+        const revokeAccess = false;
         const retireDataProductReleaseParams = {
           dataProductId,
           releaseId,
+          revokeAccess,
         };
 
         const retireDataProductReleaseResult = dphService.retireDataProductRelease(
@@ -2662,6 +3667,7 @@ describe('DphV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.revoke_access).toEqual(revokeAccess);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
         expect(mockRequestOptions.path.release_id).toEqual(releaseId);
       }
@@ -2717,6 +3723,1525 @@ describe('DphV1', () => {
         let err;
         try {
           await dphService.retireDataProductRelease();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listDataProductContractTemplate', () => {
+    describe('positive tests', () => {
+      function __listDataProductContractTemplateTest() {
+        // Construct the params object for operation listDataProductContractTemplate
+        const containerId = 'testString';
+        const contractTemplateName = 'testString';
+        const listDataProductContractTemplateParams = {
+          containerId,
+          contractTemplateName,
+        };
+
+        const listDataProductContractTemplateResult = dphService.listDataProductContractTemplate(
+          listDataProductContractTemplateParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(listDataProductContractTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.qs['contract_template.name']).toEqual(contractTemplateName);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listDataProductContractTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __listDataProductContractTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __listDataProductContractTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listDataProductContractTemplateParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.listDataProductContractTemplate(listDataProductContractTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        dphService.listDataProductContractTemplate({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('createContractTemplate', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ContainerReference
+      const containerReferenceModel = {
+        id: 'f531f74a-01c8-4e91-8e29-b018db683c86',
+        type: 'catalog',
+      };
+
+      // ErrorMessage
+      const errorMessageModel = {
+        code: 'testString',
+        message: 'testString',
+      };
+
+      // AssetReference
+      const assetReferenceModel = {
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        name: 'testString',
+        container: containerReferenceModel,
+      };
+
+      // ContractTermsDocumentAttachment
+      const contractTermsDocumentAttachmentModel = {
+        id: 'testString',
+      };
+
+      // ContractTermsDocument
+      const contractTermsDocumentModel = {
+        url: 'testString',
+        type: 'terms_and_conditions',
+        name: 'testString',
+        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        attachment: contractTermsDocumentAttachmentModel,
+        upload_url: 'testString',
+      };
+
+      // Domain
+      const domainModel = {
+        id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
+        name: 'domain_name',
+        container: containerReferenceModel,
+      };
+
+      // Overview
+      const overviewModel = {
+        api_version: 'v3.0.1',
+        kind: 'DataContract',
+        name: 'Sample Data Contract',
+        version: '0.0.0',
+        domain: domainModel,
+        more_info: 'List of links to sources that provide more details on the data contract.',
+      };
+
+      // ContractTermsMoreInfo
+      const contractTermsMoreInfoModel = {
+        type: 'privacy-statement',
+        url: 'https://www.moreinfo.example.coms',
+      };
+
+      // Description
+      const descriptionModel = {
+        purpose: 'Intended purpose for the provided data.',
+        limitations: 'Technical, compliance, and legal limitations for data use.',
+        usage: 'Recommended usage of the data.',
+        more_info: [contractTermsMoreInfoModel],
+        custom_properties: 'Custom properties that are not part of the standard.',
+      };
+
+      // ContractTemplateOrganization
+      const contractTemplateOrganizationModel = {
+        user_id: 'IBMid-691000IN4G',
+        role: 'owner',
+      };
+
+      // Roles
+      const rolesModel = {
+        role: 'IAM Role',
+      };
+
+      // Pricing
+      const pricingModel = {
+        amount: '100.00',
+        currency: 'USD',
+        unit: 'megabyte',
+      };
+
+      // ContractTemplateSLAProperty
+      const contractTemplateSlaPropertyModel = {
+        property: 'slaproperty',
+        value: 'slavalue',
+      };
+
+      // ContractTemplateSLA
+      const contractTemplateSlaModel = {
+        default_element: 'sladefaultelement',
+        properties: [contractTemplateSlaPropertyModel],
+      };
+
+      // ContractTemplateSupportAndCommunication
+      const contractTemplateSupportAndCommunicationModel = {
+        channel: 'channel',
+        url: 'https://www.example.coms',
+      };
+
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        key: 'propertykey',
+        value: 'propertyvalue',
+      };
+
+      // ContractTest
+      const contractTestModel = {
+        status: 'pass',
+        last_tested_time: 'testString',
+        message: 'testString',
+      };
+
+      // ContractSchemaPropertyType
+      const contractSchemaPropertyTypeModel = {
+        type: 'testString',
+        length: 'testString',
+        scale: 'testString',
+        nullable: 'testString',
+        signed: 'testString',
+        native_type: 'testString',
+      };
+
+      // ContractSchemaProperty
+      const contractSchemaPropertyModel = {
+        name: 'testString',
+        type: contractSchemaPropertyTypeModel,
+      };
+
+      // ContractSchema
+      const contractSchemaModel = {
+        name: 'testString',
+        description: 'testString',
+        physical_type: 'testString',
+        properties: [contractSchemaPropertyModel],
+      };
+
+      // ContractTerms
+      const contractTermsModel = {
+        asset: assetReferenceModel,
+        id: 'testString',
+        documents: [contractTermsDocumentModel],
+        error_msg: 'testString',
+        overview: overviewModel,
+        description: descriptionModel,
+        organization: [contractTemplateOrganizationModel],
+        roles: [rolesModel],
+        price: pricingModel,
+        sla: [contractTemplateSlaModel],
+        support_and_communication: [contractTemplateSupportAndCommunicationModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        contract_test: contractTestModel,
+        schema: [contractSchemaModel],
+      };
+
+      function __createContractTemplateTest() {
+        // Construct the params object for operation createContractTemplate
+        const container = containerReferenceModel;
+        const id = 'testString';
+        const name = 'Sample Data Contract Template';
+        const error = errorMessageModel;
+        const contractTerms = contractTermsModel;
+        const containerId = 'testString';
+        const contractTemplateName = 'testString';
+        const createContractTemplateParams = {
+          container,
+          id,
+          name,
+          error,
+          contractTerms,
+          containerId,
+          contractTemplateName,
+        };
+
+        const createContractTemplateResult = dphService.createContractTemplate(
+          createContractTemplateParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createContractTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.container).toEqual(container);
+        expect(mockRequestOptions.body.id).toEqual(id);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.error).toEqual(error);
+        expect(mockRequestOptions.body.contract_terms).toEqual(contractTerms);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.qs['contract_template.name']).toEqual(contractTemplateName);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createContractTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createContractTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createContractTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const container = containerReferenceModel;
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createContractTemplateParams = {
+          container,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createContractTemplate(createContractTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.createContractTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.createContractTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getContractTemplate', () => {
+    describe('positive tests', () => {
+      function __getContractTemplateTest() {
+        // Construct the params object for operation getContractTemplate
+        const contractTemplateId = 'testString';
+        const containerId = 'testString';
+        const getContractTemplateParams = {
+          contractTemplateId,
+          containerId,
+        };
+
+        const getContractTemplateResult = dphService.getContractTemplate(getContractTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getContractTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/{contract_template_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.contract_template_id).toEqual(contractTemplateId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getContractTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getContractTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getContractTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const contractTemplateId = 'testString';
+        const containerId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getContractTemplateParams = {
+          contractTemplateId,
+          containerId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getContractTemplate(getContractTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getContractTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getContractTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteDataProductContractTemplate', () => {
+    describe('positive tests', () => {
+      function __deleteDataProductContractTemplateTest() {
+        // Construct the params object for operation deleteDataProductContractTemplate
+        const contractTemplateId = 'testString';
+        const containerId = 'testString';
+        const deleteDataProductContractTemplateParams = {
+          contractTemplateId,
+          containerId,
+        };
+
+        const deleteDataProductContractTemplateResult =
+          dphService.deleteDataProductContractTemplate(deleteDataProductContractTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteDataProductContractTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/{contract_template_id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.contract_template_id).toEqual(contractTemplateId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteDataProductContractTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __deleteDataProductContractTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __deleteDataProductContractTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const contractTemplateId = 'testString';
+        const containerId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteDataProductContractTemplateParams = {
+          contractTemplateId,
+          containerId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.deleteDataProductContractTemplate(deleteDataProductContractTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.deleteDataProductContractTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.deleteDataProductContractTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateDataProductContractTemplate', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // JsonPatchOperation
+      const jsonPatchOperationModel = {
+        op: 'add',
+        path: 'testString',
+        from: 'testString',
+        value: 'testString',
+      };
+
+      function __updateDataProductContractTemplateTest() {
+        // Construct the params object for operation updateDataProductContractTemplate
+        const contractTemplateId = 'testString';
+        const containerId = 'testString';
+        const jsonPatchInstructions = [jsonPatchOperationModel];
+        const updateDataProductContractTemplateParams = {
+          contractTemplateId,
+          containerId,
+          jsonPatchInstructions,
+        };
+
+        const updateDataProductContractTemplateResult =
+          dphService.updateDataProductContractTemplate(updateDataProductContractTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateDataProductContractTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/{contract_template_id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body).toEqual(jsonPatchInstructions);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.contract_template_id).toEqual(contractTemplateId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateDataProductContractTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __updateDataProductContractTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __updateDataProductContractTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const contractTemplateId = 'testString';
+        const containerId = 'testString';
+        const jsonPatchInstructions = [jsonPatchOperationModel];
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateDataProductContractTemplateParams = {
+          contractTemplateId,
+          containerId,
+          jsonPatchInstructions,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.updateDataProductContractTemplate(updateDataProductContractTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.updateDataProductContractTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.updateDataProductContractTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listDataProductDomains', () => {
+    describe('positive tests', () => {
+      function __listDataProductDomainsTest() {
+        // Construct the params object for operation listDataProductDomains
+        const containerId = 'testString';
+        const listDataProductDomainsParams = {
+          containerId,
+        };
+
+        const listDataProductDomainsResult = dphService.listDataProductDomains(
+          listDataProductDomainsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(listDataProductDomainsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listDataProductDomainsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __listDataProductDomainsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __listDataProductDomainsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listDataProductDomainsParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.listDataProductDomains(listDataProductDomainsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        dphService.listDataProductDomains({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('createDataProductDomain', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ContainerReference
+      const containerReferenceModel = {
+        id: 'ed580171-a6e4-4b93-973f-ae2f2f62991b',
+        type: 'catalog',
+      };
+
+      // ErrorExtraResource
+      const errorExtraResourceModel = {
+        id: 'testString',
+        timestamp: '2019-01-01T12:00:00.000Z',
+        environment_name: 'testString',
+        http_status: 0,
+        source_cluster: 0,
+        source_component: 0,
+        transaction_id: 0,
+      };
+
+      // ErrorModelResource
+      const errorModelResourceModel = {
+        code: 'request_body_error',
+        message: 'testString',
+        extra: errorExtraResourceModel,
+        more_info: 'testString',
+      };
+
+      // MemberRolesSchema
+      const memberRolesSchemaModel = {
+        user_iam_id: 'testString',
+        roles: ['testString'],
+      };
+
+      // PropertiesSchema
+      const propertiesSchemaModel = {
+        value: 'testString',
+      };
+
+      // InitializeSubDomain
+      const initializeSubDomainModel = {
+        name: 'Sub domain 1',
+        id: 'testString',
+        description: 'New sub domain 1',
+      };
+
+      function __createDataProductDomainTest() {
+        // Construct the params object for operation createDataProductDomain
+        const container = containerReferenceModel;
+        const trace = 'testString';
+        const errors = [errorModelResourceModel];
+        const name = 'Test domain';
+        const description = 'The sample description for new domain';
+        const id = 'testString';
+        const memberRoles = memberRolesSchemaModel;
+        const properties = propertiesSchemaModel;
+        const subDomains = [initializeSubDomainModel];
+        const containerId = 'testString';
+        const createDataProductDomainParams = {
+          container,
+          trace,
+          errors,
+          name,
+          description,
+          id,
+          memberRoles,
+          properties,
+          subDomains,
+          containerId,
+        };
+
+        const createDataProductDomainResult = dphService.createDataProductDomain(
+          createDataProductDomainParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createDataProductDomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.container).toEqual(container);
+        expect(mockRequestOptions.body.trace).toEqual(trace);
+        expect(mockRequestOptions.body.errors).toEqual(errors);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.id).toEqual(id);
+        expect(mockRequestOptions.body.member_roles).toEqual(memberRoles);
+        expect(mockRequestOptions.body.properties).toEqual(properties);
+        expect(mockRequestOptions.body.sub_domains).toEqual(subDomains);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createDataProductDomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createDataProductDomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createDataProductDomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const container = containerReferenceModel;
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createDataProductDomainParams = {
+          container,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createDataProductDomain(createDataProductDomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.createDataProductDomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.createDataProductDomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createDataProductSubdomain', () => {
+    describe('positive tests', () => {
+      function __createDataProductSubdomainTest() {
+        // Construct the params object for operation createDataProductSubdomain
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const name = 'Sub domain 1';
+        const id = 'testString';
+        const description = 'New sub domain 1';
+        const createDataProductSubdomainParams = {
+          domainId,
+          containerId,
+          name,
+          id,
+          description,
+        };
+
+        const createDataProductSubdomainResult = dphService.createDataProductSubdomain(
+          createDataProductSubdomainParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createDataProductSubdomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}/subdomains',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.id).toEqual(id);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.domain_id).toEqual(domainId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createDataProductSubdomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createDataProductSubdomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createDataProductSubdomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createDataProductSubdomainParams = {
+          domainId,
+          containerId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createDataProductSubdomain(createDataProductSubdomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.createDataProductSubdomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.createDataProductSubdomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getDomain', () => {
+    describe('positive tests', () => {
+      function __getDomainTest() {
+        // Construct the params object for operation getDomain
+        const domainId = 'testString';
+        const getDomainParams = {
+          domainId,
+        };
+
+        const getDomainResult = dphService.getDomain(getDomainParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getDomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.domain_id).toEqual(domainId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getDomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getDomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const domainId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDomainParams = {
+          domainId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getDomain(getDomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getDomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getDomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteDomain', () => {
+    describe('positive tests', () => {
+      function __deleteDomainTest() {
+        // Construct the params object for operation deleteDomain
+        const domainId = 'testString';
+        const deleteDomainParams = {
+          domainId,
+        };
+
+        const deleteDomainResult = dphService.deleteDomain(deleteDomainParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteDomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.domain_id).toEqual(domainId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteDomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __deleteDomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __deleteDomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const domainId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteDomainParams = {
+          domainId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.deleteDomain(deleteDomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.deleteDomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.deleteDomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateDataProductDomain', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // JsonPatchOperation
+      const jsonPatchOperationModel = {
+        op: 'add',
+        path: 'testString',
+        from: 'testString',
+        value: 'testString',
+      };
+
+      function __updateDataProductDomainTest() {
+        // Construct the params object for operation updateDataProductDomain
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const jsonPatchInstructions = [jsonPatchOperationModel];
+        const updateDataProductDomainParams = {
+          domainId,
+          containerId,
+          jsonPatchInstructions,
+        };
+
+        const updateDataProductDomainResult = dphService.updateDataProductDomain(
+          updateDataProductDomainParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateDataProductDomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body).toEqual(jsonPatchInstructions);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.domain_id).toEqual(domainId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateDataProductDomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __updateDataProductDomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __updateDataProductDomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const jsonPatchInstructions = [jsonPatchOperationModel];
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateDataProductDomainParams = {
+          domainId,
+          containerId,
+          jsonPatchInstructions,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.updateDataProductDomain(updateDataProductDomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.updateDataProductDomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.updateDataProductDomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getDataProductByDomain', () => {
+    describe('positive tests', () => {
+      function __getDataProductByDomainTest() {
+        // Construct the params object for operation getDataProductByDomain
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const getDataProductByDomainParams = {
+          domainId,
+          containerId,
+        };
+
+        const getDataProductByDomainResult = dphService.getDataProductByDomain(
+          getDataProductByDomainParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getDataProductByDomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}/data_products',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.domain_id).toEqual(domainId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDataProductByDomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getDataProductByDomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getDataProductByDomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDataProductByDomainParams = {
+          domainId,
+          containerId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getDataProductByDomain(getDataProductByDomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getDataProductByDomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getDataProductByDomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createS3Bucket', () => {
+    describe('positive tests', () => {
+      function __createS3BucketTest() {
+        // Construct the params object for operation createS3Bucket
+        const isShared = true;
+        const createS3BucketParams = {
+          isShared,
+        };
+
+        const createS3BucketResult = dphService.createS3Bucket(createS3BucketParams);
+
+        // all methods should return a Promise
+        expectToBePromise(createS3BucketResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/bucket', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.is_shared).toEqual(isShared);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createS3BucketTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createS3BucketTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createS3BucketTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const isShared = true;
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createS3BucketParams = {
+          isShared,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createS3Bucket(createS3BucketParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.createS3Bucket({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.createS3Bucket();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getS3BucketValidation', () => {
+    describe('positive tests', () => {
+      function __getS3BucketValidationTest() {
+        // Construct the params object for operation getS3BucketValidation
+        const bucketName = 'testString';
+        const getS3BucketValidationParams = {
+          bucketName,
+        };
+
+        const getS3BucketValidationResult = dphService.getS3BucketValidation(
+          getS3BucketValidationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getS3BucketValidationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/bucket/validate/{bucket_name}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.bucket_name).toEqual(bucketName);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getS3BucketValidationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getS3BucketValidationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getS3BucketValidationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const bucketName = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getS3BucketValidationParams = {
+          bucketName,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getS3BucketValidation(getS3BucketValidationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getS3BucketValidation({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getS3BucketValidation();
         } catch (e) {
           err = e;
         }
