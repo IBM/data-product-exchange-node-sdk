@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.2.0...v0.3.0) (2025-07-28)
+
+
+### Features
+
+* drop dpx 0.2.0 support \n\n BREAKING CHANGE: DPH Service updated ([#10](https://github.com/IBM/data-product-exchange-node-sdk/issues/10)) ([babedf6](https://github.com/IBM/data-product-exchange-node-sdk/commit/babedf636545927b2b5651ffa3c852bb8c356f22))
+
 # [0.2.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.1.0...v0.2.0) (2024-12-09)
 
 
