@@ -733,6 +733,8 @@ class DphV1 extends BaseService {
    * version creation or retiring.
    * @param {AssetListAccessControl} [params.accessControl] - Access control object.
    * @param {string} [params.lastUpdatedAt] - Timestamp of last asset update.
+   * @param {ContainerIdentity} [params.subContainer] - The identity schema for a IBM knowledge catalog container
+   * (catalog/project/space).
    * @param {boolean} [params.isRestricted] - Indicates whether the data product is restricted or not. A restricted data
    * product indicates that orders of the data product requires explicit approval before data is delivered.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -762,6 +764,7 @@ class DphV1 extends BaseService {
       'comments',
       'accessControl',
       'lastUpdatedAt',
+      'subContainer',
       'isRestricted',
       'headers',
     ];
@@ -788,6 +791,7 @@ class DphV1 extends BaseService {
       'comments': _params.comments,
       'access_control': _params.accessControl,
       'last_updated_at': _params.lastUpdatedAt,
+      'sub_container': _params.subContainer,
       'is_restricted': _params.isRestricted,
     };
 
@@ -1266,15 +1270,18 @@ class DphV1 extends BaseService {
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.draftId - Data product draft id.
    * @param {string} params.contractTermsId - Contract terms id.
-   * @param {string} [params.accept] - The type of the response: application/odcs+yaml or application/json.
+   * @param {string} [params.accept] - The type of the response: application/json or application/odcs+yaml.
    * @param {boolean} [params.includeContractDocuments] - Set to false to exclude external contract documents (e.g.,
    * Terms and Conditions URLs) from the response. By default, these are included.
+   * @param {boolean} [params.autopopulateServerInformation] - Set to true to autopopulate server information from
+   * connection details. Default is false.
+   * @param {string} [params.serverAssetId] - Asset ID of the server used for autopopulating connection details.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DphV1.Response<NodeJS.ReadableStream>>}
+   * @returns {Promise<DphV1.Response<DphV1.ContractTerms>>}
    */
   public getDataProductDraftContractTerms(
     params: DphV1.GetDataProductDraftContractTermsParams
-  ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
+  ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId'];
     const _validParams = [
@@ -1283,6 +1290,8 @@ class DphV1 extends BaseService {
       'contractTermsId',
       'accept',
       'includeContractDocuments',
+      'autopopulateServerInformation',
+      'serverAssetId',
       'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
@@ -1292,6 +1301,8 @@ class DphV1 extends BaseService {
 
     const query = {
       'include_contract_documents': _params.includeContractDocuments,
+      'autopopulate_server_information': _params.autopopulateServerInformation,
+      'server_asset_id': _params.serverAssetId,
     };
 
     const path = {
@@ -1312,7 +1323,6 @@ class DphV1 extends BaseService {
         method: 'GET',
         qs: query,
         path,
-        responseType: 'stream',
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -1353,6 +1363,7 @@ class DphV1 extends BaseService {
    * @param {ContractTemplateCustomProperty[]} [params.customProperties] - Custom properties that are not part of the
    * standard contract.
    * @param {ContractTest} [params.contractTest] - Contains the contract test status and related metadata.
+   * @param {ContractServer[]} [params.servers] - List of server definitions.
    * @param {ContractSchema[]} [params.schema] - Schema details of the data asset.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.ContractTerms>>}
@@ -1379,6 +1390,7 @@ class DphV1 extends BaseService {
       'supportAndCommunication',
       'customProperties',
       'contractTest',
+      'servers',
       'schema',
       'headers',
     ];
@@ -1401,6 +1413,7 @@ class DphV1 extends BaseService {
       'support_and_communication': _params.supportAndCommunication,
       'custom_properties': _params.customProperties,
       'contract_test': _params.contractTest,
+      'servers': _params.servers,
       'schema': _params.schema,
     };
 
@@ -1508,6 +1521,86 @@ class DphV1 extends BaseService {
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieve a data product contract terms identified by id in specified format.
+   *
+   * Retrieve a data product contract terms identified by id in specified format.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
+   * @param {string} params.draftId - Data product draft id.
+   * @param {string} params.contractTermsId - Contract terms id.
+   * @param {string} params.format - The format for returning contract terms. For example: odcs.
+   * @param {string} params.formatVersion - The version of the format for returning contract terms. For example: 3.
+   * @param {string} [params.accept] - The type of the response: application/odcs+yaml or application/json.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<NodeJS.ReadableStream>>}
+   */
+  public getContractTermsInSpecifiedFormat(
+    params: DphV1.GetContractTermsInSpecifiedFormatParams
+  ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
+    const _params = { ...params };
+    const _requiredParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'format',
+      'formatVersion',
+    ];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'format',
+      'formatVersion',
+      'accept',
+      'headers',
+    ];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'format': _params.format,
+      'format_version': _params.formatVersion,
+    };
+
+    const path = {
+      'data_product_id': _params.dataProductId,
+      'draft_id': _params.draftId,
+      'contract_terms_id': _params.contractTermsId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getContractTermsInSpecifiedFormat'
+    );
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/format',
+        method: 'GET',
+        qs: query,
+        path,
+        responseType: 'stream',
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': _params.accept,
           },
           _params.headers
         ),
@@ -1751,6 +1844,78 @@ class DphV1 extends BaseService {
   }
 
   /**
+   * Retrieve a published data product contract terms identified by id.
+   *
+   * Retrieve a published data product contract terms identified by id.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
+   * @param {string} params.releaseId - Data product release id.
+   * @param {string} params.contractTermsId - Contract terms id.
+   * @param {string} [params.accept] - The type of the response: application/odcs+yaml or application/json.
+   * @param {boolean} [params.includeContractDocuments] - Set to false to exclude external contract documents (e.g.,
+   * Terms and Conditions URLs) from the response. By default, these are included.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<NodeJS.ReadableStream>>}
+   */
+  public getPublishedDataProductDraftContractTerms(
+    params: DphV1.GetPublishedDataProductDraftContractTermsParams
+  ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
+    const _params = { ...params };
+    const _requiredParams = ['dataProductId', 'releaseId', 'contractTermsId'];
+    const _validParams = [
+      'dataProductId',
+      'releaseId',
+      'contractTermsId',
+      'accept',
+      'includeContractDocuments',
+      'headers',
+    ];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'include_contract_documents': _params.includeContractDocuments,
+    };
+
+    const path = {
+      'data_product_id': _params.dataProductId,
+      'release_id': _params.releaseId,
+      'contract_terms_id': _params.contractTermsId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getPublishedDataProductDraftContractTerms'
+    );
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/contract_terms/{contract_terms_id}',
+        method: 'GET',
+        qs: query,
+        path,
+        responseType: 'stream',
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': _params.accept,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Retrieve a list of data product releases.
    *
    * Retrieve a list of data product releases. Use '-' for the `data_product_id` to skip specifying the data product ID
@@ -1833,6 +1998,8 @@ class DphV1 extends BaseService {
    * @param {string} params.releaseId - Data product release id.
    * @param {boolean} [params.revokeAccess] - Revoke's Access from all the Subscriptions of the Data Product. No user's
    * can able to see the subscribed assets anymore.
+   * @param {string} [params.startAt] - The date and time when the revoke access operation should start (ISO 8601
+   * format, e.g., 2025-09-24T06:55:29Z). If not provided, the operation starts immediately.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductRelease>>}
    */
@@ -1841,7 +2008,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductRelease>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId'];
-    const _validParams = ['dataProductId', 'releaseId', 'revokeAccess', 'headers'];
+    const _validParams = ['dataProductId', 'releaseId', 'revokeAccess', 'startAt', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1849,6 +2016,7 @@ class DphV1 extends BaseService {
 
     const query = {
       'revoke_access': _params.revokeAccess,
+      'start_at': _params.startAt,
     };
 
     const path = {
@@ -1871,7 +2039,65 @@ class DphV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Revoke access from Data Product subscriptions.
+   *
+   * Revoke's access from Subscriptions of the data product id passed in the path parameter. Optionally specify a future
+   * date-time when the revoke access operation should start using the start_at field in ISO 8601 format (e.g.,
+   * 2025-09-24T06:55:29Z). If start_at is not provided, the revoke access operation starts immediately.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
+   * @param {string} params.releaseId - The unique identifier of the data product release.
+   * @param {NodeJS.ReadableStream | Buffer} [params.body] - Request parameters to handle revoke access from
+   * subscriptions. The start_at field can be used to schedule the revoke access operation for a future date-time.
+   * @param {string} [params.contentType] - The type of the input.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.RevokeAccessResponse>>}
+   */
+  public createRevokeAccessProcess(
+    params: DphV1.CreateRevokeAccessProcessParams
+  ): Promise<DphV1.Response<DphV1.RevokeAccessResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['dataProductId', 'releaseId'];
+    const _validParams = ['dataProductId', 'releaseId', 'body', 'contentType', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const { body } = _params;
+    const path = {
+      'data_product_id': _params.dataProductId,
+      'release_id': _params.releaseId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createRevokeAccessProcess');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/revoke_access',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': _params.contentType,
           },
           _params.headers
         ),
@@ -1894,6 +2120,8 @@ class DphV1 extends BaseService {
    * catalog is looked up by using the uid of the default data product catalog.
    * @param {string} [params.contractTemplateName] - Name of the data product contract template. If not supplied, the
    * data product templates within the catalog will returned.
+   * @param {string} [params.domainIds] - Comma-separated domain IDs to filter data product contract templates. If not
+   * supplied, the data product templates within the catalog will returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductContractTemplateCollection>>}
    */
@@ -1902,7 +2130,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductContractTemplateCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['containerId', 'contractTemplateName', 'headers'];
+    const _validParams = ['containerId', 'contractTemplateName', 'domainIds', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1911,6 +2139,7 @@ class DphV1 extends BaseService {
     const query = {
       'container.id': _params.containerId,
       'contract_template.name': _params.contractTemplateName,
+      'domain.ids': _params.domainIds,
     };
 
     const sdkHeaders = getSdkHeaders(
@@ -1948,6 +2177,8 @@ class DphV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {ContainerReference} params.container - Container reference.
    * @param {string} [params.id] - The identifier of the data product contract template.
+   * @param {string} [params.creatorId] - The identifier of the user who created the data product contract template.
+   * @param {string} [params.createdAt] - The timestamp when the data product contract template was created.
    * @param {string} [params.name] - The name of the contract template.
    * @param {ErrorMessage} [params.error] - Contains the code and details.
    * @param {ContractTerms} [params.contractTerms] - Defines the complete structure of a contract terms.
@@ -1955,6 +2186,8 @@ class DphV1 extends BaseService {
    * catalog is looked up by using the uid of the default data product catalog.
    * @param {string} [params.contractTemplateName] - Name of the data product contract template. If not supplied, the
    * data product templates within the catalog will returned.
+   * @param {string} [params.domainIds] - Comma-separated domain IDs to filter data product contract templates. If not
+   * supplied, the data product templates within the catalog will returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductContractTemplate>>}
    */
@@ -1966,11 +2199,14 @@ class DphV1 extends BaseService {
     const _validParams = [
       'container',
       'id',
+      'creatorId',
+      'createdAt',
       'name',
       'error',
       'contractTerms',
       'containerId',
       'contractTemplateName',
+      'domainIds',
       'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
@@ -1981,6 +2217,8 @@ class DphV1 extends BaseService {
     const body = {
       'container': _params.container,
       'id': _params.id,
+      'creator_id': _params.creatorId,
+      'created_at': _params.createdAt,
       'name': _params.name,
       'error': _params.error,
       'contract_terms': _params.contractTerms,
@@ -1989,6 +2227,7 @@ class DphV1 extends BaseService {
     const query = {
       'container.id': _params.containerId,
       'contract_template.name': _params.contractTemplateName,
+      'domain.ids': _params.domainIds,
     };
 
     const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createContractTemplate');
@@ -2198,6 +2437,7 @@ class DphV1 extends BaseService {
    * @param {Object} [params] - The parameters to send to the service.
    * @param {string} [params.containerId] - Container ID of the data product catalog. If not supplied, the data product
    * catalog is looked up by using the uid of the default data product catalog.
+   * @param {boolean} [params.includeSubdomains] - Include subdomains in the response.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductDomainCollection>>}
    */
@@ -2206,7 +2446,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDomainCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['containerId', 'headers'];
+    const _validParams = ['containerId', 'includeSubdomains', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2214,6 +2454,7 @@ class DphV1 extends BaseService {
 
     const query = {
       'container.id': _params.containerId,
+      'include_subdomains': _params.includeSubdomains,
     };
 
     const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'listDataProductDomains');
@@ -2251,11 +2492,13 @@ class DphV1 extends BaseService {
    * @param {string} [params.name] - The name of the data product domain.
    * @param {string} [params.description] - The description of the data product domain.
    * @param {string} [params.id] - The identifier of the data product domain.
+   * @param {string} [params.createdBy] - The identifier of the creator of the data product domain.
    * @param {MemberRolesSchema} [params.memberRoles] - Member roles of a corresponding asset.
    * @param {PropertiesSchema} [params.properties] - Properties of the corresponding asset.
    * @param {InitializeSubDomain[]} [params.subDomains] - List of sub domains to be added within a domain.
-   * @param {string} [params.containerId] - Container ID of the data product catalog. If not supplied, the data product
-   * catalog is looked up by using the uid of the default data product catalog.
+   * @param {ContainerIdentity} [params.subContainer] - The identity schema for a IBM knowledge catalog container
+   * (catalog/project/space).
+   * @param {boolean} [params.linkToSubcontainers] - Link domains to subcontainers.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductDomain>>}
    */
@@ -2271,10 +2514,12 @@ class DphV1 extends BaseService {
       'name',
       'description',
       'id',
+      'createdBy',
       'memberRoles',
       'properties',
       'subDomains',
-      'containerId',
+      'subContainer',
+      'linkToSubcontainers',
       'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
@@ -2289,13 +2534,15 @@ class DphV1 extends BaseService {
       'name': _params.name,
       'description': _params.description,
       'id': _params.id,
+      'created_by': _params.createdBy,
       'member_roles': _params.memberRoles,
       'properties': _params.properties,
       'sub_domains': _params.subDomains,
+      'sub_container': _params.subContainer,
     };
 
     const query = {
-      'container.id': _params.containerId,
+      'link_to_subcontainers': _params.linkToSubcontainers,
     };
 
     const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataProductDomain');
@@ -2695,6 +2942,66 @@ class DphV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+  /*************************
+   * dataProductRevokeAccessJobRuns
+   ************************/
+
+  /**
+   * Access revoke status of the subscriptions against the data product release id.
+   *
+   * Retrieves the status of revoke access requests.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.releaseId - Pass the data product release version id to retrieve job runs state for that
+   * specific DPV ID.
+   * @param {number} [params.limit] - Limit the number of tracking assets in the results. The maximum is 200.
+   * @param {string} [params.start] - Start token for pagination.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.RevokeAccessStateResponse>>}
+   */
+  public getRevokeAccessProcessState(
+    params: DphV1.GetRevokeAccessProcessStateParams
+  ): Promise<DphV1.Response<DphV1.RevokeAccessStateResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['releaseId'];
+    const _validParams = ['releaseId', 'limit', 'start', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'release_id': _params.releaseId,
+      'limit': _params.limit,
+      'start': _params.start,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getRevokeAccessProcessState'
+    );
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_product_revoke_access/job_runs',
+        method: 'GET',
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -2888,6 +3195,8 @@ namespace DphV1 {
     accessControl?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     lastUpdatedAt?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    subContainer?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -3014,21 +3323,25 @@ namespace DphV1 {
     draftId: string;
     /** Contract terms id. */
     contractTermsId: string;
-    /** The type of the response: application/odcs+yaml or application/json. */
+    /** The type of the response: application/json or application/odcs+yaml. */
     accept?: GetDataProductDraftContractTermsConstants.Accept | string;
     /** Set to false to exclude external contract documents (e.g., Terms and Conditions URLs) from the response. By
      *  default, these are included.
      */
     includeContractDocuments?: boolean;
+    /** Set to true to autopopulate server information from connection details. Default is false. */
+    autopopulateServerInformation?: boolean;
+    /** Asset ID of the server used for autopopulating connection details. */
+    serverAssetId?: string;
     headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `getDataProductDraftContractTerms` operation. */
   export namespace GetDataProductDraftContractTermsConstants {
-    /** The type of the response: application/odcs+yaml or application/json. */
+    /** The type of the response: application/json or application/odcs+yaml. */
     export enum Accept {
-      APPLICATION_ODCS_YAML = 'application/odcs+yaml',
       APPLICATION_JSON = 'application/json',
+      APPLICATION_ODCS_YAML = 'application/odcs+yaml',
     }
   }
 
@@ -3066,6 +3379,8 @@ namespace DphV1 {
     customProperties?: ContractTemplateCustomProperty[];
     /** Contains the contract test status and related metadata. */
     contractTest?: ContractTest;
+    /** List of server definitions. */
+    servers?: ContractServer[];
     /** Schema details of the data asset. */
     schema?: ContractSchema[];
     headers?: OutgoingHttpHeaders;
@@ -3082,6 +3397,32 @@ namespace DphV1 {
     /** A set of patch operations as defined in RFC 6902. See http://jsonpatch.com/ for more information. */
     jsonPatchInstructions: JsonPatchOperation[];
     headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getContractTermsInSpecifiedFormat` operation. */
+  export interface GetContractTermsInSpecifiedFormatParams {
+    /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
+    dataProductId: string;
+    /** Data product draft id. */
+    draftId: string;
+    /** Contract terms id. */
+    contractTermsId: string;
+    /** The format for returning contract terms. For example: odcs. */
+    format: string;
+    /** The version of the format for returning contract terms. For example: 3. */
+    formatVersion: string;
+    /** The type of the response: application/odcs+yaml or application/json. */
+    accept?: GetContractTermsInSpecifiedFormatConstants.Accept | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `getContractTermsInSpecifiedFormat` operation. */
+  export namespace GetContractTermsInSpecifiedFormatConstants {
+    /** The type of the response: application/odcs+yaml or application/json. */
+    export enum Accept {
+      APPLICATION_ODCS_YAML = 'application/odcs+yaml',
+      APPLICATION_JSON = 'application/json',
+    }
   }
 
   /** Parameters for the `publishDataProductDraft` operation. */
@@ -3130,6 +3471,32 @@ namespace DphV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `getPublishedDataProductDraftContractTerms` operation. */
+  export interface GetPublishedDataProductDraftContractTermsParams {
+    /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
+    dataProductId: string;
+    /** Data product release id. */
+    releaseId: string;
+    /** Contract terms id. */
+    contractTermsId: string;
+    /** The type of the response: application/odcs+yaml or application/json. */
+    accept?: GetPublishedDataProductDraftContractTermsConstants.Accept | string;
+    /** Set to false to exclude external contract documents (e.g., Terms and Conditions URLs) from the response. By
+     *  default, these are included.
+     */
+    includeContractDocuments?: boolean;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `getPublishedDataProductDraftContractTerms` operation. */
+  export namespace GetPublishedDataProductDraftContractTermsConstants {
+    /** The type of the response: application/odcs+yaml or application/json. */
+    export enum Accept {
+      APPLICATION_ODCS_YAML = 'application/odcs+yaml',
+      APPLICATION_JSON = 'application/json',
+    }
+  }
+
   /** Parameters for the `listDataProductReleases` operation. */
   export interface ListDataProductReleasesParams {
     /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
@@ -3168,6 +3535,25 @@ namespace DphV1 {
      *  assets anymore.
      */
     revokeAccess?: boolean;
+    /** The date and time when the revoke access operation should start (ISO 8601 format, e.g.,
+     *  2025-09-24T06:55:29Z). If not provided, the operation starts immediately.
+     */
+    startAt?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createRevokeAccessProcess` operation. */
+  export interface CreateRevokeAccessProcessParams {
+    /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
+    dataProductId: string;
+    /** The unique identifier of the data product release. */
+    releaseId: string;
+    /** Request parameters to handle revoke access from subscriptions. The start_at field can be used to schedule
+     *  the revoke access operation for a future date-time.
+     */
+    body?: NodeJS.ReadableStream | Buffer;
+    /** The type of the input. */
+    contentType?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3181,6 +3567,10 @@ namespace DphV1 {
      *  will returned.
      */
     contractTemplateName?: string;
+    /** Comma-separated domain IDs to filter data product contract templates. If not supplied, the data product
+     *  templates within the catalog will returned.
+     */
+    domainIds?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3190,6 +3580,10 @@ namespace DphV1 {
     container: ContainerReference;
     /** The identifier of the data product contract template. */
     id?: string;
+    /** The identifier of the user who created the data product contract template. */
+    creatorId?: string;
+    /** The timestamp when the data product contract template was created. */
+    createdAt?: string;
     /** The name of the contract template. */
     name?: string;
     /** Contains the code and details. */
@@ -3204,6 +3598,10 @@ namespace DphV1 {
      *  will returned.
      */
     contractTemplateName?: string;
+    /** Comma-separated domain IDs to filter data product contract templates. If not supplied, the data product
+     *  templates within the catalog will returned.
+     */
+    domainIds?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3242,6 +3640,8 @@ namespace DphV1 {
      *  the uid of the default data product catalog.
      */
     containerId?: string;
+    /** Include subdomains in the response. */
+    includeSubdomains?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3259,16 +3659,18 @@ namespace DphV1 {
     description?: string;
     /** The identifier of the data product domain. */
     id?: string;
+    /** The identifier of the creator of the data product domain. */
+    createdBy?: string;
     /** Member roles of a corresponding asset. */
     memberRoles?: MemberRolesSchema;
     /** Properties of the corresponding asset. */
     properties?: PropertiesSchema;
     /** List of sub domains to be added within a domain. */
     subDomains?: InitializeSubDomain[];
-    /** Container ID of the data product catalog. If not supplied, the data product catalog is looked up by using
-     *  the uid of the default data product catalog.
-     */
-    containerId?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    subContainer?: ContainerIdentity;
+    /** Link domains to subcontainers. */
+    linkToSubcontainers?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3335,9 +3737,28 @@ namespace DphV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `getRevokeAccessProcessState` operation. */
+  export interface GetRevokeAccessProcessStateParams {
+    /** Pass the data product release version id to retrieve job runs state for that specific DPV ID. */
+    releaseId: string;
+    /** Limit the number of tracking assets in the results. The maximum is 200. */
+    limit?: number;
+    /** Start token for pagination. */
+    start?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
+
+  /**
+   * Asset.
+   */
+  export interface Asset {
+    metadata?: JsonObject;
+    entity?: JsonObject;
+  }
 
   /**
    * Access control object.
@@ -3435,17 +3856,75 @@ namespace DphV1 {
   }
 
   /**
+   * Defines a data asset name and id.
+   */
+  export interface ContractAsset {
+    /** ID of the data asset. */
+    id?: string;
+    /** Name of the data asset. */
+    name?: string;
+  }
+
+  /**
+   * Defines a quality rule for validating data assets.
+   */
+  export interface ContractQualityRule {
+    /** The type of the quality rule: 'text', 'library', or 'sql'. */
+    type: string;
+    /** A descriptive explanation of the quality rule. */
+    description?: string;
+    /** The name or identifier of the library-based quality rule to be applied. */
+    rule?: string;
+    /** A text (non-parsed) block of code required for the third-party DQ engine to run. */
+    implementation?: string;
+    /** Required for custom DQ rule: name of the third-party engine being used. Common values include soda,
+     *  greatExpectations, montecarlo, etc.
+     */
+    engine?: string;
+    /** The threshold value that the quality check result must be less than. */
+    must_be_less_than?: string;
+    /** The threshold value that the quality check result must be less than or equal to. */
+    must_be_less_or_equal_to?: string;
+    /** The threshold value that the quality check result must be greater than. */
+    must_be_greater_than?: string;
+    /** The threshold value that the quality check result must be greater than or equal to. */
+    must_be_greater_or_equal_to?: string;
+    /** Inclusive range (min and max) for the quality check result. */
+    must_be_between?: string[];
+    /** Inclusive range (min and max) the quality check must not fall within. */
+    must_not_be_between?: string[];
+    /** The exact value(s) the quality check result must match. */
+    must_be?: string;
+    /** The exact value(s) the quality check result must not match. */
+    must_not_be?: string;
+    /** User-friendly name for the quality rule. */
+    name?: string;
+    /** Unit used for evaluating the quality rule (e.g., rows, records). */
+    unit?: string;
+    /** The SQL query to execute for validating quality in case of a 'sql' rule type. */
+    query?: string;
+  }
+
+  /**
    * Schema definition of the data asset.
    */
   export interface ContractSchema {
+    /** Id of the data asset whose schema information is stored. */
+    asset_id: string;
+    /** Connection Id of the data asset whose schema information is stored. */
+    connection_id: string;
     /** Name of the schema or data asset part. */
     name?: string;
     /** Description of the schema. */
     description?: string;
+    /** Connection path of the asset. */
+    connection_path?: string;
     /** MIME type or physical type. */
     physical_type?: string;
     /** List of properties. */
     properties?: ContractSchemaProperty[];
+    /** List of quality rules defined for the asset. */
+    quality?: ContractQualityRule[];
   }
 
   /**
@@ -3456,6 +3935,8 @@ namespace DphV1 {
     name: string;
     /** Detailed type definition of a schema property. */
     type?: ContractSchemaPropertyType;
+    /** List of quality rules defined for the column. */
+    quality?: ContractQualityRule[];
   }
 
   /**
@@ -3474,6 +3955,66 @@ namespace DphV1 {
     signed?: string;
     /** Native type of the field. */
     native_type?: string;
+  }
+
+  /**
+   * Schema definition of a server configuration for the asset.
+   */
+  export interface ContractServer {
+    /** Name of the server. */
+    server: string;
+    /** Defines a data asset name and id. */
+    asset?: ContractAsset;
+    /** ID of the data source associated with data asset. */
+    connection_id?: string;
+    /** Type of the server. */
+    type?: string;
+    /** Description of the server. */
+    description?: string;
+    /** Environment in which the server operates. */
+    environment?: string;
+    /** Account used by the server. */
+    account?: string;
+    /** Catalog name. */
+    catalog?: string;
+    /** Database name. */
+    database?: string;
+    /** Dataset name. */
+    dataset?: string;
+    /** Delimiter. */
+    delimiter?: string;
+    /** Server endpoint URL. */
+    endpoint_url?: string;
+    /** File format. */
+    format?: string;
+    /** Host name or IP address. */
+    host?: string;
+    /** Location URL. */
+    location?: string;
+    /** Relative or absolute path to the data. */
+    path?: string;
+    /** Port to the server. */
+    port?: string;
+    /** Project name. */
+    project?: string;
+    /** Cloud region. */
+    region?: string;
+    /** Region name. */
+    region_name?: string;
+    /** Schema name. */
+    schema?: string;
+    /** Service name. */
+    service_name?: string;
+    /** Staging directory. */
+    staging_dir?: string;
+    /** Data stream name. */
+    stream?: string;
+    /** Warehouse or cluster name. */
+    warehouse?: string;
+    /** List of roles for the server. */
+    roles?: string[];
+    /** List of custom properties for the server. */
+    custom_properties?: ContractTemplateCustomProperty[];
   }
 
   /**
@@ -3558,6 +4099,8 @@ namespace DphV1 {
     custom_properties?: ContractTemplateCustomProperty[];
     /** Contains the contract test status and related metadata. */
     contract_test?: ContractTest;
+    /** List of server definitions. */
+    servers?: ContractServer[];
     /** Schema details of the data asset. */
     schema?: ContractSchema[];
   }
@@ -3692,6 +4235,10 @@ namespace DphV1 {
     container: ContainerReference;
     /** The identifier of the data product contract template. */
     id?: string;
+    /** The identifier of the user who created the data product contract template. */
+    creator_id?: string;
+    /** The timestamp when the data product contract template was created. */
+    created_at?: string;
     /** The name of the contract template. */
     name?: string;
     /** Contains the code and details. */
@@ -3732,12 +4279,16 @@ namespace DphV1 {
     description?: string;
     /** The identifier of the data product domain. */
     id?: string;
+    /** The identifier of the creator of the data product domain. */
+    created_by?: string;
     /** Member roles of a corresponding asset. */
     member_roles?: MemberRolesSchema;
     /** Properties of the corresponding asset. */
     properties?: PropertiesSchema;
     /** List of sub domains to be added within a domain. */
     sub_domains?: InitializeSubDomain[];
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
   }
 
   /**
@@ -3792,6 +4343,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -3907,6 +4460,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -3974,6 +4529,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -4095,6 +4652,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -4204,6 +4763,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -4315,6 +4876,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
+    sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
      *  the data product requires explicit approval before data is delivered.
      */
@@ -4422,8 +4985,19 @@ namespace DphV1 {
     engine_port?: string;
     /** The host of the engine defined by the data product producer. */
     engine_host?: string;
+    /** The type of the engine (eg: Presto/Spark). */
+    engine_type: EngineDetailsModel.Constants.EngineType | string;
     /** The list of associated catalogs. */
     associated_catalogs?: string[];
+  }
+  export namespace EngineDetailsModel {
+    export namespace Constants {
+      /** The type of the engine (eg: Presto/Spark). */
+      export enum EngineType {
+        SPARK = 'spark',
+        PRESTO = 'presto',
+      }
+    }
   }
 
   /**
@@ -4659,6 +5233,8 @@ namespace DphV1 {
   export interface ProducerInputModel {
     /** Engine details as defined by the data product producer. */
     engine_details?: EngineDetailsModel;
+    /** List of engines defined by the data product producer. */
+    engines?: EngineDetailsModel[];
   }
 
   /**
@@ -4688,11 +5264,47 @@ namespace DphV1 {
   }
 
   /**
+   * This class holds the response message from the revoke access operation.
+   */
+  export interface RevokeAccessResponse {
+    /** Response message of revoke access. */
+    message?: string;
+  }
+
+  /**
+   * Revoke access states with pagination support.
+   */
+  export interface RevokeAccessStateResponse {
+    /** Holds revoke access state. */
+    results?: Asset[];
+    /** Total number of rows available. */
+    total_count?: number;
+    /** Pagination information for the next page of results. */
+    next?: SearchAssetPaginationInfo;
+  }
+
+  /**
    * Represents a role associated with the contract.
    */
   export interface Roles {
     /** The role associated with the contract. */
     role?: string;
+  }
+
+  /**
+   * Pagination information for the next page of results.
+   */
+  export interface SearchAssetPaginationInfo {
+    /** Search query for filtering results. */
+    query?: string;
+    /** Number of items per page. */
+    limit?: number;
+    /** Bookmark for pagination. */
+    bookmark?: string;
+    /** What to include in the results. */
+    include?: string;
+    /** Number of items to skip. */
+    skip?: number;
   }
 
   /**

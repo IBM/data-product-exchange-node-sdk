@@ -80,8 +80,6 @@ describe('DphV1_integration', () => {
   let updateDraftOfDataProductByDataProductIdLink;
   let updateReleaseOfDataProductByDataProductIdLink;
   let uploadContractTermsDocByDataProductIdLink;
-  let createContractTemplateId;
-  let createDataProductDomainId;
 
   test('Initialize service', async () => {
     dphService = DphV1.newInstance();
@@ -99,7 +97,7 @@ describe('DphV1_integration', () => {
 
     // ContainerReference
     const containerReferenceModel = {
-      id: 'a7ca67e8-1fac-4061-ae9b-7604e15c4ab3',
+      id: 'ef065526-1aba-4a8d-b998-e47cd34f98fd',
       type: 'catalog',
     };
 
@@ -123,8 +121,8 @@ describe('DphV1_integration', () => {
     createDataProductByCatalogIdLink = res.result.container.id;
     getStatusByCatalogIdLink = res.result.container.id;
   });
-
-  test('getInitializeStatus()', async () => {
+  
+    test('getInitializeStatus()', async () => {
     const params = {
       containerId: getStatusByCatalogIdLink,
     };
@@ -199,21 +197,21 @@ describe('DphV1_integration', () => {
 
     // AssetPartReference
     const assetPartReferenceModel = {
-      id: '16a8f683-f947-48d9-a92c-b81758b1a5f5',
+      id: '5fc42c45-303b-4da1-9355-46c32e84c7c1',
       container: containerReferenceModel,
       type: 'data_asset',
     };
 
     // DeliveryMethod
     const deliveryMethodModel = {
-      id: '8848fd43-7384-4435-aff3-6a9f113768c4',
+      id: '1fdcb2d8-fe28-4467-b9cd-9655af8a8f0c',
       container: containerReferenceModel,
     };
 
     // Domain
     const domainModel = {
-      id: 'ccacbfb4-7180-4632-b1ed-6709c7001f1e',
-      name: 'Customer Management',
+      id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
+      name: 'Accounting and Finance',
       container: containerReferenceModel,
     };
 
@@ -265,7 +263,7 @@ describe('DphV1_integration', () => {
     createAContractTermsDocByDraftIdLink = res.result.drafts[0].id;
     getDraftByDraftIdLink = res.result.drafts[0].id;
   });
-
+  
   test('getDataProduct()', async () => {
     const params = {
       dataProductId: getDataProductByDataProductIdLink,
@@ -276,7 +274,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('listDataProducts()', async () => {
     const params = {
       limit: 200,
@@ -310,7 +308,7 @@ describe('DphV1_integration', () => {
     expect(allItems).toHaveLength(allResults.length);
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
-
+  
   test('getDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -322,7 +320,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('updateDataProductDraft()', async () => {
     // Request models needed by this operation.
 
@@ -344,7 +342,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('createDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: uploadContractTermsDocByDataProductIdLink,
@@ -379,7 +377,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('updateDraftContractTermsDocument()', async () => {
     // Request models needed by this operation.
 
@@ -402,7 +400,7 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-  });
+  });  
 
   test('getDataProductDraftContractTerms()', async () => {
     const params = {
@@ -468,7 +466,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-
+  
   test('getReleaseContractTermsDocument()', async () => {
     const params = {
       dataProductId: getReleaseContractDocumentByDataProductIdLink,
@@ -481,10 +479,23 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-  });
-
+  }); 
+  
   test('replaceDataProductDraftContractTerms()', async () => {
     // Request models needed by this operation.
+
+    // ContainerReference
+    const containerReferenceModel = {
+      id: createDataProductByCatalogIdLink,
+      type: 'catalog',
+    };
+
+    // AssetReference
+    const assetReferenceModel = {
+      id: '2b0bf220-079c-11ee-be56-0242ac120002',
+      name: 'testString',
+      container: containerReferenceModel,
+    };
 
     // ContractTermsDocumentAttachment
     const contractTermsDocumentAttachmentModel = {
@@ -502,8 +513,9 @@ describe('DphV1_integration', () => {
 
     // Domain
     const domainModel = {
-      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
-      name: 'domain_name',
+      id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
+      name: 'Accounting and Finance',
+      container: containerReferenceModel,
     };
 
     // Overview
@@ -544,9 +556,9 @@ describe('DphV1_integration', () => {
 
     // Pricing
     const pricingModel = {
-      amount: '100.0',
-      currency: 'USD',
-      unit: 'megabyte',
+      amount: 'Amount',
+      currency: 'Currency',
+      unit: 'Unit',
     };
 
     // ContractTemplateSLAProperty
@@ -573,10 +585,104 @@ describe('DphV1_integration', () => {
       value: 'The value of the key.',
     };
 
+    // ContractTest
+    const contractTestModel = {
+      status: 'pass',
+      last_tested_time: 'testString',
+      message: 'testString',
+    };
+
+    // ContractAsset
+    const contractAssetModel = {
+      id: '684d6aa0-9f93-4564-8a20-e354bc469857',
+      name: 'PAYMENT_TRANSACTIONS1',
+    };
+
+    // ContractServer
+    const contractServerModel = {
+      server: 'snowflake-server-01',
+      asset: contractAssetModel,
+      connection_id: '8d7701be-709a-49c0-ae4e-a7daeaae6def',
+      type: 'snowflake',
+      description: 'Snowflake analytics server',
+      environment: 'dev',
+      account: 'acc-456',
+      catalog: 'analytics_cat',
+      database: 'analytics_db',
+      dataset: 'customer_data',
+      delimiter: ',',
+      endpoint_url: 'https://xy12345.snowflakecomputing.com',
+      format: 'parquet',
+      host: 'xy12345.snowflakecomputing.com',
+      location: 'Mumbai',
+      path: '/analytics/data',
+      port: '443',
+      project: 'projectY',
+      region: 'ap-south-1',
+      region_name: 'Asia South 1',
+      schema: 'PAYMENT_TRANSACTIONS1',
+      service_name: 'snowflake',
+      staging_dir: '/snowflake/staging',
+      stream: 'stream_analytics',
+      warehouse: 'wh_xlarge',
+      roles: ['testString'],
+      custom_properties: [contractTemplateCustomPropertyModel],
+    };
+
+    // ContractSchemaPropertyType
+    const contractSchemaPropertyTypeModel = {
+      type: 'varchar',
+      length: '1024',
+      scale: '0',
+      nullable: 'true',
+      signed: 'false',
+      native_type: 'testString',
+    };
+
+    // ContractQualityRule
+    const contractQualityRuleModel = {
+      type: 'sql',
+      description: 'testString',
+      rule: 'testString',
+      implementation: 'testString',
+      engine: 'testString',
+      must_be_less_than: 'testString',
+      must_be_less_or_equal_to: 'testString',
+      must_be_greater_than: 'testString',
+      must_be_greater_or_equal_to: 'testString',
+      must_be_between: ['testString'],
+      must_not_be_between: ['testString'],
+      must_be: 'testString',
+      must_not_be: 'testString',
+      name: 'testString',
+      unit: 'testString',
+      query: 'testString',
+    };
+
+    // ContractSchemaProperty
+    const contractSchemaPropertyModel = {
+      name: 'product_brand_code',
+      type: contractSchemaPropertyTypeModel,
+      quality: [contractQualityRuleModel],
+    };
+
+    // ContractSchema
+    const contractSchemaModel = {
+      asset_id: '09ca6b40-7c89-412a-8951-ad820da709d1',
+      connection_id: '6cc57d4d-2229-438f-91a0-2c455556422b',
+      name: '000000_0-2025-06-20-20-28-52.csv',
+      description: 'testString',
+      connection_path: '/dpx-test-bucket/000000_0-2025-06-20-20-28-52.csv',
+      physical_type: 'text/csv',
+      properties: [contractSchemaPropertyModel],
+      quality: [contractQualityRuleModel],
+    };
+
     const params = {
       dataProductId: getContractDocumentByDataProductIdLink,
       draftId: createAContractTermsDocByDraftIdLink,
       contractTermsId: createAContractTermsDocByContractTermsIdLink,
+      asset: assetReferenceModel,
       documents: [contractTermsDocumentModel],
       errorMsg: 'testString',
       overview: overviewModel,
@@ -587,6 +693,9 @@ describe('DphV1_integration', () => {
       sla: [contractTemplateSlaModel],
       supportAndCommunication: [contractTemplateSupportAndCommunicationModel],
       customProperties: [contractTemplateCustomPropertyModel],
+      contractTest: contractTestModel,
+      servers: [contractServerModel],
+      schema: [contractSchemaModel],
     };
 
     const res = await dphService.replaceDataProductDraftContractTerms(params);
@@ -596,18 +705,15 @@ describe('DphV1_integration', () => {
   });
 
   test('updateDataProductDraftContractTerms()', async () => {
-    // Request models needed by this operation.
-
+    
     // Domain
     const domainModel = {
-      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
-      name: 'domain_name',
+      id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
+      name: 'Accounting and Finance',
     };
 
     // Overview
     const overviewModel = {
-      api_version: 'v3.0.1',
-      kind: 'DataContract',
       name: 'Sample Data Contract',
       version: 'v0.0',
       domain: domainModel,
@@ -629,6 +735,37 @@ describe('DphV1_integration', () => {
     };
 
     const res = await dphService.updateDataProductDraftContractTerms(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getContractTermsInSpecifiedFormat()', async () => {
+    const params = {
+      dataProductId: getContractDocumentByDataProductIdLink,
+      draftId: createAContractTermsDocByDraftIdLink,
+      contractTermsId: createAContractTermsDocByContractTermsIdLink,
+      format: 'odcs',
+      formatVersion: '3',
+      accept: 'application/odcs+yaml',
+    };
+
+    const res = await dphService.getContractTermsInSpecifiedFormat(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getPublishedDataProductDraftContractTerms()', async () => {
+    const params = {
+      dataProductId: '-',
+      releaseId: getAReleaseContractTermsByReleaseIdLink,
+      contractTermsId: getAReleaseContractTermsByContractTermsIdLink,
+      accept: 'application/odcs+yaml',
+      includeContractDocuments: true,
+    };
+
+    const res = await dphService.getPublishedDataProductDraftContractTerms(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
@@ -674,7 +811,7 @@ describe('DphV1_integration', () => {
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
 
-  test.skip('retireDataProductRelease()', async () => {
+  test('retireDataProductRelease()', async () => {
     const params = {
       dataProductId: retireAReleasesOfDataProductByDataProductIdLink,
       releaseId: retireAReleaseContractTermsByReleaseIdLink,
@@ -818,8 +955,8 @@ describe('DphV1_integration', () => {
 
     // Domain
     const domainModel = {
-      id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
-      name: 'domain_name',
+      id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
+      name: 'Accounting and Finance',
       container: containerReferenceModel,
     };
 
@@ -1073,8 +1210,8 @@ describe('DphV1_integration', () => {
 
     // Domain
     const domainModel = {
-      id: 'ccacbfb4-7180-4632-b1ed-6709c7001f1e',
-      name: 'Customer Management',
+      id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
+      name: 'Accounting and Finance',
       container: containerReferenceModel,
     };
 
@@ -1093,8 +1230,6 @@ describe('DphV1_integration', () => {
         'This is a description of My Data Product which will get deleted using NODE SDK.',
       types: ['data'],
       asset: assetPrototypeModel,
-      domain: domainModel,
-      parts_out: [dataProductPartModel],
     };
 
     const params = {
@@ -1125,6 +1260,31 @@ describe('DphV1_integration', () => {
     expect(res.result).toBeDefined();
   });
 
+  test('listDataProductDrafts() via DataProductDraftsPager', async () => {
+    const params = {
+      dataProductId: getListOfDataProductDraftsByDataProductIdLink,
+      assetContainerId: createDataProductByCatalogIdLink,
+      limit: 10,
+    };
+
+    const allResults = [];
+
+    // Test getNext().
+    let pager = new DphV1.DataProductDraftsPager(dphService, params);
+    while (pager.hasNext()) {
+      const nextPage = await pager.getNext();
+      expect(nextPage).not.toBeNull();
+      allResults.push(...nextPage);
+    }
+
+    // Test getAll().
+    pager = new DphV1.DataProductDraftsPager(dphService, params);
+    const allItems = await pager.getAll();
+    expect(allItems).not.toBeNull();
+    expect(allItems).toHaveLength(allResults.length);
+    console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
+  });
+  
   test('createDraftContractTermsDocumentForDeleteOp()', async () => {
     // Request models needed by this operation.
 
@@ -1178,23 +1338,14 @@ describe('DphV1_integration', () => {
 
     // ContainerReference
     const containerReferenceModel = {
-      id: getStatusByCatalogIdLink,
+      id: createDataProductByCatalogIdLink,
       type: 'catalog',
-    };
-
-    // InitializeSubDomain
-    const initializeSubDomainModel = {
-      name: 'Sub domain 1',
-      id: 'testString',
-      description: 'New sub domain 1',
     };
 
     const params = {
       container: containerReferenceModel,
       name: 'Test domain - node sdk',
       description: 'The sample description for new domain',
-      subDomains: [initializeSubDomainModel],
-      containerId: getStatusByCatalogIdLink,
     };
 
     const res = await dphService.createDataProductDomain(params);
@@ -1274,6 +1425,20 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
+  
+  test.skip('createRevokeAccessProcess()', async () => {
+    const params = {
+      dataProductId: 'testString',
+      releaseId: 'testString',
+      body: Buffer.from('This is a mock file.'),
+      contentType: 'testString',
+    };
+
+    const res = await dphService.createRevokeAccessProcess(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(202);
+    expect(res.result).toBeDefined();
+  });
 
   test.skip('createS3Bucket()', async () => {
     const params = {
@@ -1297,6 +1462,19 @@ describe('DphV1_integration', () => {
     expect(res.result).toBeDefined();
   });
 
+  test.skip('getRevokeAccessProcessState()', async () => {
+    const params = {
+      releaseId: 'testString',
+      limit: 200,
+      start: 'testString',
+    };
+
+    const res = await dphService.getRevokeAccessProcessState(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  
   test('deleteDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -1307,5 +1485,6 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
-  });
+  });  
+
 });
