@@ -80,6 +80,8 @@ describe('DphV1_integration', () => {
   let updateDraftOfDataProductByDataProductIdLink;
   let updateReleaseOfDataProductByDataProductIdLink;
   let uploadContractTermsDocByDataProductIdLink;
+  let createContractTemplateId;
+  let createDataProductDomainId;
 
   test('Initialize service', async () => {
     dphService = DphV1.newInstance();
@@ -121,8 +123,8 @@ describe('DphV1_integration', () => {
     createDataProductByCatalogIdLink = res.result.container.id;
     getStatusByCatalogIdLink = res.result.container.id;
   });
-  
-    test('getInitializeStatus()', async () => {
+
+  test('getInitializeStatus()', async () => {
     const params = {
       containerId: getStatusByCatalogIdLink,
     };
@@ -263,7 +265,7 @@ describe('DphV1_integration', () => {
     createAContractTermsDocByDraftIdLink = res.result.drafts[0].id;
     getDraftByDraftIdLink = res.result.drafts[0].id;
   });
-  
+
   test('getDataProduct()', async () => {
     const params = {
       dataProductId: getDataProductByDataProductIdLink,
@@ -274,7 +276,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('listDataProducts()', async () => {
     const params = {
       limit: 200,
@@ -308,7 +310,7 @@ describe('DphV1_integration', () => {
     expect(allItems).toHaveLength(allResults.length);
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
-  
+
   test('getDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -320,7 +322,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('updateDataProductDraft()', async () => {
     // Request models needed by this operation.
 
@@ -342,7 +344,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('createDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: uploadContractTermsDocByDataProductIdLink,
@@ -377,7 +379,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('updateDraftContractTermsDocument()', async () => {
     // Request models needed by this operation.
 
@@ -400,7 +402,7 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-  });  
+  });
 
   test('getDataProductDraftContractTerms()', async () => {
     const params = {
@@ -466,7 +468,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('getReleaseContractTermsDocument()', async () => {
     const params = {
       dataProductId: getReleaseContractDocumentByDataProductIdLink,
@@ -479,8 +481,8 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-  }); 
-  
+  });
+
   test('replaceDataProductDraftContractTerms()', async () => {
     // Request models needed by this operation.
 
@@ -705,7 +707,6 @@ describe('DphV1_integration', () => {
   });
 
   test('updateDataProductDraftContractTerms()', async () => {
-    
     // Domain
     const domainModel = {
       id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
@@ -1284,7 +1285,7 @@ describe('DphV1_integration', () => {
     expect(allItems).toHaveLength(allResults.length);
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
-  
+
   test('createDraftContractTermsDocumentForDeleteOp()', async () => {
     // Request models needed by this operation.
 
@@ -1425,7 +1426,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
-  
+
   test.skip('createRevokeAccessProcess()', async () => {
     const params = {
       dataProductId: 'testString',
@@ -1474,7 +1475,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('deleteDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -1485,6 +1486,5 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
-  });  
-
+  });
 });
