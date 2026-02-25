@@ -4095,7 +4095,7 @@ describe('DphV1', () => {
           'POST'
         );
         const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
+        const expectedContentType = 'application/x-www-form-urlencoded';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.qs.revoke_access).toEqual(revokeAccess);
         expect(mockRequestOptions.qs.start_at).toEqual(startAt);
