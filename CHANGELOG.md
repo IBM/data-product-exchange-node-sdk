@@ -1,3 +1,15 @@
+# [0.4.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.3.0...v0.4.0) (2026-02-25)
+
+
+### Bug Fixes
+
+* workflow node version ([ec2fe1a](https://github.com/IBM/data-product-exchange-node-sdk/commit/ec2fe1ab0b431ee630068812d990905b717a7668))
+
+
+### Features
+
+* drop dpx 0.3.0 support \n\n BREAKING CHANGE: DPH Service updated ([#13](https://github.com/IBM/data-product-exchange-node-sdk/issues/13)) ([a5e2558](https://github.com/IBM/data-product-exchange-node-sdk/commit/a5e2558bdb1af95f1f920d3c40ee7ac6349e467a))
+
 # [0.3.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.2.0...v0.3.0) (2025-07-28)
 
 
