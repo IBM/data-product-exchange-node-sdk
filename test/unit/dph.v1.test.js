@@ -4858,7 +4858,7 @@ describe('DphV1', () => {
 
         checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/retire', 'POST');
         const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
+        const expectedContentType = '';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.qs.revoke_access).toEqual(revokeAccess);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
