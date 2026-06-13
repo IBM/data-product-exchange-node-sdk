@@ -1,10 +1,3 @@
-## [0.5.1](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.5.0...v0.5.1) (2026-06-13)
-
-
-### Reverts
-
-* Revert "chore(release): 0.5.0 [skip ci]" ([237a16a](https://github.com/IBM/data-product-exchange-node-sdk/commit/237a16a495daa3580a8f4e1b30da00dda52ea16c))
-
 # [0.4.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.3.0...v0.4.0) (2026-02-25)
 
 
