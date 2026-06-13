@@ -2398,7 +2398,7 @@ class DphV1 extends BaseService {
       return Promise.reject(_validationErrors);
     }
 
-    const body = _params.body;
+    const { body } = _params;
     const path = {
       'data_product_id': _params.dataProductId,
       'release_id': _params.releaseId,
@@ -2785,7 +2785,7 @@ class DphV1 extends BaseService {
       return Promise.reject(_validationErrors);
     }
 
-    const body = _params.body;
+    const { body } = _params;
     const sdkHeaders = getSdkHeaders(
       DphV1.DEFAULT_SERVICE_NAME,
       'v1',
