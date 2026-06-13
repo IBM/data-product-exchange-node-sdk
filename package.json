@@ -1,6 +1,6 @@
 {
   "name": "@ibm-cloud/ibm_dph_services",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "DPH Node SDK",
   "repository": {
     "type": "git",
