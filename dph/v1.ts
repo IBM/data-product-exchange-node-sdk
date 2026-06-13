@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -200,8 +200,9 @@ class DphV1 extends BaseService {
    * industries</li><li>`data_product_samples` - Sample data products used to illustrate capabilities of the data
    * product hub</li><li>`workflows` - Workflows to enable restricted data products</li><li>`project` - A default
    * project for exporting data assets to files</li><li>`catalog_configurations` - Catalog configurations for the
-   * default data product catalog</li></ul><br/><br/>If a resource depends on resources that are not specified in the
-   * request, these dependent resources will be automatically initialized. E.g., initializing `data_product_samples`
+   * default data product catalog</li><li>`gen_ai_onboarding` - Enable GenAI capabilities for the data product catalog
+   * and onboard the associated project</li></ul><br/><br/>If a resource depends on resources that are not specified in
+   * the request, these dependent resources will be automatically initialized. E.g., initializing `data_product_samples`
    * will also initialize `domains_multi_industry` and `delivery_methods` even if they are not specified in the request
    * because it depends on them.<br/><br/>If initializing the data product hub for the first time, do not specify a
    * container. The default data product catalog will be created.<br/>For first time initialization, it is recommended
@@ -256,6 +257,110 @@ class DphV1 extends BaseService {
   }
 
   /**
+   * list delivery configuration.
+   *
+   * Use this API to list delivery method information in the global configuration.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.containerId] - Container ID of the data product catalog. If not supplied, the data product
+   * catalog is looked up by using the uid of the default data product catalog.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DeliveryMethodConfig>>}
+   */
+  public getDeliveryConfiguration(
+    params?: DphV1.GetDeliveryConfigurationParams
+  ): Promise<DphV1.Response<DphV1.DeliveryMethodConfig>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['containerId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'container.id': _params.containerId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDeliveryConfiguration');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/configuration/delivery',
+        method: 'GET',
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update delivery configuration.
+   *
+   * Use this API to update delivery method information in the global configuration. This allows patching delivery
+   * configuration such as delivery_methods status.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.containerId - Container ID of the data product catalog.
+   * @param {JsonPatchOperation[]} params.jsonPatchOperation - JSON array of patch operations as defined in RFC 6902.
+   * Only the 'enabled' attribute can be modified. Supported operations: add, remove, replace. <br/><br/>Common paths:
+   * <br/><br/> - /delivery_methods <br/>- /persist_consumer_connection <br/>.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DeliveryMethodConfig>>}
+   */
+  public updateDeliveryConfiguration(
+    params: DphV1.UpdateDeliveryConfigurationParams
+  ): Promise<DphV1.Response<DphV1.DeliveryMethodConfig>> {
+    const _params = { ...params };
+    const _requiredParams = ['containerId', 'jsonPatchOperation'];
+    const _validParams = ['containerId', 'jsonPatchOperation', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = _params.jsonPatchOperation;
+    const query = {
+      'container.id': _params.containerId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDeliveryConfiguration');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/configuration/delivery',
+        method: 'PATCH',
+        body,
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Rotate credentials for a Data Product Hub instance.
    *
    * Use this API to rotate credentials for a Data Product Hub instance.
@@ -283,7 +388,13 @@ class DphV1 extends BaseService {
         method: 'POST',
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -320,11 +431,7 @@ class DphV1 extends BaseService {
       'assets': _params.assets,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createDataAssetVisualization'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataAssetVisualization');
 
     const parameters = {
       options: {
@@ -375,11 +482,7 @@ class DphV1 extends BaseService {
       'assets': _params.assets,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'reinitiateDataAssetVisualization'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'reinitiateDataAssetVisualization');
 
     const parameters = {
       options: {
@@ -603,11 +706,7 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'completeDraftContractTermsDocument'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'completeDraftContractTermsDocument');
 
     const parameters = {
       options: {
@@ -650,14 +749,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDraftCollection>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
-    const _validParams = [
-      'dataProductId',
-      'assetContainerId',
-      'version',
-      'limit',
-      'start',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'assetContainerId', 'version', 'limit', 'start', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -733,6 +825,7 @@ class DphV1 extends BaseService {
    * version creation or retiring.
    * @param {AssetListAccessControl} [params.accessControl] - Access control object.
    * @param {string} [params.lastUpdatedAt] - Timestamp of last asset update.
+   * @param {string} [params.createdDate] - Timestamp of createddate.
    * @param {ContainerIdentity} [params.subContainer] - The identity schema for a IBM knowledge catalog container
    * (catalog/project/space).
    * @param {boolean} [params.isRestricted] - Indicates whether the data product is restricted or not. A restricted data
@@ -745,29 +838,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDraft>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'asset'];
-    const _validParams = [
-      'dataProductId',
-      'asset',
-      'version',
-      'state',
-      'dataProduct',
-      'name',
-      'description',
-      'tags',
-      'useCases',
-      'types',
-      'contractTerms',
-      'domain',
-      'partsOut',
-      'workflows',
-      'dataviewEnabled',
-      'comments',
-      'accessControl',
-      'lastUpdatedAt',
-      'subContainer',
-      'isRestricted',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'asset', 'version', 'state', 'dataProduct', 'name', 'description', 'tags', 'useCases', 'types', 'contractTerms', 'domain', 'partsOut', 'workflows', 'dataviewEnabled', 'comments', 'accessControl', 'lastUpdatedAt', 'createdDate', 'subContainer', 'isRestricted', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -791,6 +862,7 @@ class DphV1 extends BaseService {
       'comments': _params.comments,
       'access_control': _params.accessControl,
       'last_updated_at': _params.lastUpdatedAt,
+      'created_date': _params.createdDate,
       'sub_container': _params.subContainer,
       'is_restricted': _params.isRestricted,
     };
@@ -852,15 +924,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name'];
-    const _validParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'type',
-      'name',
-      'url',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name', 'url', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -878,15 +942,79 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createDraftContractTermsDocument'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDraftContractTermsDocument');
 
     const parameters = {
       options: {
         url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Test data contract with DQ.
+   *
+   * Tests data contract by cloning assets from catalog to project and validating with DQ rules.Use '-' for the
+   * `data_product_id` to skip specifying the data product ID explicitly.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
+   * @param {string} params.projectId - ProjectId in which the assets will copy to.
+   * @param {string} params.catalogId - CatalogId in which the source of the data product assets exists.
+   * @param {string} params.contractName - Name of the data product contract.
+   * @param {string} params.contractYaml - The contract content as YAML, represented as a string.
+   * @param {string[]} [params.assetIds] - Data product assets to perform the bulkCopy.
+   * @param {ServerMapping[]} [params.serverMapping] - Data contract server information to create DQ contract.
+   * @param {string} [params.dataContractId] - ID of the data contract being tested.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DataContractDQTestResult>>}
+   */
+  public createDataContractTestRun(
+    params: DphV1.CreateDataContractTestRunParams
+  ): Promise<DphV1.Response<DphV1.DataContractDQTestResult>> {
+    const _params = { ...params };
+    const _requiredParams = ['dataProductId', 'projectId', 'catalogId', 'contractName', 'contractYaml'];
+    const _validParams = ['dataProductId', 'projectId', 'catalogId', 'contractName', 'contractYaml', 'assetIds', 'serverMapping', 'dataContractId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'project_id': _params.projectId,
+      'catalog_id': _params.catalogId,
+      'contract_name': _params.contractName,
+      'contract_yaml': _params.contractYaml,
+      'asset_ids': _params.assetIds,
+      'server_mapping': _params.serverMapping,
+      'data_contract_id': _params.dataContractId,
+    };
+
+    const path = {
+      'data_product_id': _params.dataProductId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataContractTestRun');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract',
         method: 'POST',
         body,
         path,
@@ -995,7 +1123,13 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1096,11 +1230,7 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getDraftContractTermsDocument'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDraftContractTermsDocument');
 
     const parameters = {
       options: {
@@ -1157,11 +1287,7 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteDraftContractTermsDocument'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDraftContractTermsDocument');
 
     const parameters = {
       options: {
@@ -1170,7 +1296,13 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1204,21 +1336,8 @@ class DphV1 extends BaseService {
     params: DphV1.UpdateDraftContractTermsDocumentParams
   ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
-    const _requiredParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'documentId',
-      'jsonPatchInstructions',
-    ];
-    const _validParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'documentId',
-      'jsonPatchInstructions',
-      'headers',
-    ];
+    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'jsonPatchInstructions'];
+    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'jsonPatchInstructions', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1232,11 +1351,7 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateDraftContractTermsDocument'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDraftContractTermsDocument');
 
     const parameters = {
       options: {
@@ -1275,7 +1390,7 @@ class DphV1 extends BaseService {
    * Terms and Conditions URLs) from the response. By default, these are included.
    * @param {boolean} [params.autopopulateServerInformation] - Set to true to autopopulate server information from
    * connection details. Default is false.
-   * @param {string} [params.serverAssetId] - Asset ID of the server used for autopopulating connection details.
+   * @param {string} [params.serverId] - Asset ID of the server used for autopopulating connection details.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.ContractTerms>>}
    */
@@ -1284,16 +1399,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId'];
-    const _validParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'accept',
-      'includeContractDocuments',
-      'autopopulateServerInformation',
-      'serverAssetId',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'accept', 'includeContractDocuments', 'autopopulateServerInformation', 'serverId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1302,7 +1408,7 @@ class DphV1 extends BaseService {
     const query = {
       'include_contract_documents': _params.includeContractDocuments,
       'autopopulate_server_information': _params.autopopulateServerInformation,
-      'server_asset_id': _params.serverAssetId,
+      'server_id': _params.serverId,
     };
 
     const path = {
@@ -1311,11 +1417,7 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getDataProductDraftContractTerms'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataProductDraftContractTerms');
 
     const parameters = {
       options: {
@@ -1340,9 +1442,10 @@ class DphV1 extends BaseService {
   }
 
   /**
-   * Update a data product contract terms identified by id.
+   * Update contract terms by id.
    *
-   * Update a data product contract terms identified by id.
+   * Update a data product contract terms identified by id - primarily used for clearing contents of contract terms.
+   * This endpoint does not support addition of servers and schema information except empty arrays.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
@@ -1354,12 +1457,12 @@ class DphV1 extends BaseService {
    * @param {string} [params.errorMsg] - An error message, if existing, relating to the contract terms.
    * @param {Overview} [params.overview] - Overview details of a data contract.
    * @param {Description} [params.description] - Description details of a data contract.
-   * @param {ContractTemplateOrganization[]} [params.organization] - List of sub domains to be added within a domain.
+   * @param {ContractTermsTeam} [params.team] - Represents a team with members and their roles in the contract.
    * @param {Roles[]} [params.roles] - List of roles associated with the contract.
    * @param {Pricing} [params.price] - Represents the pricing details of the contract.
-   * @param {ContractTemplateSLA[]} [params.sla] - Service Level Agreement details.
-   * @param {ContractTemplateSupportAndCommunication[]} [params.supportAndCommunication] - Support and communication
-   * details for the contract.
+   * @param {ContractTemplateSLA} [params.sla] - Represents the SLA details of the contract.
+   * @param {ContractTemplateSupportAndCommunication[]} [params.support] - Support and communication details for the
+   * contract.
    * @param {ContractTemplateCustomProperty[]} [params.customProperties] - Custom properties that are not part of the
    * standard contract.
    * @param {ContractTest} [params.contractTest] - Contains the contract test status and related metadata.
@@ -1373,27 +1476,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId'];
-    const _validParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'asset',
-      'id',
-      'documents',
-      'errorMsg',
-      'overview',
-      'description',
-      'organization',
-      'roles',
-      'price',
-      'sla',
-      'supportAndCommunication',
-      'customProperties',
-      'contractTest',
-      'servers',
-      'schema',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'asset', 'id', 'documents', 'errorMsg', 'overview', 'description', 'team', 'roles', 'price', 'sla', 'support', 'customProperties', 'contractTest', 'servers', 'schema', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1406,11 +1489,11 @@ class DphV1 extends BaseService {
       'error_msg': _params.errorMsg,
       'overview': _params.overview,
       'description': _params.description,
-      'organization': _params.organization,
+      'team': _params.team,
       'roles': _params.roles,
       'price': _params.price,
       'sla': _params.sla,
-      'support_and_communication': _params.supportAndCommunication,
+      'support': _params.support,
       'custom_properties': _params.customProperties,
       'contract_test': _params.contractTest,
       'servers': _params.servers,
@@ -1423,11 +1506,7 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'replaceDataProductDraftContractTerms'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceDataProductDraftContractTerms');
 
     const parameters = {
       options: {
@@ -1476,19 +1555,8 @@ class DphV1 extends BaseService {
     params: DphV1.UpdateDataProductDraftContractTermsParams
   ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
-    const _requiredParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'jsonPatchInstructions',
-    ];
-    const _validParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'jsonPatchInstructions',
-      'headers',
-    ];
+    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'jsonPatchInstructions'];
+    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'jsonPatchInstructions', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1501,11 +1569,7 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateDataProductDraftContractTerms'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDataProductDraftContractTerms');
 
     const parameters = {
       options: {
@@ -1549,22 +1613,8 @@ class DphV1 extends BaseService {
     params: DphV1.GetContractTermsInSpecifiedFormatParams
   ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
-    const _requiredParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'format',
-      'formatVersion',
-    ];
-    const _validParams = [
-      'dataProductId',
-      'draftId',
-      'contractTermsId',
-      'format',
-      'formatVersion',
-      'accept',
-      'headers',
-    ];
+    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'format', 'formatVersion'];
+    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'format', 'formatVersion', 'accept', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1581,11 +1631,7 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getContractTermsInSpecifiedFormat'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getContractTermsInSpecifiedFormat');
 
     const parameters = {
       options: {
@@ -1601,6 +1647,65 @@ class DphV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': _params.accept,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get data contract test results.
+   *
+   * Retrieves the test results from DQ service for a data contract test run. Use '-' for the `data_product_id` to skip
+   * specifying the data product ID explicitly.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
+   * @param {string} params.dataContractId - Data contract ID.
+   * @param {string} params.testRunId - Test run ID.
+   * @param {string} params.projectId - Project ID where the data contract exists.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DataContractDQTestResult>>}
+   */
+  public getDataContractTestResults(
+    params: DphV1.GetDataContractTestResultsParams
+  ): Promise<DphV1.Response<DphV1.DataContractDQTestResult>> {
+    const _params = { ...params };
+    const _requiredParams = ['dataProductId', 'dataContractId', 'testRunId', 'projectId'];
+    const _validParams = ['dataProductId', 'dataContractId', 'testRunId', 'projectId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'project_id': _params.projectId,
+    };
+
+    const path = {
+      'data_product_id': _params.dataProductId,
+      'data_contract_id': _params.dataContractId,
+      'test_run_id': _params.testRunId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataContractTestResults');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract/{data_contract_id}/test_results/{test_run_id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
           },
           _params.headers
         ),
@@ -1816,11 +1921,7 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getReleaseContractTermsDocument'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getReleaseContractTermsDocument');
 
     const parameters = {
       options: {
@@ -1863,14 +1964,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId', 'contractTermsId'];
-    const _validParams = [
-      'dataProductId',
-      'releaseId',
-      'contractTermsId',
-      'accept',
-      'includeContractDocuments',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'releaseId', 'contractTermsId', 'accept', 'includeContractDocuments', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1886,11 +1980,7 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getPublishedDataProductDraftContractTerms'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getPublishedDataProductDraftContractTerms');
 
     const parameters = {
       options: {
@@ -1937,15 +2027,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductReleaseCollection>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
-    const _validParams = [
-      'dataProductId',
-      'assetContainerId',
-      'state',
-      'version',
-      'limit',
-      'start',
-      'headers',
-    ];
+    const _validParams = ['dataProductId', 'assetContainerId', 'state', 'version', 'limit', 'start', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1988,6 +2070,69 @@ class DphV1 extends BaseService {
   }
 
   /**
+   * Retrieve a list of retired data product releases (latest version only).
+   *
+   * Retrieve a list of retired data product releases, showing only the latest version per product ID. This endpoint
+   * filters retired versions to show one entry per product. Use '-' for the `data_product_id` to skip specifying the
+   * data product ID explicitly.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
+   * @param {string} [params.assetContainerId] - Filter the list of data product releases by container id.
+   * @param {number} [params.limit] - Limit the number of data product releases in the results. The maximum is 200.
+   * @param {string} [params.start] - Start token for pagination.
+   * @param {number} [params.page] - Page number for pagination (1-based). If provided, fetches all data and returns the
+   * specified page.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DataProductReleaseCollection>>}
+   */
+  public listRetiredDataProductReleasesLatest(
+    params: DphV1.ListRetiredDataProductReleasesLatestParams
+  ): Promise<DphV1.Response<DphV1.DataProductReleaseCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['dataProductId'];
+    const _validParams = ['dataProductId', 'assetContainerId', 'limit', 'start', 'page', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'asset.container.id': _params.assetContainerId,
+      'limit': _params.limit,
+      'start': _params.start,
+      'page': _params.page,
+    };
+
+    const path = {
+      'data_product_id': _params.dataProductId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'listRetiredDataProductReleasesLatest');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/data_products/{data_product_id}/releases/state/retired',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Retire a release of an existing data product.
    *
    * Retire a release of an existing data product. Use '-' for the `data_product_id` to skip specifying the data product
@@ -1998,8 +2143,6 @@ class DphV1 extends BaseService {
    * @param {string} params.releaseId - Data product release id.
    * @param {boolean} [params.revokeAccess] - Revoke's Access from all the Subscriptions of the Data Product. No user's
    * can able to see the subscribed assets anymore.
-   * @param {string} [params.startAt] - The date and time when the revoke access operation should start (ISO 8601
-   * format, e.g., 2025-09-24T06:55:29Z). If not provided, the operation starts immediately.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.DataProductRelease>>}
    */
@@ -2008,7 +2151,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductRelease>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId'];
-    const _validParams = ['dataProductId', 'releaseId', 'revokeAccess', 'startAt', 'headers'];
+    const _validParams = ['dataProductId', 'releaseId', 'revokeAccess', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2016,7 +2159,6 @@ class DphV1 extends BaseService {
 
     const query = {
       'revoke_access': _params.revokeAccess,
-      'start_at': _params.startAt,
     };
 
     const path = {
@@ -2039,7 +2181,7 @@ class DphV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': '',
           },
           _params.headers
         ),
@@ -2052,15 +2194,13 @@ class DphV1 extends BaseService {
   /**
    * Revoke access from Data Product subscriptions.
    *
-   * Revoke's access from Subscriptions of the data product id passed in the path parameter. Optionally specify a future
-   * date-time when the revoke access operation should start using the start_at field in ISO 8601 format (e.g.,
-   * 2025-09-24T06:55:29Z). If start_at is not provided, the revoke access operation starts immediately.
+   * Revoke's access from Subscriptions of the data product id passed in the path parameter.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.dataProductId - Data product ID. Use '-' to skip specifying the data product ID explicitly.
    * @param {string} params.releaseId - The unique identifier of the data product release.
    * @param {NodeJS.ReadableStream | Buffer} [params.body] - Request parameters to handle revoke access from
-   * subscriptions. The start_at field can be used to schedule the revoke access operation for a future date-time.
+   * subscriptions.
    * @param {string} [params.contentType] - The type of the input.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DphV1.Response<DphV1.RevokeAccessResponse>>}
@@ -2076,7 +2216,7 @@ class DphV1 extends BaseService {
       return Promise.reject(_validationErrors);
     }
 
-    const { body } = _params;
+    const body = _params.body;
     const path = {
       'data_product_id': _params.dataProductId,
       'release_id': _params.releaseId,
@@ -2120,6 +2260,8 @@ class DphV1 extends BaseService {
    * catalog is looked up by using the uid of the default data product catalog.
    * @param {string} [params.contractTemplateName] - Name of the data product contract template. If not supplied, the
    * data product templates within the catalog will returned.
+   * @param {string} [params.contractTemplateStatus] - Status of the data product contract template. If not supplied,
+   * the data product templates within the catalog will returned.
    * @param {string} [params.domainIds] - Comma-separated domain IDs to filter data product contract templates. If not
    * supplied, the data product templates within the catalog will returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -2130,7 +2272,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductContractTemplateCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['containerId', 'contractTemplateName', 'domainIds', 'headers'];
+    const _validParams = ['containerId', 'contractTemplateName', 'contractTemplateStatus', 'domainIds', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2139,14 +2281,11 @@ class DphV1 extends BaseService {
     const query = {
       'container.id': _params.containerId,
       'contract_template.name': _params.contractTemplateName,
+      'contract_template.status': _params.contractTemplateStatus,
       'domain.ids': _params.domainIds,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listDataProductContractTemplate'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'listDataProductContractTemplate');
 
     const parameters = {
       options: {
@@ -2186,6 +2325,8 @@ class DphV1 extends BaseService {
    * catalog is looked up by using the uid of the default data product catalog.
    * @param {string} [params.contractTemplateName] - Name of the data product contract template. If not supplied, the
    * data product templates within the catalog will returned.
+   * @param {string} [params.contractTemplateStatus] - Status of the data product contract template. If not supplied,
+   * the data product templates within the catalog will returned.
    * @param {string} [params.domainIds] - Comma-separated domain IDs to filter data product contract templates. If not
    * supplied, the data product templates within the catalog will returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -2196,19 +2337,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductContractTemplate>> {
     const _params = { ...params };
     const _requiredParams = ['container'];
-    const _validParams = [
-      'container',
-      'id',
-      'creatorId',
-      'createdAt',
-      'name',
-      'error',
-      'contractTerms',
-      'containerId',
-      'contractTemplateName',
-      'domainIds',
-      'headers',
-    ];
+    const _validParams = ['container', 'id', 'creatorId', 'createdAt', 'name', 'error', 'contractTerms', 'containerId', 'contractTemplateName', 'contractTemplateStatus', 'domainIds', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2227,6 +2356,7 @@ class DphV1 extends BaseService {
     const query = {
       'container.id': _params.containerId,
       'contract_template.name': _params.contractTemplateName,
+      'contract_template.status': _params.contractTemplateStatus,
       'domain.ids': _params.domainIds,
     };
 
@@ -2339,11 +2469,7 @@ class DphV1 extends BaseService {
       'contract_template_id': _params.contractTemplateId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteDataProductContractTemplate'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDataProductContractTemplate');
 
     const parameters = {
       options: {
@@ -2353,7 +2479,13 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -2396,11 +2528,7 @@ class DphV1 extends BaseService {
       'contract_template_id': _params.contractTemplateId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateDataProductContractTemplate'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDataProductContractTemplate');
 
     const parameters = {
       options: {
@@ -2417,6 +2545,55 @@ class DphV1 extends BaseService {
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Validate YAML against ODCS v3.1.0 standard.
+   *
+   * Validates a YAML file against the Open Data Contract Standard (ODCS) v3.1.0 JSON schema. This endpoint checks for
+   * mandatory fields, data types, and mappings as required by the ODCS v3.1.0 standard. The endpoint always returns
+   * HTTP 200 with validation results in the response body. Check the 'valid' field in the response to determine if
+   * validation passed or failed.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.body - YAML content to validate against ODCS v3.1.0 standard.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.ContractValidationResponse>>}
+   */
+  public validateContractTemplateYaml(
+    params: DphV1.ValidateContractTemplateYamlParams
+  ): Promise<DphV1.Response<DphV1.ContractValidationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['body'];
+    const _validParams = ['body', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = _params.body;
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'validateContractTemplateYaml');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/contract_templates/actions/validate',
+        method: 'POST',
+        body,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'text/plain',
           },
           _params.headers
         ),
@@ -2507,21 +2684,7 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDomain>> {
     const _params = { ...params };
     const _requiredParams = ['container'];
-    const _validParams = [
-      'container',
-      'trace',
-      'errors',
-      'name',
-      'description',
-      'id',
-      'createdBy',
-      'memberRoles',
-      'properties',
-      'subDomains',
-      'subContainer',
-      'linkToSubcontainers',
-      'headers',
-    ];
+    const _validParams = ['container', 'trace', 'errors', 'name', 'description', 'id', 'createdBy', 'memberRoles', 'properties', 'subDomains', 'subContainer', 'linkToSubcontainers', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2609,11 +2772,7 @@ class DphV1 extends BaseService {
       'domain_id': _params.domainId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createDataProductSubdomain'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataProductSubdomain');
 
     const parameters = {
       options: {
@@ -2721,7 +2880,13 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -2781,6 +2946,60 @@ class DphV1 extends BaseService {
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieve all contract templates in a domain by id.
+   *
+   * Retrieve all the contract templates tagged to the domain identified by id or any of it's subdomains.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.domainId - Domain id.
+   * @param {string} params.containerId - Container ID of the data product catalog.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DataProductVersionCollection>>}
+   */
+  public getContractTemplatesByDomain(
+    params: DphV1.GetContractTemplatesByDomainParams
+  ): Promise<DphV1.Response<DphV1.DataProductVersionCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['domainId', 'containerId'];
+    const _validParams = ['domainId', 'containerId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'container.id': _params.containerId,
+    };
+
+    const path = {
+      'domain_id': _params.domainId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getContractTemplatesByDomain');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/domains/{domain_id}/contract_templates',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
           },
           _params.headers
         ),
@@ -2976,11 +3195,7 @@ class DphV1 extends BaseService {
       'start': _params.start,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DphV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getRevokeAccessProcessState'
-    );
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getRevokeAccessProcessState');
 
     const parameters = {
       options: {
@@ -2994,6 +3209,328 @@ class DphV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * deliveryMethods
+   ************************/
+
+  /**
+   * List delivery methods.
+   *
+   * Returns all available delivery methods with enablement status.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.catalogId - The catalog ID where delivery methods are stored.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DeliveryMethodResCollection>>}
+   */
+  public listDeliveryMethods(
+    params: DphV1.ListDeliveryMethodsParams
+  ): Promise<DphV1.Response<DphV1.DeliveryMethodResCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['catalogId'];
+    const _validParams = ['catalogId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'catalog_id': _params.catalogId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'listDeliveryMethods');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/delivery_method',
+        method: 'GET',
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Create a new delivery method.
+   *
+   * Creates a new delivery method with provided configurations.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.catalogId - The catalog ID where delivery methods are stored.
+   * @param {string} params.name - The name of the delivery method.
+   * @param {string} params.resourceKey - The unique resource key of the delivery method.
+   * @param {string} params.description - The description of the delivery method.
+   * @param {string} params.status - The status of the delivery method.
+   * @param {ContainerReference} params.container - Container reference.
+   * @param {string[]} [params.supportedAssetTypes] - List of asset types supported by this delivery method.
+   * @param {string[]} [params.supportedAuthMethods] - List of authentication methods supported by this delivery method.
+   * @param {string[]} [params.supportedAuthMethodsCpd] - List of authentication methods supported by this delivery
+   * method in CPD.
+   * @param {string[]} [params.supportedDataSources] - List of data source IDs supported by this delivery method.
+   * @param {boolean} [params.supportsRedelivery] - Whether the delivery method supports redelivery.
+   * @param {boolean} [params.isRestricted] - Indicates if the delivery method is restricted.
+   * @param {boolean} [params.supportsRetryOnFailure] - Whether the delivery method supports retry on failure.
+   * @param {boolean} [params.supportsRevokeAccess] - Whether the delivery method supports revoke access.
+   * @param {boolean} [params.supportsColumnSelection] - Whether the delivery method supports column selection.
+   * @param {boolean} [params.supportsAddToProject] - Whether the delivery method supports adding to project.
+   * @param {JsonObject[]} [params.producerInput] - Input fields required from the data product producer.
+   * @param {JsonObject[]} [params.consumerInput] - Input fields required from the data consumer.
+   * @param {JsonObject[]} [params.outputFormat] - Output format specifications for the delivery.
+   * @param {boolean} [params.autoMarkDelivered] - Whether the delivery method automatically marks deliveries as
+   * delivered.
+   * @param {boolean} [params.deliveryUsesFunctionalCredentials] - Whether the delivery method uses functional
+   * credentials for delivery.
+   * @param {JsonObject} [params.dataSourceProperties] - Properties specific to data sources.
+   * @param {JsonObject} [params.deliveryOutput] - Delivery output configuration including output assets.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DeliveryMethodRes>>}
+   */
+  public createDeliveryMethod(
+    params: DphV1.CreateDeliveryMethodParams
+  ): Promise<DphV1.Response<DphV1.DeliveryMethodRes>> {
+    const _params = { ...params };
+    const _requiredParams = ['catalogId', 'name', 'resourceKey', 'description', 'status', 'container'];
+    const _validParams = ['catalogId', 'name', 'resourceKey', 'description', 'status', 'container', 'supportedAssetTypes', 'supportedAuthMethods', 'supportedAuthMethodsCpd', 'supportedDataSources', 'supportsRedelivery', 'isRestricted', 'supportsRetryOnFailure', 'supportsRevokeAccess', 'supportsColumnSelection', 'supportsAddToProject', 'producerInput', 'consumerInput', 'outputFormat', 'autoMarkDelivered', 'deliveryUsesFunctionalCredentials', 'dataSourceProperties', 'deliveryOutput', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+      'resource_key': _params.resourceKey,
+      'description': _params.description,
+      'status': _params.status,
+      'container': _params.container,
+      'supported_asset_types': _params.supportedAssetTypes,
+      'supported_auth_methods': _params.supportedAuthMethods,
+      'supported_auth_methods_cpd': _params.supportedAuthMethodsCpd,
+      'supported_data_sources': _params.supportedDataSources,
+      'supports_redelivery': _params.supportsRedelivery,
+      'is_restricted': _params.isRestricted,
+      'supports_retry_on_failure': _params.supportsRetryOnFailure,
+      'supports_revoke_access': _params.supportsRevokeAccess,
+      'supports_column_selection': _params.supportsColumnSelection,
+      'supports_add_to_project': _params.supportsAddToProject,
+      'producer_input': _params.producerInput,
+      'consumer_input': _params.consumerInput,
+      'output_format': _params.outputFormat,
+      'auto_mark_delivered': _params.autoMarkDelivered,
+      'delivery_uses_functional_credentials': _params.deliveryUsesFunctionalCredentials,
+      'data_source_properties': _params.dataSourceProperties,
+      'delivery_output': _params.deliveryOutput,
+    };
+
+    const query = {
+      'catalog_id': _params.catalogId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDeliveryMethod');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/delivery_method',
+        method: 'POST',
+        body,
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieve delivery method.
+   *
+   * Retrieve a specific delivery method by its ID.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.catalogId - The catalog ID where delivery method is stored.
+   * @param {string} params.deliveryMethodId - The ID of the delivery method to retrieve.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DeliveryMethodRes>>}
+   */
+  public getDeliveryMethod(
+    params: DphV1.GetDeliveryMethodParams
+  ): Promise<DphV1.Response<DphV1.DeliveryMethodRes>> {
+    const _params = { ...params };
+    const _requiredParams = ['catalogId', 'deliveryMethodId'];
+    const _validParams = ['catalogId', 'deliveryMethodId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'catalog_id': _params.catalogId,
+    };
+
+    const path = {
+      'delivery_method_id': _params.deliveryMethodId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDeliveryMethod');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete delivery method.
+   *
+   * Delete external delivery method by its ID.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.catalogId - The catalog ID where delivery method is stored.
+   * @param {string} params.deliveryMethodId - The ID of the delivery method to remove.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.EmptyObject>>}
+   */
+  public deleteDeliveryMethod(
+    params: DphV1.DeleteDeliveryMethodParams
+  ): Promise<DphV1.Response<DphV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['catalogId', 'deliveryMethodId'];
+    const _validParams = ['catalogId', 'deliveryMethodId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'catalog_id': _params.catalogId,
+    };
+
+    const path = {
+      'delivery_method_id': _params.deliveryMethodId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDeliveryMethod');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update a delivery method.
+   *
+   * Update the delivery method identified by ID. Allows partial updates to delivery method configuration including
+   * status (enable/disable), configuration settings, and localization.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.catalogId - The catalog ID where delivery method is stored.
+   * @param {string} params.deliveryMethodId - The ID of the delivery method to update.
+   * @param {JsonPatchOperation[]} params.jsonPatchOperation - JSON array of patch operations as defined in RFC 6902.
+   * Supported operations: add, remove, replace. <br/><br/>Common paths: <br/><br/> - /description <br/>- /status <br/>-
+   * /localized_name <br/>- /localized_description <br/>- /output_format <br/>- /consumer_input <br/> -
+   * /supported_asset_types <br/>- /is_restricted <br/>- /supports_redelivery <br/>- /supports_add_to_project <br/>-
+   * /supports_column_selection <br/>- /supported_data_sources <br/>- /producer_input <br/>- /auto_mark_delivered [this
+   * is only supported for 'external' delivery method].
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DphV1.Response<DphV1.DeliveryMethodRes>>}
+   */
+  public updateDeliveryMethod(
+    params: DphV1.UpdateDeliveryMethodParams
+  ): Promise<DphV1.Response<DphV1.DeliveryMethodRes>> {
+    const _params = { ...params };
+    const _requiredParams = ['catalogId', 'deliveryMethodId', 'jsonPatchOperation'];
+    const _validParams = ['catalogId', 'deliveryMethodId', 'jsonPatchOperation', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = _params.jsonPatchOperation;
+    const query = {
+      'catalog_id': _params.catalogId,
+    };
+
+    const path = {
+      'delivery_method_id': _params.deliveryMethodId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDeliveryMethod');
+
+    const parameters = {
+      options: {
+        url: '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+        method: 'PATCH',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json-patch+json',
           },
           _params.headers
         ),
@@ -3066,7 +3603,29 @@ namespace DphV1 {
       PROJECT = 'project',
       CATALOG_CONFIGURATIONS = 'catalog_configurations',
       FUNCTIONAL_ADMIN_USER_GROUP = 'functional_admin_user_group',
+      GEN_AI_ONBOARDING = 'gen_ai_onboarding',
     }
+  }
+
+  /** Parameters for the `getDeliveryConfiguration` operation. */
+  export interface GetDeliveryConfigurationParams {
+    /** Container ID of the data product catalog. If not supplied, the data product catalog is looked up by using
+     *  the uid of the default data product catalog.
+     */
+    containerId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateDeliveryConfiguration` operation. */
+  export interface UpdateDeliveryConfigurationParams {
+    /** Container ID of the data product catalog. */
+    containerId: string;
+    /** JSON array of patch operations as defined in RFC 6902. Only the 'enabled' attribute can be modified.
+     *  Supported operations: add, remove, replace. <br/><br/>Common paths: <br/><br/> - /delivery_methods <br/>-
+     *  /persist_consumer_connection <br/>.
+     */
+    jsonPatchOperation: JsonPatchOperation[];
+    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `manageApiKeys` operation. */
@@ -3195,6 +3754,8 @@ namespace DphV1 {
     accessControl?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     lastUpdatedAt?: string;
+    /** Timestamp of createddate. */
+    createdDate?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     subContainer?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -3243,6 +3804,27 @@ namespace DphV1 {
       TERMS_AND_CONDITIONS = 'terms_and_conditions',
       SLA = 'sla',
     }
+  }
+
+  /** Parameters for the `createDataContractTestRun` operation. */
+  export interface CreateDataContractTestRunParams {
+    /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
+    dataProductId: string;
+    /** ProjectId in which the assets will copy to. */
+    projectId: string;
+    /** CatalogId in which the source of the data product assets exists. */
+    catalogId: string;
+    /** Name of the data product contract. */
+    contractName: string;
+    /** The contract content as YAML, represented as a string. */
+    contractYaml: string;
+    /** Data product assets to perform the bulkCopy. */
+    assetIds?: string[];
+    /** Data contract server information to create DQ contract. */
+    serverMapping?: ServerMapping[];
+    /** ID of the data contract being tested. */
+    dataContractId?: string;
+    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getDataProductDraft` operation. */
@@ -3332,7 +3914,7 @@ namespace DphV1 {
     /** Set to true to autopopulate server information from connection details. Default is false. */
     autopopulateServerInformation?: boolean;
     /** Asset ID of the server used for autopopulating connection details. */
-    serverAssetId?: string;
+    serverId?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3365,16 +3947,16 @@ namespace DphV1 {
     overview?: Overview;
     /** Description details of a data contract. */
     description?: Description;
-    /** List of sub domains to be added within a domain. */
-    organization?: ContractTemplateOrganization[];
+    /** Represents a team with members and their roles in the contract. */
+    team?: ContractTermsTeam;
     /** List of roles associated with the contract. */
     roles?: Roles[];
     /** Represents the pricing details of the contract. */
     price?: Pricing;
-    /** Service Level Agreement details. */
-    sla?: ContractTemplateSLA[];
+    /** Represents the SLA details of the contract. */
+    sla?: ContractTemplateSLA;
     /** Support and communication details for the contract. */
-    supportAndCommunication?: ContractTemplateSupportAndCommunication[];
+    support?: ContractTemplateSupportAndCommunication[];
     /** Custom properties that are not part of the standard contract. */
     customProperties?: ContractTemplateCustomProperty[];
     /** Contains the contract test status and related metadata. */
@@ -3423,6 +4005,19 @@ namespace DphV1 {
       APPLICATION_ODCS_YAML = 'application/odcs+yaml',
       APPLICATION_JSON = 'application/json',
     }
+  }
+
+  /** Parameters for the `getDataContractTestResults` operation. */
+  export interface GetDataContractTestResultsParams {
+    /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
+    dataProductId: string;
+    /** Data contract ID. */
+    dataContractId: string;
+    /** Test run ID. */
+    testRunId: string;
+    /** Project ID where the data contract exists. */
+    projectId: string;
+    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `publishDataProductDraft` operation. */
@@ -3525,6 +4120,21 @@ namespace DphV1 {
     }
   }
 
+  /** Parameters for the `listRetiredDataProductReleasesLatest` operation. */
+  export interface ListRetiredDataProductReleasesLatestParams {
+    /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
+    dataProductId: string;
+    /** Filter the list of data product releases by container id. */
+    assetContainerId?: string;
+    /** Limit the number of data product releases in the results. The maximum is 200. */
+    limit?: number;
+    /** Start token for pagination. */
+    start?: string;
+    /** Page number for pagination (1-based). If provided, fetches all data and returns the specified page. */
+    page?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `retireDataProductRelease` operation. */
   export interface RetireDataProductReleaseParams {
     /** Data product ID. Use '-' to skip specifying the data product ID explicitly. */
@@ -3535,10 +4145,6 @@ namespace DphV1 {
      *  assets anymore.
      */
     revokeAccess?: boolean;
-    /** The date and time when the revoke access operation should start (ISO 8601 format, e.g.,
-     *  2025-09-24T06:55:29Z). If not provided, the operation starts immediately.
-     */
-    startAt?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3548,9 +4154,7 @@ namespace DphV1 {
     dataProductId: string;
     /** The unique identifier of the data product release. */
     releaseId: string;
-    /** Request parameters to handle revoke access from subscriptions. The start_at field can be used to schedule
-     *  the revoke access operation for a future date-time.
-     */
+    /** Request parameters to handle revoke access from subscriptions. */
     body?: NodeJS.ReadableStream | Buffer;
     /** The type of the input. */
     contentType?: string;
@@ -3567,6 +4171,10 @@ namespace DphV1 {
      *  will returned.
      */
     contractTemplateName?: string;
+    /** Status of the data product contract template. If not supplied, the data product templates within the catalog
+     *  will returned.
+     */
+    contractTemplateStatus?: string;
     /** Comma-separated domain IDs to filter data product contract templates. If not supplied, the data product
      *  templates within the catalog will returned.
      */
@@ -3598,6 +4206,10 @@ namespace DphV1 {
      *  will returned.
      */
     contractTemplateName?: string;
+    /** Status of the data product contract template. If not supplied, the data product templates within the catalog
+     *  will returned.
+     */
+    contractTemplateStatus?: string;
     /** Comma-separated domain IDs to filter data product contract templates. If not supplied, the data product
      *  templates within the catalog will returned.
      */
@@ -3631,6 +4243,13 @@ namespace DphV1 {
     containerId: string;
     /** A set of patch operations as defined in RFC 6902. See http://jsonpatch.com/ for more information. */
     jsonPatchInstructions: JsonPatchOperation[];
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `validateContractTemplateYaml` operation. */
+  export interface ValidateContractTemplateYamlParams {
+    /** YAML content to validate against ODCS v3.1.0 standard. */
+    body: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3714,6 +4333,15 @@ namespace DphV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `getContractTemplatesByDomain` operation. */
+  export interface GetContractTemplatesByDomainParams {
+    /** Domain id. */
+    domainId: string;
+    /** Container ID of the data product catalog. */
+    containerId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `getDataProductByDomain` operation. */
   export interface GetDataProductByDomainParams {
     /** Domain id. */
@@ -3748,6 +4376,99 @@ namespace DphV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `listDeliveryMethods` operation. */
+  export interface ListDeliveryMethodsParams {
+    /** The catalog ID where delivery methods are stored. */
+    catalogId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createDeliveryMethod` operation. */
+  export interface CreateDeliveryMethodParams {
+    /** The catalog ID where delivery methods are stored. */
+    catalogId: string;
+    /** The name of the delivery method. */
+    name: string;
+    /** The unique resource key of the delivery method. */
+    resourceKey: string;
+    /** The description of the delivery method. */
+    description: string;
+    /** The status of the delivery method. */
+    status: string;
+    /** Container reference. */
+    container: ContainerReference;
+    /** List of asset types supported by this delivery method. */
+    supportedAssetTypes?: string[];
+    /** List of authentication methods supported by this delivery method. */
+    supportedAuthMethods?: string[];
+    /** List of authentication methods supported by this delivery method in CPD. */
+    supportedAuthMethodsCpd?: string[];
+    /** List of data source IDs supported by this delivery method. */
+    supportedDataSources?: string[];
+    /** Whether the delivery method supports redelivery. */
+    supportsRedelivery?: boolean;
+    /** Indicates if the delivery method is restricted. */
+    isRestricted?: boolean;
+    /** Whether the delivery method supports retry on failure. */
+    supportsRetryOnFailure?: boolean;
+    /** Whether the delivery method supports revoke access. */
+    supportsRevokeAccess?: boolean;
+    /** Whether the delivery method supports column selection. */
+    supportsColumnSelection?: boolean;
+    /** Whether the delivery method supports adding to project. */
+    supportsAddToProject?: boolean;
+    /** Input fields required from the data product producer. */
+    producerInput?: JsonObject[];
+    /** Input fields required from the data consumer. */
+    consumerInput?: JsonObject[];
+    /** Output format specifications for the delivery. */
+    outputFormat?: JsonObject[];
+    /** Whether the delivery method automatically marks deliveries as delivered. */
+    autoMarkDelivered?: boolean;
+    /** Whether the delivery method uses functional credentials for delivery. */
+    deliveryUsesFunctionalCredentials?: boolean;
+    /** Properties specific to data sources. */
+    dataSourceProperties?: JsonObject;
+    /** Delivery output configuration including output assets. */
+    deliveryOutput?: JsonObject;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getDeliveryMethod` operation. */
+  export interface GetDeliveryMethodParams {
+    /** The catalog ID where delivery method is stored. */
+    catalogId: string;
+    /** The ID of the delivery method to retrieve. */
+    deliveryMethodId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteDeliveryMethod` operation. */
+  export interface DeleteDeliveryMethodParams {
+    /** The catalog ID where delivery method is stored. */
+    catalogId: string;
+    /** The ID of the delivery method to remove. */
+    deliveryMethodId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateDeliveryMethod` operation. */
+  export interface UpdateDeliveryMethodParams {
+    /** The catalog ID where delivery method is stored. */
+    catalogId: string;
+    /** The ID of the delivery method to update. */
+    deliveryMethodId: string;
+    /** JSON array of patch operations as defined in RFC 6902. Supported operations: add, remove, replace.
+     *  <br/><br/>Common paths: <br/><br/> - /description <br/>- /status <br/>- /localized_name <br/>-
+     *  /localized_description <br/>- /output_format <br/>- /consumer_input <br/> - /supported_asset_types <br/>-
+     *  /is_restricted <br/>- /supports_redelivery <br/>- /supports_add_to_project <br/>- /supports_column_selection
+     *  <br/>- /supported_data_sources <br/>- /producer_input <br/>- /auto_mark_delivered [this is only supported for
+     *  'external' delivery method].
+     */
+    jsonPatchOperation: JsonPatchOperation[];
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -3756,7 +4477,9 @@ namespace DphV1 {
    * Asset.
    */
   export interface Asset {
+    /** Metadata information about the asset. */
     metadata?: JsonObject;
+    /** Entity information containing the asset details. */
     entity?: JsonObject;
   }
 
@@ -3868,11 +4591,87 @@ namespace DphV1 {
   /**
    * Defines a quality rule for validating data assets.
    */
+  export interface ContractAuthoritativeDefinition {
+    /** Unique identifier for the authoritative definition. */
+    id?: string;
+    /** The URL of the authoritative data source. */
+    url: string;
+    /** The type of the authoritative data source. */
+    type: string;
+    /** Description of the authoritative definition. */
+    description?: string;
+  }
+
+  /**
+   * Additional options for the logical type (e.g., format, minimum, maximum).
+   */
+  export interface ContractLogicalTypeOptions {
+    /** Format specification for the logical type (e.g., 'date-time', 'email', 'uuid'). */
+    format?: string;
+    /** Minimum value for numeric types or minimum date/time. */
+    minimum?: string;
+    /** Maximum value for numeric types or maximum date/time. */
+    maximum?: string;
+    /** Minimum length for string types. */
+    min_length?: number;
+    /** Maximum length for string types. */
+    max_length?: number;
+    /** Regular expression pattern for string validation. */
+    pattern?: string;
+    /** Values must be strictly less than this (string for date/timestamp, number for integer/number). */
+    exclusive_maximum?: string;
+    /** Values must be strictly greater than this (string for date/timestamp, number for integer/number). */
+    exclusive_minimum?: string;
+    /** Whether timezone is included (for logicalType='timestamp' or 'time'). */
+    timezone?: boolean;
+    /** Default timezone (default: 'Etc/UTC') (for logicalType='timestamp' or 'time'). */
+    default_timezone?: string;
+    /** Values must be multiples of this (for logicalType='integer' or 'number'). */
+    multiple_of?: number;
+    /** Maximum number of properties (for logicalType='object'). */
+    max_properties?: number;
+    /** Minimum number of properties (default: 0) (for logicalType='object'). */
+    min_properties?: number;
+    /** Property names that must exist in the object (for logicalType='object'). */
+    required?: string[];
+    /** Maximum number of items (for logicalType='array'). */
+    max_items?: number;
+    /** Minimum number of items (default: 0) (for logicalType='array'). */
+    min_items?: number;
+    /** Whether all items must be unique (default: false) (for logicalType='array'). */
+    unique_items?: boolean;
+  }
+
+  /**
+   * Defines a quality rule for validating data assets.
+   */
   export interface ContractQualityRule {
+    /** Unique identifier for the quality rule. */
+    id?: string;
     /** The type of the quality rule: 'text', 'library', or 'sql'. */
     type: string;
     /** A descriptive explanation of the quality rule. */
     description?: string;
+    /** Tags associated with the quality rule. */
+    tags?: string[];
+    /** Metric name used by the quality rule (if applicable). */
+    metric?: string;
+    /** Threshold value used by the quality rule. */
+    threshold?: string;
+    /** Allowed/valid values for the quality rule. */
+    valid_values?: string[];
+    /** Dimension used by the quality rule. */
+    dimension?: string;
+    /** Method used to evaluate the quality rule. */
+    method?: string;
+    /** Severity level for the quality rule (e.g., low, medium, high). */
+    severity?: string;
+    /** Business impact description for rule violations. */
+    business_impact?: string;
+    /** Scheduler identifier for periodic rule execution. */
+    scheduler?: string;
+    /** Schedule expression (cron or human-readable) for running the rule. */
+    schedule?: string;
     /** The name or identifier of the library-based quality rule to be applied. */
     rule?: string;
     /** A text (non-parsed) block of code required for the third-party DQ engine to run. */
@@ -3887,6 +4686,8 @@ namespace DphV1 {
     must_be_less_or_equal_to?: string;
     /** The threshold value that the quality check result must be greater than. */
     must_be_greater_than?: string;
+    /** Custom Properties for Quality Rule. */
+    custom_properties?: ContractTemplateCustomProperty[];
     /** The threshold value that the quality check result must be greater than or equal to. */
     must_be_greater_or_equal_to?: string;
     /** Inclusive range (min and max) for the quality check result. */
@@ -3903,64 +4704,142 @@ namespace DphV1 {
     unit?: string;
     /** The SQL query to execute for validating quality in case of a 'sql' rule type. */
     query?: string;
+    /** Additional arguments for the metric (when type='library'). A dictionary/map of key-value pairs. */
+    arguments?: JsonObject;
+    /** List of links to sources that provide more details on the data contract. */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
   }
 
   /**
    * Schema definition of the data asset.
    */
   export interface ContractSchema {
+    /** Unique identifier for the schema object. */
+    id?: string;
     /** Id of the data asset whose schema information is stored. */
     asset_id: string;
     /** Connection Id of the data asset whose schema information is stored. */
     connection_id: string;
     /** Name of the schema or data asset part. */
     name?: string;
+    /** Type of schema (e.g., table, view). */
+    type?: string;
     /** Description of the schema. */
     description?: string;
     /** Connection path of the asset. */
     connection_path?: string;
     /** MIME type or physical type. */
     physical_type?: string;
+    /** The business name of the element. */
+    business_name?: string;
+    /** The logical element data type. */
+    logical_type?: string;
+    /** Physical name of the element. */
+    physical_name?: string;
+    /** Granular level of the data in the object. */
+    data_granularity_description?: string;
+    /** Physical schema name. */
+    physical_schema?: string;
+    /** Reference to server. */
+    server?: string;
+    /** Links to sources that provide more details on the schema. */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
+    /** Tags for categorizing the schema element. */
+    tags?: string[];
+    /** Custom properties for the schema element. */
+    custom_properties?: ContractTemplateCustomProperty[];
     /** List of properties. */
     properties?: ContractSchemaProperty[];
     /** List of quality rules defined for the asset. */
     quality?: ContractQualityRule[];
+    /** Relationships between schema objects. */
+    relationships?: ContractSchemaRelationship[];
   }
 
   /**
    * Defines a property inside the schema.
    */
   export interface ContractSchemaProperty {
+    /** Unique identifier for the schema property/column. */
+    id?: string;
     /** Property name. */
     name: string;
-    /** Detailed type definition of a schema property. */
-    type?: ContractSchemaPropertyType;
+    /** Indicates if this property is a primary key. */
+    primary_key?: boolean;
+    /** Position of this property in the primary key (if applicable). */
+    primary_key_position?: number;
+    /** Logical data type of the property. */
+    logical_type?: string;
+    /** Additional options for the logical type (e.g., format, minimum, maximum). */
+    logical_type_options?: ContractLogicalTypeOptions;
+    /** Physical data type of the property. */
+    physical_type?: string;
+    /** Indicates if this property is required. */
+    required?: boolean;
+    /** Indicates if this property must have unique values. */
+    unique?: boolean;
+    /** Description of the property. */
+    description?: string;
+    /** Business name of the property. */
+    business_name?: string;
+    /** Tags for categorizing the property. */
+    tags?: string[];
+    /** Sample values for the field. */
+    examples?: string[];
+    /** Indicates if this property is used for partitioning. */
+    partitioned?: boolean;
+    /** Position of this property in the partition key (if applicable). */
+    partition_key_position?: number;
+    /** Data classification level (e.g., confidential, public). */
+    classification?: string;
     /** List of quality rules defined for the column. */
     quality?: ContractQualityRule[];
+    /** Physical column name in database (e.g., 'col_str_a'). */
+    physical_name?: string;
+    /** Name of encrypted version of this field (e.g., 'email_address_encrypt'). */
+    encrypted_name?: string;
+    /** List of source objects used in transformation. */
+    transform_source_objects?: string[];
+    /** Logic/code used in field transformation. */
+    transform_logic?: string;
+    /** Human-readable description of transformation. */
+    transform_description?: string;
+    /** Whether this is a critical data element (CDE). */
+    critical_data_element?: boolean;
+    /** Authoritative definitions for the property. */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
+    /** Custom properties for the property. */
+    custom_properties?: ContractTemplateCustomProperty[];
+    /** Relationships (e.g., foreign keys) for the property. */
+    relationships?: ContractSchemaRelationship[];
   }
 
   /**
-   * Detailed type definition of a schema property.
+   * Defines relationships between schema objects (tables) - typically foreign key constraints.
    */
-  export interface ContractSchemaPropertyType {
-    /** Type of the field. */
+  export interface ContractSchemaRelationship {
+    /** Type of relationship. Default: 'foreignKey'. */
     type?: string;
-    /** Length of the field as string. */
-    length?: string;
-    /** Scale of the field as string. */
-    scale?: string;
-    /** Is field nullable? true/false as string. */
-    nullable?: string;
-    /** Is field signed? true/false as string. */
-    signed?: string;
-    /** Native type of the field. */
-    native_type?: string;
+    /** Source property/column reference(s). Format: table.column or schema/id/properties/id. Array for single or
+     *  composite keys.
+     */
+    from?: string[];
+    /** Target property/column reference(s). Format: table.column or schema/id/properties/id. Array for single or
+     *  composite keys.
+     */
+    to?: string[];
+    /** Custom properties for the relationship. */
+    custom_properties?: ContractTemplateCustomProperty[];
   }
 
   /**
    * Schema definition of a server configuration for the asset.
    */
   export interface ContractServer {
+    /** Fully qualified notation using id fields (section/id/properties/id), optionally prefixed with external file
+     *  reference.
+     */
+    id?: string;
     /** Name of the server. */
     server: string;
     /** Defines a data asset name and id. */
@@ -4021,22 +4900,44 @@ namespace DphV1 {
    * Represents a custom property within the contract.
    */
   export interface ContractTemplateCustomProperty {
-    /** The name of the key. Names should be in camel case–the same as if they were permanent properties in the
+    /** Unique identifier for the custom property. */
+    id?: string;
+    /** The name of the property. Names should be in camel case–the same as if they were permanent properties in the
      *  contract.
      */
-    key: string;
-    /** The value of the key. */
+    property: string;
+    /** The value of the property. */
     value: string;
+    /** Description of the custom property. */
+    description?: string;
   }
 
   /**
    * Represents a user and their role in the contract.
    */
-  export interface ContractTemplateOrganization {
+  export interface ContractTemplateMember {
+    /** Unique identifier for the team member. */
+    id?: string;
     /** The user ID associated with the contract. */
     user_id: string;
+    /** Name of the team member. */
+    name?: string;
     /** The role of the user in the contract. */
     role: string;
+    /** Description of the team member's responsibilities. */
+    description?: string;
+    /** Date when the member joined the team. */
+    date_in?: string;
+    /** Date when the member left the team. */
+    date_out?: string;
+    /** Username of the person who replaced this member. */
+    replaced_by_username?: string;
+    /** Tags associated with the team member. */
+    tags?: string[];
+    /** Custom properties for the team member. */
+    custom_properties?: ContractTemplateCustomProperty[];
+    /** Authoritative definitions for the team member. */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
   }
 
   /**
@@ -4053,20 +4954,48 @@ namespace DphV1 {
    * Represents an SLA property and its value.
    */
   export interface ContractTemplateSLAProperty {
+    /** Unique identifier for the SLA property. */
+    id?: string;
     /** The SLA property name. */
     property: string;
     /** The value associated with the SLA property. */
     value: string;
+    /** Extended agreement value. */
+    value_ext?: string;
+    /** Unit of measure (e.g., d for days, y for years). Uses ISO standard. */
+    unit?: string;
+    /** Element(s) to check on. Multiple elements separated by commas. */
+    element?: string;
+    /** Importance of SLA: regulatory, analytics, or operational. */
+    driver?: string;
+    /** Human-readable description of the SLA. */
+    description?: string;
+    /** Scheduler type (e.g., cron). */
+    scheduler?: string;
+    /** Schedule expression (e.g., 0 20 * * *). */
+    schedule?: string;
   }
 
   /**
    * Represents a support and communication channel for the contract.
    */
   export interface ContractTemplateSupportAndCommunication {
+    /** Unique identifier for the support item. */
+    id?: string;
     /** The communication channel. */
     channel: string;
     /** The URL associated with the communication channel. */
-    url: string;
+    url?: string;
+    /** Description of the channel, free text. */
+    description?: string;
+    /** Name of the tool: email, slack, teams, discord, ticket, googlechat, or other. */
+    tool?: string;
+    /** Scope: interactive, announcements, issues, or notifications. */
+    scope?: string;
+    /** Invitation URL for requesting or subscribing. */
+    invitation_url?: string;
+    /** Custom properties for the support channel. */
+    custom_properties?: ContractTemplateCustomProperty[];
   }
 
   /**
@@ -4085,16 +5014,16 @@ namespace DphV1 {
     overview?: Overview;
     /** Description details of a data contract. */
     description?: Description;
-    /** List of sub domains to be added within a domain. */
-    organization?: ContractTemplateOrganization[];
+    /** Represents a team with members and their roles in the contract. */
+    team?: ContractTermsTeam;
     /** List of roles associated with the contract. */
     roles?: Roles[];
     /** Represents the pricing details of the contract. */
     price?: Pricing;
-    /** Service Level Agreement details. */
-    sla?: ContractTemplateSLA[];
+    /** Represents the SLA details of the contract. */
+    sla?: ContractTemplateSLA;
     /** Support and communication details for the contract. */
-    support_and_communication?: ContractTemplateSupportAndCommunication[];
+    support?: ContractTemplateSupportAndCommunication[];
     /** Custom properties that are not part of the standard contract. */
     custom_properties?: ContractTemplateCustomProperty[];
     /** Contains the contract test status and related metadata. */
@@ -4141,13 +5070,23 @@ namespace DphV1 {
   }
 
   /**
-   * List of links to sources that provide more details on the dataset.
+   * Represents a team with members and their roles in the contract.
    */
-  export interface ContractTermsMoreInfo {
-    /** Type of Source Link. */
-    type: string;
-    /** Link to source that provide more details on the dataset. */
-    url: string;
+  export interface ContractTermsTeam {
+    /** Unique identifier for the team. */
+    id?: string;
+    /** Team name. */
+    name?: string;
+    /** Team description. */
+    description?: string;
+    /** List of team members. */
+    members?: ContractTemplateMember[];
+    /** Tags associated with the team. */
+    tags?: string[];
+    /** Custom properties for the team. */
+    custom_properties?: ContractTemplateCustomProperty[];
+    /** Authoritative definitions for the team. */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
   }
 
   /**
@@ -4158,8 +5097,16 @@ namespace DphV1 {
     status: ContractTest.Constants.Status | string;
     /** Timestamp of when the contract was last tested. */
     last_tested_time: string;
+    /** The unique identifier of the data contract associated with this test. */
+    data_contract_id?: string;
+    /** The unique identifier of the project associated with this test. */
+    project_id?: string;
     /** Optional message or details about the contract test. */
     message?: string;
+    /** The unique identifier of the test run. */
+    test_run_id?: string;
+    /** Array of test summary results. */
+    test_summary?: ContractTestSummary[];
   }
   export namespace ContractTest {
     export namespace Constants {
@@ -4169,6 +5116,132 @@ namespace DphV1 {
         FAIL = 'fail',
       }
     }
+  }
+
+  /**
+   * Summary of a contract test execution result.
+   */
+  export interface ContractTestSummary {
+    /** Test execution status. */
+    status?: string;
+    /** DQ rule name. */
+    check?: string;
+    /** Name of the asset. */
+    asset_name?: string;
+    /** Number of rows returned. */
+    records_returned?: string;
+  }
+
+  /**
+   * Response model for contract template YAML validation against ODCS v3.1.0 standard.
+   */
+  export interface ContractValidationResponse {
+    /** Indicates whether the contract template passed validation. */
+    valid: boolean;
+    /** Summary message describing the validation result. */
+    message?: string;
+    /** List of validation error messages if validation failed. */
+    errors?: string[];
+  }
+
+  /**
+   * Data quality check result for a specific dataset and rule.
+   */
+  export interface DQCheckResult {
+    /** Dataset information for data quality check. */
+    dataset: DQDataset;
+    /** Data quality rule information. */
+    data_quality_rule: DQRule;
+    /** Status of the data quality check. */
+    status: DQCheckResult.Constants.Status | string;
+    /** Log entries for this check. */
+    logs?: DQLogEntry[];
+    /** Start time of the check in ISO 8601 format. */
+    start: string;
+    /** End time of the check in ISO 8601 format. */
+    end: string;
+  }
+  export namespace DQCheckResult {
+    export namespace Constants {
+      /** Status of the data quality check. */
+      export enum Status {
+        PASSED = 'passed',
+        FAILED = 'failed',
+        ERROR = 'error',
+        WARNING = 'warning',
+      }
+    }
+  }
+
+  /**
+   * Connection information for data quality test.
+   */
+  export interface DQConnection {
+    /** Unique identifier of the connection. */
+    id: string;
+  }
+
+  /**
+   * Contract information for data quality test.
+   */
+  export interface DQContract {
+    /** Unique identifier of the contract. */
+    id: string;
+    /** Name of the contract. */
+    name: string;
+    /** Version of the contract. */
+    version: string;
+  }
+
+  /**
+   * Dataset information for data quality check.
+   */
+  export interface DQDataset {
+    /** Name of the dataset. */
+    name: string;
+  }
+
+  /**
+   * Log entry for data quality check.
+   */
+  export interface DQLogEntry {
+    /** Log level indicating severity. */
+    level: DQLogEntry.Constants.Level | string;
+    /** Log message content. */
+    message: string;
+    /** Timestamp of the log entry in ISO 8601 format. */
+    timestamp?: string;
+  }
+  export namespace DQLogEntry {
+    export namespace Constants {
+      /** Log level indicating severity. */
+      export enum Level {
+        INFO = 'info',
+        WARNING = 'warning',
+        ERROR = 'error',
+        DEBUG = 'debug',
+      }
+    }
+  }
+
+  /**
+   * Data quality rule information.
+   */
+  export interface DQRule {
+    /** Unique identifier of the data quality rule. */
+    id: string;
+    /** Name of the data quality rule. */
+    name: string;
+  }
+
+  /**
+   * Server mapping with connection information for data quality test.
+   */
+  export interface DQServerMapping {
+    /** Server name as defined in the contract. */
+    server: string;
+    /** Connection information for data quality test. */
+    connection: DQConnection;
   }
 
   /**
@@ -4191,6 +5264,44 @@ namespace DphV1 {
   export interface DataAssetVisualizationRes {
     /** Data asset Ids and their related asset Ids. */
     results?: DataAssetRelationship[];
+  }
+
+  /**
+   * Data contract quality test execution results and run information.
+   */
+  export interface DataContractDQTestResult {
+    /** Unique identifier for the test run. */
+    test_run_id?: string;
+    /** Current status of the test run. */
+    status: string;
+    /** ID of the data contract being tested. */
+    data_contract_id?: string;
+    /** Name of the data contract. */
+    data_contract_name?: string;
+    /** Version of the data contract. */
+    data_contract_version?: string;
+    /** Start time of the test run (legacy field). */
+    start_time?: string;
+    /** User or service ID who initiated the test. */
+    run_by?: string;
+    /** Descriptive message about the test result. */
+    message?: string;
+    /** Error messages during the execution phase. */
+    error_messages?: ErrorMessage[];
+    /** Contract information for data quality test. */
+    contract: DQContract;
+    /** Server mappings for the test execution. */
+    server_mappings?: DQServerMapping[];
+    /** Data product name associated with the test. */
+    data_product?: string;
+    /** Start time of the test in ISO 8601 format. */
+    start: string;
+    /** End time of the test in ISO 8601 format. */
+    end: string;
+    /** Log entries for the test execution. */
+    logs?: DQLogEntry[];
+    /** Check results for each dataset and rule combination. */
+    check_results?: DQCheckResult[];
   }
 
   /**
@@ -4343,6 +5454,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** Timestamp of createddate. */
+    created_date?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -4460,6 +5573,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** Timestamp of createddate. */
+    created_date?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -4513,12 +5628,12 @@ namespace DphV1 {
      *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
      *  previous version of the data product.
      */
-    domain: Domain;
+    domain?: Domain;
     /** The outgoing parts of this data product version to be delivered to consumers. If this is the first version
      *  of a data product, this field defaults to an empty list. If this is a new version of an existing data product,
      *  the data product parts will default to the parts list from the previous version of the data product.
      */
-    parts_out: DataProductPart[];
+    parts_out?: DataProductPart[];
     /** The workflows associated with the data product version. */
     workflows?: DataProductWorkflows;
     /** Indicates whether the dataView has enabled for data product. */
@@ -4529,6 +5644,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** Timestamp of createddate. */
+    created_date?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -4605,7 +5722,7 @@ namespace DphV1 {
     /** The asset represented in this part. */
     asset: AssetPartReference;
     /** Delivery methods describing the delivery options available for this part. */
-    delivery_methods?: DeliveryMethod[];
+    delivery_methods: DeliveryMethod[];
   }
 
   /**
@@ -4652,6 +5769,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** Timestamp of createddate. */
+    created_date?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -4763,6 +5882,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** Timestamp of createddate. */
+    created_date?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -4876,6 +5997,8 @@ namespace DphV1 {
     access_control?: AssetListAccessControl;
     /** Timestamp of last asset update. */
     last_updated_at?: string;
+    /** Timestamp of createddate. */
+    created_date?: string;
     /** The identity schema for a IBM knowledge catalog container (catalog/project/space). */
     sub_container?: ContainerIdentity;
     /** Indicates whether the data product is restricted or not. A restricted data product indicates that orders of
@@ -4936,11 +6059,107 @@ namespace DphV1 {
   }
 
   /**
+   * Delivery method configuration.
+   */
+  export interface DeliveryMethodConfig {
+    /** Delivery method configurations. */
+    delivery_methods: JsonObject[];
+    /** Whether to persist consumer connection information for reuse across deliveries. */
+    persist_consumer_connection?: boolean;
+  }
+
+  /**
    * The propertiess of the delivery method.
    */
   export interface DeliveryMethodPropertiesModel {
     /** Parameters for delivery that are set by a data product producer. */
     producer_input?: ProducerInputModel;
+  }
+
+  /**
+   * Delivery method response model containing complete delivery method configuration and metadata.
+   */
+  export interface DeliveryMethodRes {
+    /** The name of the delivery method. */
+    name: string;
+    /** The unique resource key of the delivery method. */
+    resource_key: string;
+    /** The description of the delivery method. */
+    description: string;
+    /** The status of the delivery method. */
+    status: string;
+    /** List of asset types supported by this delivery method. */
+    supported_asset_types?: string[];
+    /** List of authentication methods supported by this delivery method. */
+    supported_auth_methods?: string[];
+    /** List of authentication methods supported by this delivery method in CPD. */
+    supported_auth_methods_cpd?: string[];
+    /** List of data source IDs supported by this delivery method. */
+    supported_data_sources?: string[];
+    /** Whether the delivery method supports redelivery. */
+    supports_redelivery?: boolean;
+    /** Indicates if the delivery method is restricted. */
+    is_restricted?: boolean;
+    /** Whether the delivery method supports retry on failure. */
+    supports_retry_on_failure?: boolean;
+    /** Whether the delivery method supports revoke access. */
+    supports_revoke_access?: boolean;
+    /** Whether the delivery method supports column selection. */
+    supports_column_selection?: boolean;
+    /** Whether the delivery method supports adding to project. */
+    supports_add_to_project?: boolean;
+    /** Input fields required from the data product producer. */
+    producer_input?: JsonObject[];
+    /** Input fields required from the data consumer. */
+    consumer_input?: JsonObject[];
+    /** Output format specifications for the delivery. */
+    output_format?: JsonObject[];
+    /** Whether the delivery method automatically marks deliveries as delivered. */
+    auto_mark_delivered?: boolean;
+    /** Whether the delivery method uses functional credentials for delivery. */
+    delivery_uses_functional_credentials?: boolean;
+    /** The ID of the delivery method. */
+    id: string;
+    /** The type of the delivery method. */
+    type?: string;
+    /** The delivery mode of the delivery method. */
+    delivery_mode?: string;
+    /** The delivery type of the delivery method. */
+    delivery_type?: string;
+    /** The origin country of the delivery method. */
+    origin_country?: string;
+    /** The creator ID of the delivery method. */
+    creator_id?: string;
+    /** The catalog ID of the delivery method. */
+    catalog_id?: string;
+    /** The asset state of the delivery method. */
+    asset_state?: string;
+    /** The version of the delivery method. */
+    version?: string;
+    /** The ROV configuration of the delivery method. */
+    rov?: JsonObject;
+    /** Localized name of the delivery method. */
+    localized_name?: JsonObject;
+    /** Localized description of the delivery method. */
+    localized_description?: JsonObject;
+    /** Delivery method configuration. */
+    delivery_method_config?: DeliveryMethodConfig;
+  }
+
+  /**
+   * A collection of delivery methods.
+   */
+  export interface DeliveryMethodResCollection {
+    /** Set a limit on the number of results returned. */
+    limit: number;
+    /** First page in the collection. */
+    first: FirstPage;
+    /** Next page in the collection. */
+    next?: NextPage;
+    /** Indicates the total number of results returned. */
+    total_results?: number;
+    /** Collection of delivery methods. */
+    delivery_methods: DeliveryMethodRes[];
   }
 
   /**
@@ -4953,10 +6172,12 @@ namespace DphV1 {
     limitations?: string;
     /** Recommended usage of the data. */
     usage?: string;
-    /** List of links to sources that provide more details on the dataset. */
-    more_info?: ContractTermsMoreInfo[];
+    /** List of links to sources that provide more details on the dataset; examples would be a link to privacy
+     *  statement, terms and conditions, license agreements, data catalog, or another tool.
+     */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
     /** Custom properties that are not part of the standard. */
-    custom_properties?: string;
+    custom_properties?: ContractTemplateCustomProperty[];
   }
 
   /**
@@ -5202,6 +6423,8 @@ namespace DphV1 {
     api_version?: string;
     /** The kind of contract. */
     kind?: string;
+    /** Status of the contract test (pass or fail). */
+    status?: string;
     /** The name of the contract. */
     name?: string;
     /** The version of the contract. */
@@ -5210,15 +6433,27 @@ namespace DphV1 {
      *  is required. If this is a new version of an existing data product, the domain will default to the domain of the
      *  previous version of the data product.
      */
-    domain: Domain;
-    /** Additional information links about the contract. */
-    more_info?: string;
+    domain?: Domain;
+    /** List of links to sources that provide more details on the data contract. */
+    authoritative_definitions?: ContractAuthoritativeDefinition[];
+    /** A unique identifier used to reduce the risk of dataset name collisions, such as a UUID. */
+    id: string;
+    /** Indicates the property the data is primarily associated with. Value is case insensitive. */
+    tenant?: string;
+    /** Name of the data product. */
+    data_product?: string;
+    /** Timestamp in UTC of when the data contract was created (ISO 8601 format). */
+    contract_created_ts?: string;
+    /** Tags associated with the data contract. */
+    tags?: string[];
   }
 
   /**
    * Represents the pricing details of the contract.
    */
   export interface Pricing {
+    /** Unique identifier for pricing. */
+    id?: string;
     /** The amount for the contract pricing. */
     amount?: string;
     /** The currency for the pricing amount. */
@@ -5287,8 +6522,20 @@ namespace DphV1 {
    * Represents a role associated with the contract.
    */
   export interface Roles {
+    /** Unique identifier for the role. */
+    id?: string;
     /** The role associated with the contract. */
-    role?: string;
+    role: string;
+    /** Access level for the role. */
+    access?: string;
+    /** First level approvers for the role. */
+    first_level_approvers?: string;
+    /** Second level approvers for the role. */
+    second_level_approvers?: string;
+    /** Description of the role. */
+    description?: string;
+    /** List of custom properties for the role. */
+    custom_properties?: ContractTemplateCustomProperty[];
   }
 
   /**
@@ -5305,6 +6552,16 @@ namespace DphV1 {
     include?: string;
     /** Number of items to skip. */
     skip?: number;
+  }
+
+  /**
+   * Server mapping that maps the server name in the contract with the connection ID.
+   */
+  export interface ServerMapping {
+    /** Server name for the connection. */
+    server_name: string;
+    /** Connection Id of the data asset. */
+    connection_id: string;
   }
 
   /**
@@ -5576,6 +6833,85 @@ namespace DphV1 {
 
     /**
      * Returns all results by invoking listDataProductReleases() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<DphV1.DataProductReleaseSummary[]>}
+     */
+    public async getAll(): Promise<DphV1.DataProductReleaseSummary[]> {
+      const results: DataProductReleaseSummary[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * RetiredDataProductReleasesLatestPager can be used to simplify the use of listRetiredDataProductReleasesLatest().
+   */
+  export class RetiredDataProductReleasesLatestPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: DphV1;
+
+    protected params: DphV1.ListRetiredDataProductReleasesLatestParams;
+
+    /**
+     * Construct a RetiredDataProductReleasesLatestPager object.
+     *
+     * @param {DphV1}  client - The service client instance used to invoke listRetiredDataProductReleasesLatest()
+     * @param {Object} params - The parameters to be passed to listRetiredDataProductReleasesLatest()
+     * @constructor
+     * @returns {RetiredDataProductReleasesLatestPager}
+     */
+    constructor(client: DphV1, params: DphV1.ListRetiredDataProductReleasesLatestParams) {
+      if (params && params.start) {
+        throw new Error(`the params.start field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listRetiredDataProductReleasesLatest().
+     * @returns {Promise<DphV1.DataProductReleaseSummary[]>}
+     */
+    public async getNext(): Promise<DphV1.DataProductReleaseSummary[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.start = this.pageContext.next;
+      }
+      const response = await this.client.listRetiredDataProductReleasesLatest(this.params);
+      const { result } = response;
+
+      let next;
+      if (result && result.next) {
+        next = result.next.start;
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.releases;
+    }
+
+    /**
+     * Returns all results by invoking listRetiredDataProductReleasesLatest() repeatedly until all pages of results have been retrieved.
      * @returns {Promise<DphV1.DataProductReleaseSummary[]>}
      */
     public async getAll(): Promise<DphV1.DataProductReleaseSummary[]> {
