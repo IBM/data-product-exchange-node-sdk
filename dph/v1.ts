@@ -335,7 +335,11 @@ class DphV1 extends BaseService {
       'container.id': _params.containerId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDeliveryConfiguration');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateDeliveryConfiguration'
+    );
 
     const parameters = {
       options: {
@@ -388,13 +392,7 @@ class DphV1 extends BaseService {
         method: 'POST',
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -431,7 +429,11 @@ class DphV1 extends BaseService {
       'assets': _params.assets,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataAssetVisualization');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createDataAssetVisualization'
+    );
 
     const parameters = {
       options: {
@@ -482,7 +484,11 @@ class DphV1 extends BaseService {
       'assets': _params.assets,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'reinitiateDataAssetVisualization');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'reinitiateDataAssetVisualization'
+    );
 
     const parameters = {
       options: {
@@ -706,7 +712,11 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'completeDraftContractTermsDocument');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'completeDraftContractTermsDocument'
+    );
 
     const parameters = {
       options: {
@@ -749,7 +759,14 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDraftCollection>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
-    const _validParams = ['dataProductId', 'assetContainerId', 'version', 'limit', 'start', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'assetContainerId',
+      'version',
+      'limit',
+      'start',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -838,7 +855,30 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDraft>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'asset'];
-    const _validParams = ['dataProductId', 'asset', 'version', 'state', 'dataProduct', 'name', 'description', 'tags', 'useCases', 'types', 'contractTerms', 'domain', 'partsOut', 'workflows', 'dataviewEnabled', 'comments', 'accessControl', 'lastUpdatedAt', 'createdDate', 'subContainer', 'isRestricted', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'asset',
+      'version',
+      'state',
+      'dataProduct',
+      'name',
+      'description',
+      'tags',
+      'useCases',
+      'types',
+      'contractTerms',
+      'domain',
+      'partsOut',
+      'workflows',
+      'dataviewEnabled',
+      'comments',
+      'accessControl',
+      'lastUpdatedAt',
+      'createdDate',
+      'subContainer',
+      'isRestricted',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -924,7 +964,15 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name'];
-    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'type', 'name', 'url', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'type',
+      'name',
+      'url',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -942,7 +990,11 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDraftContractTermsDocument');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createDraftContractTermsDocument'
+    );
 
     const parameters = {
       options: {
@@ -989,8 +1041,24 @@ class DphV1 extends BaseService {
     params: DphV1.CreateDataContractTestRunParams
   ): Promise<DphV1.Response<DphV1.DataContractDQTestResult>> {
     const _params = { ...params };
-    const _requiredParams = ['dataProductId', 'projectId', 'catalogId', 'contractName', 'contractYaml'];
-    const _validParams = ['dataProductId', 'projectId', 'catalogId', 'contractName', 'contractYaml', 'assetIds', 'serverMapping', 'dataContractId', 'headers'];
+    const _requiredParams = [
+      'dataProductId',
+      'projectId',
+      'catalogId',
+      'contractName',
+      'contractYaml',
+    ];
+    const _validParams = [
+      'dataProductId',
+      'projectId',
+      'catalogId',
+      'contractName',
+      'contractYaml',
+      'assetIds',
+      'serverMapping',
+      'dataContractId',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1123,13 +1191,7 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -1230,7 +1292,11 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDraftContractTermsDocument');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getDraftContractTermsDocument'
+    );
 
     const parameters = {
       options: {
@@ -1287,7 +1353,11 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDraftContractTermsDocument');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteDraftContractTermsDocument'
+    );
 
     const parameters = {
       options: {
@@ -1296,13 +1366,7 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -1336,8 +1400,21 @@ class DphV1 extends BaseService {
     params: DphV1.UpdateDraftContractTermsDocumentParams
   ): Promise<DphV1.Response<DphV1.ContractTermsDocument>> {
     const _params = { ...params };
-    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'jsonPatchInstructions'];
-    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'documentId', 'jsonPatchInstructions', 'headers'];
+    const _requiredParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'documentId',
+      'jsonPatchInstructions',
+    ];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'documentId',
+      'jsonPatchInstructions',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1351,7 +1428,11 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDraftContractTermsDocument');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateDraftContractTermsDocument'
+    );
 
     const parameters = {
       options: {
@@ -1399,7 +1480,16 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId'];
-    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'accept', 'includeContractDocuments', 'autopopulateServerInformation', 'serverId', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'accept',
+      'includeContractDocuments',
+      'autopopulateServerInformation',
+      'serverId',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1417,7 +1507,11 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataProductDraftContractTerms');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getDataProductDraftContractTerms'
+    );
 
     const parameters = {
       options: {
@@ -1476,7 +1570,27 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId'];
-    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'asset', 'id', 'documents', 'errorMsg', 'overview', 'description', 'team', 'roles', 'price', 'sla', 'support', 'customProperties', 'contractTest', 'servers', 'schema', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'asset',
+      'id',
+      'documents',
+      'errorMsg',
+      'overview',
+      'description',
+      'team',
+      'roles',
+      'price',
+      'sla',
+      'support',
+      'customProperties',
+      'contractTest',
+      'servers',
+      'schema',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1506,7 +1620,11 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceDataProductDraftContractTerms');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceDataProductDraftContractTerms'
+    );
 
     const parameters = {
       options: {
@@ -1555,8 +1673,19 @@ class DphV1 extends BaseService {
     params: DphV1.UpdateDataProductDraftContractTermsParams
   ): Promise<DphV1.Response<DphV1.ContractTerms>> {
     const _params = { ...params };
-    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'jsonPatchInstructions'];
-    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'jsonPatchInstructions', 'headers'];
+    const _requiredParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'jsonPatchInstructions',
+    ];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'jsonPatchInstructions',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1569,7 +1698,11 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDataProductDraftContractTerms');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateDataProductDraftContractTerms'
+    );
 
     const parameters = {
       options: {
@@ -1613,8 +1746,22 @@ class DphV1 extends BaseService {
     params: DphV1.GetContractTermsInSpecifiedFormatParams
   ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
-    const _requiredParams = ['dataProductId', 'draftId', 'contractTermsId', 'format', 'formatVersion'];
-    const _validParams = ['dataProductId', 'draftId', 'contractTermsId', 'format', 'formatVersion', 'accept', 'headers'];
+    const _requiredParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'format',
+      'formatVersion',
+    ];
+    const _validParams = [
+      'dataProductId',
+      'draftId',
+      'contractTermsId',
+      'format',
+      'formatVersion',
+      'accept',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1631,7 +1778,11 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getContractTermsInSpecifiedFormat');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getContractTermsInSpecifiedFormat'
+    );
 
     const parameters = {
       options: {
@@ -1691,7 +1842,11 @@ class DphV1 extends BaseService {
       'test_run_id': _params.testRunId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getDataContractTestResults');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getDataContractTestResults'
+    );
 
     const parameters = {
       options: {
@@ -1921,7 +2076,11 @@ class DphV1 extends BaseService {
       'document_id': _params.documentId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getReleaseContractTermsDocument');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getReleaseContractTermsDocument'
+    );
 
     const parameters = {
       options: {
@@ -1964,7 +2123,14 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId', 'releaseId', 'contractTermsId'];
-    const _validParams = ['dataProductId', 'releaseId', 'contractTermsId', 'accept', 'includeContractDocuments', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'releaseId',
+      'contractTermsId',
+      'accept',
+      'includeContractDocuments',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1980,7 +2146,11 @@ class DphV1 extends BaseService {
       'contract_terms_id': _params.contractTermsId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getPublishedDataProductDraftContractTerms');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getPublishedDataProductDraftContractTerms'
+    );
 
     const parameters = {
       options: {
@@ -2027,7 +2197,15 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductReleaseCollection>> {
     const _params = { ...params };
     const _requiredParams = ['dataProductId'];
-    const _validParams = ['dataProductId', 'assetContainerId', 'state', 'version', 'limit', 'start', 'headers'];
+    const _validParams = [
+      'dataProductId',
+      'assetContainerId',
+      'state',
+      'version',
+      'limit',
+      'start',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2108,7 +2286,11 @@ class DphV1 extends BaseService {
       'data_product_id': _params.dataProductId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'listRetiredDataProductReleasesLatest');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listRetiredDataProductReleasesLatest'
+    );
 
     const parameters = {
       options: {
@@ -2272,7 +2454,13 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductContractTemplateCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['containerId', 'contractTemplateName', 'contractTemplateStatus', 'domainIds', 'headers'];
+    const _validParams = [
+      'containerId',
+      'contractTemplateName',
+      'contractTemplateStatus',
+      'domainIds',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2285,7 +2473,11 @@ class DphV1 extends BaseService {
       'domain.ids': _params.domainIds,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'listDataProductContractTemplate');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listDataProductContractTemplate'
+    );
 
     const parameters = {
       options: {
@@ -2337,7 +2529,20 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductContractTemplate>> {
     const _params = { ...params };
     const _requiredParams = ['container'];
-    const _validParams = ['container', 'id', 'creatorId', 'createdAt', 'name', 'error', 'contractTerms', 'containerId', 'contractTemplateName', 'contractTemplateStatus', 'domainIds', 'headers'];
+    const _validParams = [
+      'container',
+      'id',
+      'creatorId',
+      'createdAt',
+      'name',
+      'error',
+      'contractTerms',
+      'containerId',
+      'contractTemplateName',
+      'contractTemplateStatus',
+      'domainIds',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2469,7 +2674,11 @@ class DphV1 extends BaseService {
       'contract_template_id': _params.contractTemplateId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDataProductContractTemplate');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteDataProductContractTemplate'
+    );
 
     const parameters = {
       options: {
@@ -2479,13 +2688,7 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -2528,7 +2731,11 @@ class DphV1 extends BaseService {
       'contract_template_id': _params.contractTemplateId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDataProductContractTemplate');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateDataProductContractTemplate'
+    );
 
     const parameters = {
       options: {
@@ -2579,7 +2786,11 @@ class DphV1 extends BaseService {
     }
 
     const body = _params.body;
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'validateContractTemplateYaml');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'validateContractTemplateYaml'
+    );
 
     const parameters = {
       options: {
@@ -2684,7 +2895,21 @@ class DphV1 extends BaseService {
   ): Promise<DphV1.Response<DphV1.DataProductDomain>> {
     const _params = { ...params };
     const _requiredParams = ['container'];
-    const _validParams = ['container', 'trace', 'errors', 'name', 'description', 'id', 'createdBy', 'memberRoles', 'properties', 'subDomains', 'subContainer', 'linkToSubcontainers', 'headers'];
+    const _validParams = [
+      'container',
+      'trace',
+      'errors',
+      'name',
+      'description',
+      'id',
+      'createdBy',
+      'memberRoles',
+      'properties',
+      'subDomains',
+      'subContainer',
+      'linkToSubcontainers',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2772,7 +2997,11 @@ class DphV1 extends BaseService {
       'domain_id': _params.domainId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'createDataProductSubdomain');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createDataProductSubdomain'
+    );
 
     const parameters = {
       options: {
@@ -2880,13 +3109,7 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -2985,7 +3208,11 @@ class DphV1 extends BaseService {
       'domain_id': _params.domainId,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getContractTemplatesByDomain');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getContractTemplatesByDomain'
+    );
 
     const parameters = {
       options: {
@@ -3195,7 +3422,11 @@ class DphV1 extends BaseService {
       'start': _params.start,
     };
 
-    const sdkHeaders = getSdkHeaders(DphV1.DEFAULT_SERVICE_NAME, 'v1', 'getRevokeAccessProcessState');
+    const sdkHeaders = getSdkHeaders(
+      DphV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getRevokeAccessProcessState'
+    );
 
     const parameters = {
       options: {
@@ -3308,8 +3539,40 @@ class DphV1 extends BaseService {
     params: DphV1.CreateDeliveryMethodParams
   ): Promise<DphV1.Response<DphV1.DeliveryMethodRes>> {
     const _params = { ...params };
-    const _requiredParams = ['catalogId', 'name', 'resourceKey', 'description', 'status', 'container'];
-    const _validParams = ['catalogId', 'name', 'resourceKey', 'description', 'status', 'container', 'supportedAssetTypes', 'supportedAuthMethods', 'supportedAuthMethodsCpd', 'supportedDataSources', 'supportsRedelivery', 'isRestricted', 'supportsRetryOnFailure', 'supportsRevokeAccess', 'supportsColumnSelection', 'supportsAddToProject', 'producerInput', 'consumerInput', 'outputFormat', 'autoMarkDelivered', 'deliveryUsesFunctionalCredentials', 'dataSourceProperties', 'deliveryOutput', 'headers'];
+    const _requiredParams = [
+      'catalogId',
+      'name',
+      'resourceKey',
+      'description',
+      'status',
+      'container',
+    ];
+    const _validParams = [
+      'catalogId',
+      'name',
+      'resourceKey',
+      'description',
+      'status',
+      'container',
+      'supportedAssetTypes',
+      'supportedAuthMethods',
+      'supportedAuthMethodsCpd',
+      'supportedDataSources',
+      'supportsRedelivery',
+      'isRestricted',
+      'supportsRetryOnFailure',
+      'supportsRevokeAccess',
+      'supportsColumnSelection',
+      'supportsAddToProject',
+      'producerInput',
+      'consumerInput',
+      'outputFormat',
+      'autoMarkDelivered',
+      'deliveryUsesFunctionalCredentials',
+      'dataSourceProperties',
+      'deliveryOutput',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3463,13 +3726,7 @@ class DphV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,8 +121,8 @@ describe('DphV1_integration', () => {
     createDataProductByCatalogIdLink = res.result.container.id;
     getStatusByCatalogIdLink = res.result.container.id;
   });
-  
-    test('getInitializeStatus()', async () => {
+
+  test('getInitializeStatus()', async () => {
     const params = {
       containerId: getStatusByCatalogIdLink,
     };
@@ -263,7 +263,7 @@ describe('DphV1_integration', () => {
     createAContractTermsDocByDraftIdLink = res.result.drafts[0].id;
     getDraftByDraftIdLink = res.result.drafts[0].id;
   });
-  
+
   test('getDataProduct()', async () => {
     const params = {
       dataProductId: 'f384fcbe-cb21-490a-aadd-a9a021851781',
@@ -274,7 +274,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('listDataProducts()', async () => {
     const params = {
       limit: 200,
@@ -308,7 +308,7 @@ describe('DphV1_integration', () => {
     expect(allItems).toHaveLength(allResults.length);
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
-  
+
   test('getDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -320,7 +320,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('updateDataProductDraft()', async () => {
     // Request models needed by this operation.
 
@@ -342,7 +342,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('createDraftContractTermsDocument()', async () => {
     const params = {
       dataProductId: uploadContractTermsDocByDataProductIdLink,
@@ -377,7 +377,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('updateDraftContractTermsDocument()', async () => {
     // Request models needed by this operation.
 
@@ -400,7 +400,7 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-  });  
+  });
 
   test('getDataProductDraftContractTerms()', async () => {
     const params = {
@@ -466,7 +466,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('getReleaseContractTermsDocument()', async () => {
     const params = {
       dataProductId: getReleaseContractDocumentByDataProductIdLink,
@@ -479,8 +479,8 @@ describe('DphV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-  }); 
-  
+  });
+
   test('replaceDataProductDraftContractTerms()', async () => {
     // Request models needed by this operation.
 
@@ -699,7 +699,6 @@ describe('DphV1_integration', () => {
   });
 
   test('updateDataProductDraftContractTerms()', async () => {
-    
     // Domain
     const domainModel = {
       id: '35b3ca59-98ee-4eb0-adb2-a1858ea5f5d7',
@@ -763,7 +762,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test.skip('createDataContractTestRun()', async () => {
     // Request models needed by this operation.
 
@@ -858,7 +857,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('listRetiredDataProductReleasesLatest()', async () => {
     const params = {
       dataProductId: retireAReleasesOfDataProductByDataProductIdLink,
@@ -1190,7 +1189,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('validateContractTemplateYaml()', async () => {
     const params = {
       body: 'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n',
@@ -1388,7 +1387,7 @@ describe('DphV1_integration', () => {
     expect(allItems).toHaveLength(allResults.length);
     console.log(`Retrieved a total of ${allResults.length} items(s) with pagination.`);
   });
-  
+
   test('createDraftContractTermsDocumentForDeleteOp()', async () => {
     // Request models needed by this operation.
 
@@ -1518,7 +1517,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('getContractTemplatesByDomain()', async () => {
     const params = {
       domainId: createDataProductDomainId,
@@ -1541,7 +1540,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
-  
+
   test.skip('createRevokeAccessProcess()', async () => {
     const params = {
       dataProductId: 'testString',
@@ -1590,7 +1589,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('deleteDataProductDraft()', async () => {
     const params = {
       dataProductId: '-',
@@ -1602,7 +1601,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
-  
+
   test('getDeliveryConfiguration()', async () => {
     const params = {
       containerId: getStatusByCatalogIdLink,
@@ -1640,13 +1639,70 @@ describe('DphV1_integration', () => {
       supportsRevokeAccess: true,
       supportsColumnSelection: true,
       supportsAddToProject: false,
-      producerInput: [{ key: '<input_key>', type: 'string|enum|array|connection', localized_name: { default: 'Default Label', en: 'English Label' }, localized_description: { default: 'Default Description', en: 'English Description' }, required: true, valid_values: ['<value1>', '<value2>'] }],
-      consumerInput: [{ key: '<input_key>', type: 'string|enum|array|connection', localized_name: { default: 'Default Label', en: 'English Label' }, localized_description: { default: 'Default Description', en: 'English Description' }, required: true, supported_data_sources: ['<DATA_SOURCE_ID>'], valid_values: ['<value1>', '<value2>'], hmac_enabled: false, has_bucket: false }],
-      outputFormat: [{ key: '<output_key>', type: 'string|url|copy_text|array', localized_name: { default: '<Default Label>', en: '<English Label>', de: '<German Label>', eo: '<Esperanto Key>', es: '<Spanish Label>', fr: '<French Label>', it: '<Italian Label>', ja: '<Japanese Label>', ko: '<Korean Label>', pl: '<Polish Label>', pt: '<Portuguese Label>', ru: '<Russian Label>', sv: '<Swedish Label>', zh: '<Chinese Simplified Label>', 'zh-TW': '<Chinese Traditional Label>' }, contents: [{ key: '<nested_key>', type: 'string|copy_text', localized_name: { default: '<Default Label>', en: '<English Label>' } }] }],
+      producerInput: [
+        {
+          key: '<input_key>',
+          type: 'string|enum|array|connection',
+          localized_name: { default: 'Default Label', en: 'English Label' },
+          localized_description: { default: 'Default Description', en: 'English Description' },
+          required: true,
+          valid_values: ['<value1>', '<value2>'],
+        },
+      ],
+      consumerInput: [
+        {
+          key: '<input_key>',
+          type: 'string|enum|array|connection',
+          localized_name: { default: 'Default Label', en: 'English Label' },
+          localized_description: { default: 'Default Description', en: 'English Description' },
+          required: true,
+          supported_data_sources: ['<DATA_SOURCE_ID>'],
+          valid_values: ['<value1>', '<value2>'],
+          hmac_enabled: false,
+          has_bucket: false,
+        },
+      ],
+      outputFormat: [
+        {
+          key: '<output_key>',
+          type: 'string|url|copy_text|array',
+          localized_name: {
+            default: '<Default Label>',
+            en: '<English Label>',
+            de: '<German Label>',
+            eo: '<Esperanto Key>',
+            es: '<Spanish Label>',
+            fr: '<French Label>',
+            it: '<Italian Label>',
+            ja: '<Japanese Label>',
+            ko: '<Korean Label>',
+            pl: '<Polish Label>',
+            pt: '<Portuguese Label>',
+            ru: '<Russian Label>',
+            sv: '<Swedish Label>',
+            zh: '<Chinese Simplified Label>',
+            'zh-TW': '<Chinese Traditional Label>',
+          },
+          contents: [
+            {
+              key: '<nested_key>',
+              type: 'string|copy_text',
+              localized_name: { default: '<Default Label>', en: '<English Label>' },
+            },
+          ],
+        },
+      ],
       autoMarkDelivered: true,
       deliveryUsesFunctionalCredentials: true,
       dataSourceProperties: { DATA_SOURCE_ID: { supports_query: false } },
-      deliveryOutput: { delivery_output_assets: [{ asset_type: 'ibm_url_definition|data_asset', localized_labels: { default: '<Default Label>', en: '<English Label>' } }] },
+      deliveryOutput: {
+        delivery_output_assets: [
+          {
+            asset_type: 'ibm_url_definition|data_asset',
+            localized_labels: { default: '<Default Label>', en: '<English Label>' },
+          },
+        ],
+      },
     };
 
     const res = await dphService.createDeliveryMethod(params);
@@ -1666,7 +1722,7 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
   });
-  
+
   test('listDeliveryMethods()', async () => {
     const params = {
       catalogId: getStatusByCatalogIdLink,
@@ -1712,5 +1768,4 @@ describe('DphV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
   });
-
 });

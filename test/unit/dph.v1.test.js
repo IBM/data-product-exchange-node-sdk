@@ -140,7 +140,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/configuration/initialize/status', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/initialize/status',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -191,7 +195,9 @@ describe('DphV1', () => {
         // Construct the params object for operation getServiceIdCredentials
         const getServiceIdCredentialsParams = {};
 
-        const getServiceIdCredentialsResult = dphService.getServiceIdCredentials(getServiceIdCredentialsParams);
+        const getServiceIdCredentialsResult = dphService.getServiceIdCredentials(
+          getServiceIdCredentialsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getServiceIdCredentialsResult);
@@ -201,7 +207,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/configuration/credentials', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/credentials',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -258,7 +268,14 @@ describe('DphV1', () => {
       function __initializeTest() {
         // Construct the params object for operation initialize
         const container = containerReferenceModel;
-        const include = ['delivery_methods', 'domains_multi_industry', 'data_product_samples', 'workflows', 'project', 'catalog_configurations'];
+        const include = [
+          'delivery_methods',
+          'domains_multi_industry',
+          'data_product_samples',
+          'workflows',
+          'project',
+          'catalog_configurations',
+        ];
         const initializeParams = {
           container,
           include,
@@ -274,7 +291,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/configuration/initialize', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/initialize',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -329,7 +350,9 @@ describe('DphV1', () => {
           containerId,
         };
 
-        const getDeliveryConfigurationResult = dphService.getDeliveryConfiguration(getDeliveryConfigurationParams);
+        const getDeliveryConfigurationResult = dphService.getDeliveryConfiguration(
+          getDeliveryConfigurationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDeliveryConfigurationResult);
@@ -339,7 +362,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/configuration/delivery', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/delivery',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -405,7 +432,9 @@ describe('DphV1', () => {
           jsonPatchOperation,
         };
 
-        const updateDeliveryConfigurationResult = dphService.updateDeliveryConfiguration(updateDeliveryConfigurationParams);
+        const updateDeliveryConfigurationResult = dphService.updateDeliveryConfiguration(
+          updateDeliveryConfigurationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDeliveryConfigurationResult);
@@ -415,7 +444,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/configuration/delivery', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/delivery',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -499,7 +532,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/configuration/rotate_credentials', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/rotate_credentials',
+          'POST'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -587,7 +624,9 @@ describe('DphV1', () => {
           assets,
         };
 
-        const createDataAssetVisualizationResult = dphService.createDataAssetVisualization(createDataAssetVisualizationParams);
+        const createDataAssetVisualizationResult = dphService.createDataAssetVisualization(
+          createDataAssetVisualizationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDataAssetVisualizationResult);
@@ -597,7 +636,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_asset/visualization', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_asset/visualization',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -686,7 +729,9 @@ describe('DphV1', () => {
           assets,
         };
 
-        const reinitiateDataAssetVisualizationResult = dphService.reinitiateDataAssetVisualization(reinitiateDataAssetVisualizationParams);
+        const reinitiateDataAssetVisualizationResult = dphService.reinitiateDataAssetVisualization(
+          reinitiateDataAssetVisualizationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(reinitiateDataAssetVisualizationResult);
@@ -696,7 +741,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_asset/visualization/reinitiate', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_asset/visualization/reinitiate',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1314,7 +1363,8 @@ describe('DphV1', () => {
         parts_out: [dataProductPartModel],
         workflows: dataProductWorkflowsModel,
         dataview_enabled: true,
-        comments: 'Comments by a producer that are provided either at the time of data product version creation or retiring',
+        comments:
+          'Comments by a producer that are provided either at the time of data product version creation or retiring',
         access_control: assetListAccessControlModel,
         last_updated_at: '2019-01-01T12:00:00.000Z',
         created_date: '2019-01-01T12:00:00.000Z',
@@ -1430,7 +1480,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1510,7 +1564,8 @@ describe('DphV1', () => {
           documentId,
         };
 
-        const completeDraftContractTermsDocumentResult = dphService.completeDraftContractTermsDocument(completeDraftContractTermsDocumentParams);
+        const completeDraftContractTermsDocumentResult =
+          dphService.completeDraftContractTermsDocument(completeDraftContractTermsDocumentParams);
 
         // all methods should return a Promise
         expectToBePromise(completeDraftContractTermsDocumentResult);
@@ -1520,7 +1575,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}/complete', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}/complete',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1611,7 +1670,9 @@ describe('DphV1', () => {
           start,
         };
 
-        const listDataProductDraftsResult = dphService.listDataProductDrafts(listDataProductDraftsParams);
+        const listDataProductDraftsResult = dphService.listDataProductDrafts(
+          listDataProductDraftsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listDataProductDraftsResult);
@@ -1621,7 +1682,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2234,7 +2299,9 @@ describe('DphV1', () => {
           isRestricted,
         };
 
-        const createDataProductDraftResult = dphService.createDataProductDraft(createDataProductDraftParams);
+        const createDataProductDraftResult = dphService.createDataProductDraft(
+          createDataProductDraftParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDataProductDraftResult);
@@ -2244,7 +2311,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2350,7 +2421,9 @@ describe('DphV1', () => {
           url,
         };
 
-        const createDraftContractTermsDocumentResult = dphService.createDraftContractTermsDocument(createDraftContractTermsDocumentParams);
+        const createDraftContractTermsDocumentResult = dphService.createDraftContractTermsDocument(
+          createDraftContractTermsDocumentParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDraftContractTermsDocumentResult);
@@ -2360,7 +2433,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2455,7 +2532,10 @@ describe('DphV1', () => {
         const catalogId = 'd29c42eb-7100-4b7a-8257-c196dbcca1cd';
         const contractName = 'My Data Contract';
         const contractYaml = 'version: 1.0';
-        const assetIds = ['b50c42eb-7100-4b7a-8257-c196dbcca1cd', 'c69c42eb-7100-4b7a-8257-c196dbcca1cd'];
+        const assetIds = [
+          'b50c42eb-7100-4b7a-8257-c196dbcca1cd',
+          'c69c42eb-7100-4b7a-8257-c196dbcca1cd',
+        ];
         const serverMapping = [serverMappingModel];
         const dataContractId = '58be8340-2844-47ab-9528-c6d0cb235354';
         const createDataContractTestRunParams = {
@@ -2469,7 +2549,9 @@ describe('DphV1', () => {
           dataContractId,
         };
 
-        const createDataContractTestRunResult = dphService.createDataContractTestRun(createDataContractTestRunParams);
+        const createDataContractTestRunResult = dphService.createDataContractTestRun(
+          createDataContractTestRunParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDataContractTestRunResult);
@@ -2479,7 +2561,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2580,7 +2666,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2659,7 +2749,9 @@ describe('DphV1', () => {
           draftId,
         };
 
-        const deleteDataProductDraftResult = dphService.deleteDataProductDraft(deleteDataProductDraftParams);
+        const deleteDataProductDraftResult = dphService.deleteDataProductDraft(
+          deleteDataProductDraftParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteDataProductDraftResult);
@@ -2669,7 +2761,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2760,7 +2856,9 @@ describe('DphV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductDraftResult = dphService.updateDataProductDraft(updateDataProductDraftParams);
+        const updateDataProductDraftResult = dphService.updateDataProductDraft(
+          updateDataProductDraftParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDataProductDraftResult);
@@ -2770,7 +2868,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2856,7 +2958,9 @@ describe('DphV1', () => {
           documentId,
         };
 
-        const getDraftContractTermsDocumentResult = dphService.getDraftContractTermsDocument(getDraftContractTermsDocumentParams);
+        const getDraftContractTermsDocumentResult = dphService.getDraftContractTermsDocument(
+          getDraftContractTermsDocumentParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDraftContractTermsDocumentResult);
@@ -2866,7 +2970,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2955,7 +3063,9 @@ describe('DphV1', () => {
           documentId,
         };
 
-        const deleteDraftContractTermsDocumentResult = dphService.deleteDraftContractTermsDocument(deleteDraftContractTermsDocumentParams);
+        const deleteDraftContractTermsDocumentResult = dphService.deleteDraftContractTermsDocument(
+          deleteDraftContractTermsDocumentParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteDraftContractTermsDocumentResult);
@@ -2965,7 +3075,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3066,7 +3180,9 @@ describe('DphV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDraftContractTermsDocumentResult = dphService.updateDraftContractTermsDocument(updateDraftContractTermsDocumentParams);
+        const updateDraftContractTermsDocumentResult = dphService.updateDraftContractTermsDocument(
+          updateDraftContractTermsDocumentParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDraftContractTermsDocumentResult);
@@ -3076,7 +3192,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3174,7 +3294,9 @@ describe('DphV1', () => {
           serverId,
         };
 
-        const getDataProductDraftContractTermsResult = dphService.getDataProductDraftContractTerms(getDataProductDraftContractTermsParams);
+        const getDataProductDraftContractTermsResult = dphService.getDataProductDraftContractTerms(
+          getDataProductDraftContractTermsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDataProductDraftContractTermsResult);
@@ -3184,13 +3306,19 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}',
+          'GET'
+        );
         const expectedAccept = accept;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'Accept', accept);
         expect(mockRequestOptions.qs.include_contract_documents).toEqual(includeContractDocuments);
-        expect(mockRequestOptions.qs.autopopulate_server_information).toEqual(autopopulateServerInformation);
+        expect(mockRequestOptions.qs.autopopulate_server_information).toEqual(
+          autopopulateServerInformation
+        );
         expect(mockRequestOptions.qs.server_id).toEqual(serverId);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
         expect(mockRequestOptions.path.draft_id).toEqual(draftId);
@@ -3333,8 +3461,10 @@ describe('DphV1', () => {
       // Description
       const descriptionModel = {
         purpose: 'Provide customer behavioral analytics data for marketing and product teams',
-        limitations: 'Data is aggregated at daily level. PII is masked. Maximum retention is 2 years.',
-        usage: 'Recommended for trend analysis, segmentation, and predictive modeling. Not suitable for real-time decisioning.',
+        limitations:
+          'Data is aggregated at daily level. PII is masked. Maximum retention is 2 years.',
+        usage:
+          'Recommended for trend analysis, segmentation, and predictive modeling. Not suitable for real-time decisioning.',
         authoritative_definitions: [contractAuthoritativeDefinitionModel],
         custom_properties: [contractTemplateCustomPropertyModel],
       };
@@ -3631,7 +3761,10 @@ describe('DphV1', () => {
           schema,
         };
 
-        const replaceDataProductDraftContractTermsResult = dphService.replaceDataProductDraftContractTerms(replaceDataProductDraftContractTermsParams);
+        const replaceDataProductDraftContractTermsResult =
+          dphService.replaceDataProductDraftContractTerms(
+            replaceDataProductDraftContractTermsParams
+          );
 
         // all methods should return a Promise
         expectToBePromise(replaceDataProductDraftContractTermsResult);
@@ -3641,7 +3774,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}', 'PUT');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}',
+          'PUT'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3752,7 +3889,8 @@ describe('DphV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductDraftContractTermsResult = dphService.updateDataProductDraftContractTerms(updateDataProductDraftContractTermsParams);
+        const updateDataProductDraftContractTermsResult =
+          dphService.updateDataProductDraftContractTerms(updateDataProductDraftContractTermsParams);
 
         // all methods should return a Promise
         expectToBePromise(updateDataProductDraftContractTermsResult);
@@ -3762,7 +3900,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3855,7 +3997,8 @@ describe('DphV1', () => {
           accept,
         };
 
-        const getContractTermsInSpecifiedFormatResult = dphService.getContractTermsInSpecifiedFormat(getContractTermsInSpecifiedFormatParams);
+        const getContractTermsInSpecifiedFormatResult =
+          dphService.getContractTermsInSpecifiedFormat(getContractTermsInSpecifiedFormatParams);
 
         // all methods should return a Promise
         expectToBePromise(getContractTermsInSpecifiedFormatResult);
@@ -3865,7 +4008,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/format', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/contract_terms/{contract_terms_id}/format',
+          'GET'
+        );
         const expectedAccept = accept;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3959,7 +4106,9 @@ describe('DphV1', () => {
           projectId,
         };
 
-        const getDataContractTestResultsResult = dphService.getDataContractTestResults(getDataContractTestResultsParams);
+        const getDataContractTestResultsResult = dphService.getDataContractTestResults(
+          getDataContractTestResultsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDataContractTestResultsResult);
@@ -3969,7 +4118,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract/{data_contract_id}/test_results/{test_run_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract/{data_contract_id}/test_results/{test_run_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4054,7 +4207,9 @@ describe('DphV1', () => {
           draftId,
         };
 
-        const publishDataProductDraftResult = dphService.publishDataProductDraft(publishDataProductDraftParams);
+        const publishDataProductDraftResult = dphService.publishDataProductDraft(
+          publishDataProductDraftParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(publishDataProductDraftResult);
@@ -4064,7 +4219,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/publish', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/{draft_id}/publish',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4145,7 +4304,9 @@ describe('DphV1', () => {
           checkCallerApproval,
         };
 
-        const getDataProductReleaseResult = dphService.getDataProductRelease(getDataProductReleaseParams);
+        const getDataProductReleaseResult = dphService.getDataProductRelease(
+          getDataProductReleaseParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDataProductReleaseResult);
@@ -4155,7 +4316,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4247,7 +4412,9 @@ describe('DphV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductReleaseResult = dphService.updateDataProductRelease(updateDataProductReleaseParams);
+        const updateDataProductReleaseResult = dphService.updateDataProductRelease(
+          updateDataProductReleaseParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDataProductReleaseResult);
@@ -4257,7 +4424,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4343,7 +4514,9 @@ describe('DphV1', () => {
           documentId,
         };
 
-        const getReleaseContractTermsDocumentResult = dphService.getReleaseContractTermsDocument(getReleaseContractTermsDocumentParams);
+        const getReleaseContractTermsDocumentResult = dphService.getReleaseContractTermsDocument(
+          getReleaseContractTermsDocumentParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getReleaseContractTermsDocumentResult);
@@ -4353,7 +4526,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/contract_terms/{contract_terms_id}/documents/{document_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/contract_terms/{contract_terms_id}/documents/{document_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4444,7 +4621,10 @@ describe('DphV1', () => {
           includeContractDocuments,
         };
 
-        const getPublishedDataProductDraftContractTermsResult = dphService.getPublishedDataProductDraftContractTerms(getPublishedDataProductDraftContractTermsParams);
+        const getPublishedDataProductDraftContractTermsResult =
+          dphService.getPublishedDataProductDraftContractTerms(
+            getPublishedDataProductDraftContractTermsParams
+          );
 
         // all methods should return a Promise
         expectToBePromise(getPublishedDataProductDraftContractTermsResult);
@@ -4454,7 +4634,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/contract_terms/{contract_terms_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/contract_terms/{contract_terms_id}',
+          'GET'
+        );
         const expectedAccept = accept;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4498,7 +4682,9 @@ describe('DphV1', () => {
           },
         };
 
-        dphService.getPublishedDataProductDraftContractTerms(getPublishedDataProductDraftContractTermsParams);
+        dphService.getPublishedDataProductDraftContractTerms(
+          getPublishedDataProductDraftContractTermsParams
+        );
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -4547,7 +4733,9 @@ describe('DphV1', () => {
           start,
         };
 
-        const listDataProductReleasesResult = dphService.listDataProductReleases(listDataProductReleasesParams);
+        const listDataProductReleasesResult = dphService.listDataProductReleases(
+          listDataProductReleasesParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listDataProductReleasesResult);
@@ -4557,7 +4745,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4700,7 +4892,10 @@ describe('DphV1', () => {
           page,
         };
 
-        const listRetiredDataProductReleasesLatestResult = dphService.listRetiredDataProductReleasesLatest(listRetiredDataProductReleasesLatestParams);
+        const listRetiredDataProductReleasesLatestResult =
+          dphService.listRetiredDataProductReleasesLatest(
+            listRetiredDataProductReleasesLatestParams
+          );
 
         // all methods should return a Promise
         expectToBePromise(listRetiredDataProductReleasesLatestResult);
@@ -4710,7 +4905,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/state/retired', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/state/retired',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4846,7 +5045,9 @@ describe('DphV1', () => {
           revokeAccess,
         };
 
-        const retireDataProductReleaseResult = dphService.retireDataProductRelease(retireDataProductReleaseParams);
+        const retireDataProductReleaseResult = dphService.retireDataProductRelease(
+          retireDataProductReleaseParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(retireDataProductReleaseResult);
@@ -4856,7 +5057,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/retire', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/retire',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = '';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4940,7 +5145,9 @@ describe('DphV1', () => {
           contentType,
         };
 
-        const createRevokeAccessProcessResult = dphService.createRevokeAccessProcess(createRevokeAccessProcessParams);
+        const createRevokeAccessProcessResult = dphService.createRevokeAccessProcess(
+          createRevokeAccessProcessParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createRevokeAccessProcessResult);
@@ -4950,7 +5157,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/revoke_access', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/{release_id}/revoke_access',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = contentType;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5035,7 +5246,9 @@ describe('DphV1', () => {
           domainIds,
         };
 
-        const listDataProductContractTemplateResult = dphService.listDataProductContractTemplate(listDataProductContractTemplateParams);
+        const listDataProductContractTemplateResult = dphService.listDataProductContractTemplate(
+          listDataProductContractTemplateParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listDataProductContractTemplateResult);
@@ -5045,7 +5258,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/contract_templates', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5173,8 +5390,10 @@ describe('DphV1', () => {
       // Description
       const descriptionModel = {
         purpose: 'Provide customer behavioral analytics data for marketing and product teams',
-        limitations: 'Data is aggregated at daily level. PII is masked. Maximum retention is 2 years.',
-        usage: 'Recommended for trend analysis, segmentation, and predictive modeling. Not suitable for real-time decisioning.',
+        limitations:
+          'Data is aggregated at daily level. PII is masked. Maximum retention is 2 years.',
+        usage:
+          'Recommended for trend analysis, segmentation, and predictive modeling. Not suitable for real-time decisioning.',
         authoritative_definitions: [contractAuthoritativeDefinitionModel],
         custom_properties: [contractTemplateCustomPropertyModel],
       };
@@ -5476,7 +5695,9 @@ describe('DphV1', () => {
           domainIds,
         };
 
-        const createContractTemplateResult = dphService.createContractTemplate(createContractTemplateParams);
+        const createContractTemplateResult = dphService.createContractTemplate(
+          createContractTemplateParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createContractTemplateResult);
@@ -5486,7 +5707,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/contract_templates', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5582,7 +5807,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/contract_templates/{contract_template_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/{contract_template_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5661,7 +5890,8 @@ describe('DphV1', () => {
           containerId,
         };
 
-        const deleteDataProductContractTemplateResult = dphService.deleteDataProductContractTemplate(deleteDataProductContractTemplateParams);
+        const deleteDataProductContractTemplateResult =
+          dphService.deleteDataProductContractTemplate(deleteDataProductContractTemplateParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteDataProductContractTemplateResult);
@@ -5671,7 +5901,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/contract_templates/{contract_template_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/{contract_template_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5762,7 +5996,8 @@ describe('DphV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductContractTemplateResult = dphService.updateDataProductContractTemplate(updateDataProductContractTemplateParams);
+        const updateDataProductContractTemplateResult =
+          dphService.updateDataProductContractTemplate(updateDataProductContractTemplateParams);
 
         // all methods should return a Promise
         expectToBePromise(updateDataProductContractTemplateResult);
@@ -5772,7 +6007,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/contract_templates/{contract_template_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/{contract_template_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5847,12 +6086,15 @@ describe('DphV1', () => {
     describe('positive tests', () => {
       function __validateContractTemplateYamlTest() {
         // Construct the params object for operation validateContractTemplateYaml
-        const body = 'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n';
+        const body =
+          'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n';
         const validateContractTemplateYamlParams = {
           body,
         };
 
-        const validateContractTemplateYamlResult = dphService.validateContractTemplateYaml(validateContractTemplateYamlParams);
+        const validateContractTemplateYamlResult = dphService.validateContractTemplateYaml(
+          validateContractTemplateYamlParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(validateContractTemplateYamlResult);
@@ -5862,7 +6104,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/contract_templates/actions/validate', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/actions/validate',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'text/plain';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5886,7 +6132,8 @@ describe('DphV1', () => {
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const body = 'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n';
+        const body =
+          'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const validateContractTemplateYamlParams = {
@@ -5938,7 +6185,9 @@ describe('DphV1', () => {
           includeSubdomains,
         };
 
-        const listDataProductDomainsResult = dphService.listDataProductDomains(listDataProductDomainsParams);
+        const listDataProductDomainsResult = dphService.listDataProductDomains(
+          listDataProductDomainsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listDataProductDomainsResult);
@@ -6075,7 +6324,9 @@ describe('DphV1', () => {
           linkToSubcontainers,
         };
 
-        const createDataProductDomainResult = dphService.createDataProductDomain(createDataProductDomainParams);
+        const createDataProductDomainResult = dphService.createDataProductDomain(
+          createDataProductDomainParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDataProductDomainResult);
@@ -6178,7 +6429,9 @@ describe('DphV1', () => {
           description,
         };
 
-        const createDataProductSubdomainResult = dphService.createDataProductSubdomain(createDataProductSubdomainParams);
+        const createDataProductSubdomainResult = dphService.createDataProductSubdomain(
+          createDataProductSubdomainParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDataProductSubdomainResult);
@@ -6188,7 +6441,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains/{domain_id}/subdomains', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}/subdomains',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6278,7 +6535,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains/{domain_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6362,7 +6623,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains/{domain_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6450,7 +6715,9 @@ describe('DphV1', () => {
           jsonPatchInstructions,
         };
 
-        const updateDataProductDomainResult = dphService.updateDataProductDomain(updateDataProductDomainParams);
+        const updateDataProductDomainResult = dphService.updateDataProductDomain(
+          updateDataProductDomainParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDataProductDomainResult);
@@ -6460,7 +6727,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains/{domain_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6542,7 +6813,9 @@ describe('DphV1', () => {
           containerId,
         };
 
-        const getContractTemplatesByDomainResult = dphService.getContractTemplatesByDomain(getContractTemplatesByDomainParams);
+        const getContractTemplatesByDomainResult = dphService.getContractTemplatesByDomain(
+          getContractTemplatesByDomainParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getContractTemplatesByDomainResult);
@@ -6552,7 +6825,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains/{domain_id}/contract_templates', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}/contract_templates',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6631,7 +6908,9 @@ describe('DphV1', () => {
           containerId,
         };
 
-        const getDataProductByDomainResult = dphService.getDataProductByDomain(getDataProductByDomainParams);
+        const getDataProductByDomainResult = dphService.getDataProductByDomain(
+          getDataProductByDomainParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDataProductByDomainResult);
@@ -6641,7 +6920,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/domains/{domain_id}/data_products', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}/data_products',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6802,7 +7085,9 @@ describe('DphV1', () => {
           bucketName,
         };
 
-        const getS3BucketValidationResult = dphService.getS3BucketValidation(getS3BucketValidationParams);
+        const getS3BucketValidationResult = dphService.getS3BucketValidation(
+          getS3BucketValidationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getS3BucketValidationResult);
@@ -6812,7 +7097,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/bucket/validate/{bucket_name}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/bucket/validate/{bucket_name}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6890,7 +7179,9 @@ describe('DphV1', () => {
           start,
         };
 
-        const getRevokeAccessProcessStateResult = dphService.getRevokeAccessProcessState(getRevokeAccessProcessStateParams);
+        const getRevokeAccessProcessStateResult = dphService.getRevokeAccessProcessState(
+          getRevokeAccessProcessStateParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getRevokeAccessProcessStateResult);
@@ -6900,7 +7191,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/data_product_revoke_access/job_runs', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_product_revoke_access/job_runs',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -7079,13 +7374,70 @@ describe('DphV1', () => {
         const supportsRevokeAccess = true;
         const supportsColumnSelection = true;
         const supportsAddToProject = false;
-        const producerInput = [{ key: '<input_key>', type: 'string|enum|array|connection', localized_name: { default: 'Default Label', en: 'English Label' }, localized_description: { default: 'Default Description', en: 'English Description' }, required: true, valid_values: ['<value1>', '<value2>'] }];
-        const consumerInput = [{ key: '<input_key>', type: 'string|enum|array|connection', localized_name: { default: 'Default Label', en: 'English Label' }, localized_description: { default: 'Default Description', en: 'English Description' }, required: true, supported_data_sources: ['<DATA_SOURCE_ID>'], valid_values: ['<value1>', '<value2>'], hmac_enabled: false, has_bucket: false }];
-        const outputFormat = [{ key: '<output_key>', type: 'string|url|copy_text|array', localized_name: { default: '<Default Label>', en: '<English Label>', de: '<German Label>', eo: '<Esperanto Key>', es: '<Spanish Label>', fr: '<French Label>', it: '<Italian Label>', ja: '<Japanese Label>', ko: '<Korean Label>', pl: '<Polish Label>', pt: '<Portuguese Label>', ru: '<Russian Label>', sv: '<Swedish Label>', zh: '<Chinese Simplified Label>', 'zh-TW': '<Chinese Traditional Label>' }, contents: [{ key: '<nested_key>', type: 'string|copy_text', localized_name: { default: '<Default Label>', en: '<English Label>' } }] }];
+        const producerInput = [
+          {
+            key: '<input_key>',
+            type: 'string|enum|array|connection',
+            localized_name: { default: 'Default Label', en: 'English Label' },
+            localized_description: { default: 'Default Description', en: 'English Description' },
+            required: true,
+            valid_values: ['<value1>', '<value2>'],
+          },
+        ];
+        const consumerInput = [
+          {
+            key: '<input_key>',
+            type: 'string|enum|array|connection',
+            localized_name: { default: 'Default Label', en: 'English Label' },
+            localized_description: { default: 'Default Description', en: 'English Description' },
+            required: true,
+            supported_data_sources: ['<DATA_SOURCE_ID>'],
+            valid_values: ['<value1>', '<value2>'],
+            hmac_enabled: false,
+            has_bucket: false,
+          },
+        ];
+        const outputFormat = [
+          {
+            key: '<output_key>',
+            type: 'string|url|copy_text|array',
+            localized_name: {
+              default: '<Default Label>',
+              en: '<English Label>',
+              de: '<German Label>',
+              eo: '<Esperanto Key>',
+              es: '<Spanish Label>',
+              fr: '<French Label>',
+              it: '<Italian Label>',
+              ja: '<Japanese Label>',
+              ko: '<Korean Label>',
+              pl: '<Polish Label>',
+              pt: '<Portuguese Label>',
+              ru: '<Russian Label>',
+              sv: '<Swedish Label>',
+              zh: '<Chinese Simplified Label>',
+              'zh-TW': '<Chinese Traditional Label>',
+            },
+            contents: [
+              {
+                key: '<nested_key>',
+                type: 'string|copy_text',
+                localized_name: { default: '<Default Label>', en: '<English Label>' },
+              },
+            ],
+          },
+        ];
         const autoMarkDelivered = true;
         const deliveryUsesFunctionalCredentials = true;
         const dataSourceProperties = { DATA_SOURCE_ID: { supports_query: false } };
-        const deliveryOutput = { delivery_output_assets: [{ asset_type: 'ibm_url_definition|data_asset', localized_labels: { default: '<Default Label>', en: '<English Label>' } }] };
+        const deliveryOutput = {
+          delivery_output_assets: [
+            {
+              asset_type: 'ibm_url_definition|data_asset',
+              localized_labels: { default: '<Default Label>', en: '<English Label>' },
+            },
+          ],
+        };
         const createDeliveryMethodParams = {
           catalogId,
           name,
@@ -7112,7 +7464,9 @@ describe('DphV1', () => {
           deliveryOutput,
         };
 
-        const createDeliveryMethodResult = dphService.createDeliveryMethod(createDeliveryMethodParams);
+        const createDeliveryMethodResult = dphService.createDeliveryMethod(
+          createDeliveryMethodParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createDeliveryMethodResult);
@@ -7145,7 +7499,9 @@ describe('DphV1', () => {
         expect(mockRequestOptions.body.consumer_input).toEqual(consumerInput);
         expect(mockRequestOptions.body.output_format).toEqual(outputFormat);
         expect(mockRequestOptions.body.auto_mark_delivered).toEqual(autoMarkDelivered);
-        expect(mockRequestOptions.body.delivery_uses_functional_credentials).toEqual(deliveryUsesFunctionalCredentials);
+        expect(mockRequestOptions.body.delivery_uses_functional_credentials).toEqual(
+          deliveryUsesFunctionalCredentials
+        );
         expect(mockRequestOptions.body.data_source_properties).toEqual(dataSourceProperties);
         expect(mockRequestOptions.body.delivery_output).toEqual(deliveryOutput);
         expect(mockRequestOptions.qs.catalog_id).toEqual(catalogId);
@@ -7240,7 +7596,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/delivery_method/{delivery_method_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -7319,7 +7679,9 @@ describe('DphV1', () => {
           deliveryMethodId,
         };
 
-        const deleteDeliveryMethodResult = dphService.deleteDeliveryMethod(deleteDeliveryMethodParams);
+        const deleteDeliveryMethodResult = dphService.deleteDeliveryMethod(
+          deleteDeliveryMethodParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteDeliveryMethodResult);
@@ -7329,7 +7691,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/delivery_method/{delivery_method_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -7420,7 +7786,9 @@ describe('DphV1', () => {
           jsonPatchOperation,
         };
 
-        const updateDeliveryMethodResult = dphService.updateDeliveryMethod(updateDeliveryMethodParams);
+        const updateDeliveryMethodResult = dphService.updateDeliveryMethod(
+          updateDeliveryMethodParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDeliveryMethodResult);
@@ -7430,7 +7798,11 @@ describe('DphV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/delivery_method/{delivery_method_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
