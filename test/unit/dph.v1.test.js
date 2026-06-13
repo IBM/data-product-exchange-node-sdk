@@ -22,8 +22,6 @@ const nock = require('nock');
 const sdkCorePackage = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator } = sdkCorePackage;
-const DphV1 = require('../../dist/dph/v1');
-
 const {
   getOptions,
   checkUrlAndMethod,
@@ -32,6 +30,7 @@ const {
   checkUserHeader,
   checkForSuccessfulExecution,
 } = require('@ibm-cloud/sdk-test-utilities');
+const DphV1 = require('../../dist/dph/v1');
 
 const dphServiceOptions = {
   authenticator: new NoAuthAuthenticator(),

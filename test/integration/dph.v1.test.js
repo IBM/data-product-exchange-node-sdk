@@ -37,6 +37,8 @@ describe('DphV1_integration', () => {
 
   // Variables to hold link values
   let completeADraftByContractTermsIdLink;
+  let createContractTemplateId;
+  let createDataProductDomainId;
   let completeADraftByDraftIdLink;
   let completeContractTermsDocumentByDocumentIdLink;
   let completeDraftContractTermsByDataProductIdLink;
