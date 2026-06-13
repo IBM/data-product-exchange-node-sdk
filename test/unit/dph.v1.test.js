@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ const DphV1 = require('../../dist/dph/v1');
 
 const dphServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
-  url: 'https://data-product-exchange-api-service.cloud.ibm.com/data_product_exchange/v1/123456',
+  url: 'https://ibm.com/123456',
 };
 
 const dphService = new DphV1(dphServiceOptions);
@@ -336,6 +336,181 @@ describe('DphV1', () => {
         // invoke the method with no parameters
         dphService.initialize({});
         checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('getDeliveryConfiguration', () => {
+    describe('positive tests', () => {
+      function __getDeliveryConfigurationTest() {
+        // Construct the params object for operation getDeliveryConfiguration
+        const containerId = 'testString';
+        const getDeliveryConfigurationParams = {
+          containerId,
+        };
+
+        const getDeliveryConfigurationResult = dphService.getDeliveryConfiguration(
+          getDeliveryConfigurationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getDeliveryConfigurationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/delivery',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDeliveryConfigurationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getDeliveryConfigurationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getDeliveryConfigurationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDeliveryConfigurationParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getDeliveryConfiguration(getDeliveryConfigurationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        dphService.getDeliveryConfiguration({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('updateDeliveryConfiguration', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // JsonPatchOperation
+      const jsonPatchOperationModel = {
+        op: 'add',
+        path: 'testString',
+        from: 'testString',
+        value: 'testString',
+      };
+
+      function __updateDeliveryConfigurationTest() {
+        // Construct the params object for operation updateDeliveryConfiguration
+        const containerId = 'testString';
+        const jsonPatchOperation = [jsonPatchOperationModel];
+        const updateDeliveryConfigurationParams = {
+          containerId,
+          jsonPatchOperation,
+        };
+
+        const updateDeliveryConfigurationResult = dphService.updateDeliveryConfiguration(
+          updateDeliveryConfigurationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateDeliveryConfigurationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/configuration/delivery',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body).toEqual(jsonPatchOperation);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateDeliveryConfigurationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __updateDeliveryConfigurationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __updateDeliveryConfigurationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const containerId = 'testString';
+        const jsonPatchOperation = [jsonPatchOperationModel];
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateDeliveryConfigurationParams = {
+          containerId,
+          jsonPatchOperation,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.updateDeliveryConfiguration(updateDeliveryConfigurationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.updateDeliveryConfiguration({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.updateDeliveryConfiguration();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
@@ -759,7 +934,7 @@ describe('DphV1', () => {
 
       // AssetReference
       const assetReferenceModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
         container: containerReferenceModel,
       };
@@ -774,7 +949,7 @@ describe('DphV1', () => {
         url: 'testString',
         type: 'terms_and_conditions',
         name: 'testString',
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         attachment: contractTermsDocumentAttachmentModel,
         upload_url: 'testString',
       };
@@ -786,20 +961,36 @@ describe('DphV1', () => {
         container: containerReferenceModel,
       };
 
+      // ContractAuthoritativeDefinition
+      const contractAuthoritativeDefinitionModel = {
+        id: 'auth-def-001',
+        url: 'https://data.example.com/authoritative-source',
+        type: 'database',
+        description: 'This is the primary authoritative source for customer data',
+      };
+
       // Overview
       const overviewModel = {
-        api_version: 'v3.0.1',
+        api_version: 'v3.1.0',
         kind: 'DataContract',
+        status: 'proposed',
         name: 'Sample Data Contract',
         version: '0.0.0',
         domain: domainModel,
-        more_info: 'List of links to sources that provide more details on the data contract.',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        tenant: 'tenant1',
+        data_product: 'Customer Data Product',
+        contract_created_ts: '2024-01-15T09:30:00.000Z',
+        tags: ['testString'],
       };
 
-      // ContractTermsMoreInfo
-      const contractTermsMoreInfoModel = {
-        type: 'privacy-statement',
-        url: 'https://moreinfo.example.com',
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        id: 'custom-prop-001',
+        property: 'customPropertyKey',
+        value: 'customPropertyValue',
+        description: 'This is a custom property for tracking purposes',
       };
 
       // Description
@@ -807,23 +998,50 @@ describe('DphV1', () => {
         purpose: 'Used for customer behavior analysis.',
         limitations: 'Data cannot be used for marketing.',
         usage: 'Data should be used only for analytics.',
-        more_info: [contractTermsMoreInfoModel],
-        custom_properties: '{"property1":"value1"}',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateOrganization
-      const contractTemplateOrganizationModel = {
+      // ContractTemplateMember
+      const contractTemplateMemberModel = {
+        id: 'member-001',
         user_id: 'IBMid-691000IN4G',
+        name: 'John Doe',
         role: 'owner',
+        description: 'Responsible for data quality and governance',
+        date_in: '2024-01-15',
+        date_out: '2024-12-31',
+        replaced_by_username: 'jane_smith',
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractTermsTeam
+      const contractTermsTeamModel = {
+        id: 'team-001',
+        name: 'Data Governance Team',
+        description: 'Team responsible for data governance and quality',
+        members: [contractTemplateMemberModel],
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
       };
 
       // Roles
       const rolesModel = {
+        id: 'role-001',
         role: 'owner',
+        access: 'read',
+        first_level_approvers: 'manager_user',
+        second_level_approvers: 'director_user',
+        description: 'Administrator role with full access',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // Pricing
       const pricingModel = {
+        id: 'price-001',
         amount: '100.0',
         currency: 'USD',
         unit: 'megabyte',
@@ -831,8 +1049,16 @@ describe('DphV1', () => {
 
       // ContractTemplateSLAProperty
       const contractTemplateSlaPropertyModel = {
+        id: 'sla-prop-001',
         property: 'Uptime Guarantee',
         value: '99.9',
+        value_ext: 'extended_value',
+        unit: 'd',
+        element: 'column1,column2',
+        driver: 'regulatory',
+        description: 'Guaranteed uptime for the service',
+        scheduler: 'cron',
+        schedule: '0 20 * * *',
       };
 
       // ContractTemplateSLA
@@ -843,21 +1069,33 @@ describe('DphV1', () => {
 
       // ContractTemplateSupportAndCommunication
       const contractTemplateSupportAndCommunicationModel = {
+        id: 'support-001',
         channel: 'Email Support',
         url: 'https://support.example.com',
+        description: 'Primary support channel for technical issues',
+        tool: 'slack',
+        scope: 'interactive',
+        invitation_url: 'https://slack.com/invite/abc123',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateCustomProperty
-      const contractTemplateCustomPropertyModel = {
-        key: 'customPropertyKey',
-        value: 'customPropertyValue',
+      // ContractTestSummary
+      const contractTestSummaryModel = {
+        status: 'testString',
+        check: 'testString',
+        asset_name: 'testString',
+        records_returned: 'testString',
       };
 
       // ContractTest
       const contractTestModel = {
         status: 'pass',
-        last_tested_time: 'testString',
+        last_tested_time: '2019-01-01T12:00:00.000Z',
+        data_contract_id: 'testString',
+        project_id: 'testString',
         message: 'testString',
+        test_run_id: 'testString',
+        test_summary: [contractTestSummaryModel],
       };
 
       // ContractAsset
@@ -868,6 +1106,7 @@ describe('DphV1', () => {
 
       // ContractServer
       const contractServerModel = {
+        id: 'testString',
         server: 'testString',
         asset: contractAssetModel,
         connection_id: 'testString',
@@ -897,26 +1136,49 @@ describe('DphV1', () => {
         custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractSchemaPropertyType
-      const contractSchemaPropertyTypeModel = {
-        type: 'testString',
-        length: 'testString',
-        scale: 'testString',
-        nullable: 'testString',
-        signed: 'testString',
-        native_type: 'testString',
+      // ContractLogicalTypeOptions
+      const contractLogicalTypeOptionsModel = {
+        format: 'date-time',
+        minimum: '0',
+        maximum: '100',
+        min_length: 1,
+        max_length: 255,
+        pattern: '^[A-Z][a-z]+$',
+        exclusive_maximum: 'testString',
+        exclusive_minimum: 'testString',
+        timezone: true,
+        default_timezone: 'UTC',
+        multiple_of: 72.5,
+        max_properties: 0,
+        min_properties: 0,
+        required: ['testString'],
+        max_items: 0,
+        min_items: 0,
+        unique_items: true,
       };
 
       // ContractQualityRule
       const contractQualityRuleModel = {
+        id: 'quality-rule-001',
         type: 'sql',
         description: 'testString',
+        tags: ['testString'],
+        metric: 'testString',
+        threshold: 'testString',
+        valid_values: ['testString'],
+        dimension: 'testString',
+        method: 'testString',
+        severity: 'testString',
+        business_impact: 'testString',
+        scheduler: 'testString',
+        schedule: 'testString',
         rule: 'testString',
         implementation: 'testString',
         engine: 'testString',
         must_be_less_than: 'testString',
         must_be_less_or_equal_to: 'testString',
         must_be_greater_than: 'testString',
+        custom_properties: [contractTemplateCustomPropertyModel],
         must_be_greater_or_equal_to: 'testString',
         must_be_between: ['testString'],
         must_not_be_between: ['testString'],
@@ -925,25 +1187,70 @@ describe('DphV1', () => {
         name: 'testString',
         unit: 'testString',
         query: 'testString',
+        arguments: { threshold: 0.95, column: 'status' },
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractSchemaRelationship
+      const contractSchemaRelationshipModel = {
+        type: 'foreignKey',
+        from: ['testString'],
+        to: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // ContractSchemaProperty
       const contractSchemaPropertyModel = {
+        id: 'testString',
         name: 'testString',
-        type: contractSchemaPropertyTypeModel,
+        primary_key: true,
+        primary_key_position: 0,
+        logical_type: 'testString',
+        logical_type_options: contractLogicalTypeOptionsModel,
+        physical_type: 'testString',
+        required: true,
+        unique: true,
+        description: 'testString',
+        business_name: 'testString',
+        tags: ['testString'],
+        examples: ['testString'],
+        partitioned: true,
+        partition_key_position: 0,
+        classification: 'testString',
         quality: [contractQualityRuleModel],
+        physical_name: 'testString',
+        encrypted_name: 'testString',
+        transform_source_objects: ['testString'],
+        transform_logic: 'testString',
+        transform_description: 'testString',
+        critical_data_element: true,
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractSchema
       const contractSchemaModel = {
-        asset_id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        connection_id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: 'schema-001',
+        asset_id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        connection_id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
+        type: 'table',
         description: 'testString',
         connection_path: 'testString',
         physical_type: 'testString',
+        business_name: 'testString',
+        logical_type: 'testString',
+        physical_name: 'testString',
+        data_granularity_description: 'testString',
+        physical_schema: 'testString',
+        server: 'testString',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
         properties: [contractSchemaPropertyModel],
         quality: [contractQualityRuleModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractTerms
@@ -954,11 +1261,11 @@ describe('DphV1', () => {
         error_msg: 'testString',
         overview: overviewModel,
         description: descriptionModel,
-        organization: [contractTemplateOrganizationModel],
+        team: contractTermsTeamModel,
         roles: [rolesModel],
         price: pricingModel,
-        sla: [contractTemplateSlaModel],
-        support_and_communication: [contractTemplateSupportAndCommunicationModel],
+        sla: contractTemplateSlaModel,
+        support: [contractTemplateSupportAndCommunicationModel],
         custom_properties: [contractTemplateCustomPropertyModel],
         contract_test: contractTestModel,
         servers: [contractServerModel],
@@ -967,7 +1274,7 @@ describe('DphV1', () => {
 
       // AssetPartReference
       const assetPartReferenceModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
         container: containerReferenceModel,
         type: 'data_asset',
@@ -1036,7 +1343,7 @@ describe('DphV1', () => {
 
       // AssetPrototype
       const assetPrototypeModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         container: containerIdentityModel,
       };
 
@@ -1059,6 +1366,7 @@ describe('DphV1', () => {
           'Comments by a producer that are provided either at the time of data product version creation or retiring',
         access_control: assetListAccessControlModel,
         last_updated_at: '2019-01-01T12:00:00.000Z',
+        created_date: '2019-01-01T12:00:00.000Z',
         sub_container: containerIdentityModel,
         is_restricted: true,
         asset: assetPrototypeModel,
@@ -1449,9 +1757,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products/testString/drafts';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"servers":[{"server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}]}],"schema":[{"asset_id":"2b0bf220-079c-11ee-be56-0242ac120002","connection_id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","description":"description","connection_path":"connection_path","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"},"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}],"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-41ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.1.0","kind":"DataContract","status":"proposed","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"id":"2b0bf220-079c-41ee-be56-0242ac120002","tenant":"tenant1","data_product":"Customer Data Product","contract_created_ts":"2024-01-15T09:30:00.000Z","tags":["tags"]},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]},"team":{"id":"team-001","name":"Data Governance Team","description":"Team responsible for data governance and quality","members":[{"id":"member-001","user_id":"IBMid-691000IN4G","name":"John Doe","role":"owner","description":"Responsible for data quality and governance","date_in":"2024-01-15","date_out":"2024-12-31","replaced_by_username":"jane_smith","tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]},"roles":[{"id":"role-001","role":"owner","access":"read","first_level_approvers":"manager_user","second_level_approvers":"director_user","description":"Administrator role with full access","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"price":{"id":"price-001","amount":"100.0","currency":"USD","unit":"megabyte"},"sla":{"default_element":"Standard SLA Policy","properties":[{"id":"sla-prop-001","property":"Uptime Guarantee","value":"99.9","value_ext":"extended_value","unit":"d","element":"column1,column2","driver":"regulatory","description":"Guaranteed uptime for the service","scheduler":"cron","schedule":"0 20 * * *"}]},"support":[{"id":"support-001","channel":"Email Support","url":"https://support.example.com","description":"Primary support channel for technical issues","tool":"slack","scope":"interactive","invitation_url":"https://slack.com/invite/abc123","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"contract_test":{"status":"pass","last_tested_time":"2019-01-01T12:00:00.000Z","data_contract_id":"data_contract_id","project_id":"project_id","message":"message","test_run_id":"test_run_id","test_summary":[{"status":"status","check":"check","asset_name":"asset_name","records_returned":"records_returned"}]},"servers":[{"id":"id","server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"schema":[{"id":"schema-001","asset_id":"2b0bf220-079c-41ee-be56-0242ac120002","connection_id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","type":"table","description":"description","connection_path":"connection_path","physical_type":"physical_type","business_name":"business_name","logical_type":"logical_type","physical_name":"physical_name","data_granularity_description":"data_granularity_description","physical_schema":"physical_schema","server":"server","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"properties":[{"id":"id","name":"name","primary_key":false,"primary_key_position":0,"logical_type":"logical_type","logical_type_options":{"format":"date-time","minimum":"0","maximum":"100","min_length":1,"max_length":255,"pattern":"^[A-Z][a-z]+$","exclusive_maximum":"exclusive_maximum","exclusive_minimum":"exclusive_minimum","timezone":true,"default_timezone":"UTC","multiple_of":11,"max_properties":0,"min_properties":0,"required":["required"],"max_items":0,"min_items":0,"unique_items":true},"physical_type":"physical_type","required":true,"unique":true,"description":"description","business_name":"business_name","tags":["tags"],"examples":["examples"],"partitioned":false,"partition_key_position":0,"classification":"classification","quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"physical_name":"physical_name","encrypted_name":"encrypted_name","transform_source_objects":["transform_source_objects"],"transform_logic":"transform_logic","transform_description":"transform_description","critical_data_element":false,"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}],"quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","created_date":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-41ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"servers":[{"server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}]}],"schema":[{"asset_id":"2b0bf220-079c-11ee-be56-0242ac120002","connection_id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","description":"description","connection_path":"connection_path","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"},"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}],"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"drafts":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-41ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.1.0","kind":"DataContract","status":"proposed","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"id":"2b0bf220-079c-41ee-be56-0242ac120002","tenant":"tenant1","data_product":"Customer Data Product","contract_created_ts":"2024-01-15T09:30:00.000Z","tags":["tags"]},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]},"team":{"id":"team-001","name":"Data Governance Team","description":"Team responsible for data governance and quality","members":[{"id":"member-001","user_id":"IBMid-691000IN4G","name":"John Doe","role":"owner","description":"Responsible for data quality and governance","date_in":"2024-01-15","date_out":"2024-12-31","replaced_by_username":"jane_smith","tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]},"roles":[{"id":"role-001","role":"owner","access":"read","first_level_approvers":"manager_user","second_level_approvers":"director_user","description":"Administrator role with full access","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"price":{"id":"price-001","amount":"100.0","currency":"USD","unit":"megabyte"},"sla":{"default_element":"Standard SLA Policy","properties":[{"id":"sla-prop-001","property":"Uptime Guarantee","value":"99.9","value_ext":"extended_value","unit":"d","element":"column1,column2","driver":"regulatory","description":"Guaranteed uptime for the service","scheduler":"cron","schedule":"0 20 * * *"}]},"support":[{"id":"support-001","channel":"Email Support","url":"https://support.example.com","description":"Primary support channel for technical issues","tool":"slack","scope":"interactive","invitation_url":"https://slack.com/invite/abc123","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"contract_test":{"status":"pass","last_tested_time":"2019-01-01T12:00:00.000Z","data_contract_id":"data_contract_id","project_id":"project_id","message":"message","test_run_id":"test_run_id","test_summary":[{"status":"status","check":"check","asset_name":"asset_name","records_returned":"records_returned"}]},"servers":[{"id":"id","server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"schema":[{"id":"schema-001","asset_id":"2b0bf220-079c-41ee-be56-0242ac120002","connection_id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","type":"table","description":"description","connection_path":"connection_path","physical_type":"physical_type","business_name":"business_name","logical_type":"logical_type","physical_name":"physical_name","data_granularity_description":"data_granularity_description","physical_schema":"physical_schema","server":"server","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"properties":[{"id":"id","name":"name","primary_key":false,"primary_key_position":0,"logical_type":"logical_type","logical_type_options":{"format":"date-time","minimum":"0","maximum":"100","min_length":1,"max_length":255,"pattern":"^[A-Z][a-z]+$","exclusive_maximum":"exclusive_maximum","exclusive_minimum":"exclusive_minimum","timezone":true,"default_timezone":"UTC","multiple_of":11,"max_properties":0,"min_properties":0,"required":["required"],"max_items":0,"min_items":0,"unique_items":true},"physical_type":"physical_type","required":true,"unique":true,"description":"description","business_name":"business_name","tags":["tags"],"examples":["examples"],"partitioned":false,"partition_key_position":0,"classification":"classification","quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"physical_name":"physical_name","encrypted_name":"encrypted_name","transform_source_objects":["transform_source_objects"],"transform_logic":"transform_logic","transform_description":"transform_description","critical_data_element":false,"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}],"quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","created_date":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-41ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -1511,7 +1819,7 @@ describe('DphV1', () => {
 
       // AssetPrototype
       const assetPrototypeModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         container: containerIdentityModel,
       };
 
@@ -1541,7 +1849,7 @@ describe('DphV1', () => {
 
       // AssetReference
       const assetReferenceModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
         container: containerReferenceModel,
       };
@@ -1556,7 +1864,7 @@ describe('DphV1', () => {
         url: 'testString',
         type: 'terms_and_conditions',
         name: 'testString',
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         attachment: contractTermsDocumentAttachmentModel,
         upload_url: 'testString',
       };
@@ -1568,20 +1876,36 @@ describe('DphV1', () => {
         container: containerReferenceModel,
       };
 
+      // ContractAuthoritativeDefinition
+      const contractAuthoritativeDefinitionModel = {
+        id: 'auth-def-001',
+        url: 'https://data.example.com/authoritative-source',
+        type: 'database',
+        description: 'This is the primary authoritative source for customer data',
+      };
+
       // Overview
       const overviewModel = {
-        api_version: 'v3.0.1',
+        api_version: 'v3.1.0',
         kind: 'DataContract',
+        status: 'proposed',
         name: 'Sample Data Contract',
         version: '0.0.0',
         domain: domainModel,
-        more_info: 'List of links to sources that provide more details on the data contract.',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        tenant: 'tenant1',
+        data_product: 'Customer Data Product',
+        contract_created_ts: '2024-01-15T09:30:00.000Z',
+        tags: ['testString'],
       };
 
-      // ContractTermsMoreInfo
-      const contractTermsMoreInfoModel = {
-        type: 'privacy-statement',
-        url: 'https://moreinfo.example.com',
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        id: 'custom-prop-001',
+        property: 'customPropertyKey',
+        value: 'customPropertyValue',
+        description: 'This is a custom property for tracking purposes',
       };
 
       // Description
@@ -1589,23 +1913,50 @@ describe('DphV1', () => {
         purpose: 'Used for customer behavior analysis.',
         limitations: 'Data cannot be used for marketing.',
         usage: 'Data should be used only for analytics.',
-        more_info: [contractTermsMoreInfoModel],
-        custom_properties: '{"property1":"value1"}',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateOrganization
-      const contractTemplateOrganizationModel = {
+      // ContractTemplateMember
+      const contractTemplateMemberModel = {
+        id: 'member-001',
         user_id: 'IBMid-691000IN4G',
+        name: 'John Doe',
         role: 'owner',
+        description: 'Responsible for data quality and governance',
+        date_in: '2024-01-15',
+        date_out: '2024-12-31',
+        replaced_by_username: 'jane_smith',
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractTermsTeam
+      const contractTermsTeamModel = {
+        id: 'team-001',
+        name: 'Data Governance Team',
+        description: 'Team responsible for data governance and quality',
+        members: [contractTemplateMemberModel],
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
       };
 
       // Roles
       const rolesModel = {
+        id: 'role-001',
         role: 'owner',
+        access: 'read',
+        first_level_approvers: 'manager_user',
+        second_level_approvers: 'director_user',
+        description: 'Administrator role with full access',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // Pricing
       const pricingModel = {
+        id: 'price-001',
         amount: '100.0',
         currency: 'USD',
         unit: 'megabyte',
@@ -1613,8 +1964,16 @@ describe('DphV1', () => {
 
       // ContractTemplateSLAProperty
       const contractTemplateSlaPropertyModel = {
+        id: 'sla-prop-001',
         property: 'Uptime Guarantee',
         value: '99.9',
+        value_ext: 'extended_value',
+        unit: 'd',
+        element: 'column1,column2',
+        driver: 'regulatory',
+        description: 'Guaranteed uptime for the service',
+        scheduler: 'cron',
+        schedule: '0 20 * * *',
       };
 
       // ContractTemplateSLA
@@ -1625,21 +1984,33 @@ describe('DphV1', () => {
 
       // ContractTemplateSupportAndCommunication
       const contractTemplateSupportAndCommunicationModel = {
+        id: 'support-001',
         channel: 'Email Support',
         url: 'https://support.example.com',
+        description: 'Primary support channel for technical issues',
+        tool: 'slack',
+        scope: 'interactive',
+        invitation_url: 'https://slack.com/invite/abc123',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateCustomProperty
-      const contractTemplateCustomPropertyModel = {
-        key: 'customPropertyKey',
-        value: 'customPropertyValue',
+      // ContractTestSummary
+      const contractTestSummaryModel = {
+        status: 'testString',
+        check: 'testString',
+        asset_name: 'testString',
+        records_returned: 'testString',
       };
 
       // ContractTest
       const contractTestModel = {
         status: 'pass',
-        last_tested_time: 'testString',
+        last_tested_time: '2019-01-01T12:00:00.000Z',
+        data_contract_id: 'testString',
+        project_id: 'testString',
         message: 'testString',
+        test_run_id: 'testString',
+        test_summary: [contractTestSummaryModel],
       };
 
       // ContractAsset
@@ -1650,6 +2021,7 @@ describe('DphV1', () => {
 
       // ContractServer
       const contractServerModel = {
+        id: 'testString',
         server: 'testString',
         asset: contractAssetModel,
         connection_id: 'testString',
@@ -1679,26 +2051,49 @@ describe('DphV1', () => {
         custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractSchemaPropertyType
-      const contractSchemaPropertyTypeModel = {
-        type: 'testString',
-        length: 'testString',
-        scale: 'testString',
-        nullable: 'testString',
-        signed: 'testString',
-        native_type: 'testString',
+      // ContractLogicalTypeOptions
+      const contractLogicalTypeOptionsModel = {
+        format: 'date-time',
+        minimum: '0',
+        maximum: '100',
+        min_length: 1,
+        max_length: 255,
+        pattern: '^[A-Z][a-z]+$',
+        exclusive_maximum: 'testString',
+        exclusive_minimum: 'testString',
+        timezone: true,
+        default_timezone: 'UTC',
+        multiple_of: 72.5,
+        max_properties: 0,
+        min_properties: 0,
+        required: ['testString'],
+        max_items: 0,
+        min_items: 0,
+        unique_items: true,
       };
 
       // ContractQualityRule
       const contractQualityRuleModel = {
+        id: 'quality-rule-001',
         type: 'sql',
         description: 'testString',
+        tags: ['testString'],
+        metric: 'testString',
+        threshold: 'testString',
+        valid_values: ['testString'],
+        dimension: 'testString',
+        method: 'testString',
+        severity: 'testString',
+        business_impact: 'testString',
+        scheduler: 'testString',
+        schedule: 'testString',
         rule: 'testString',
         implementation: 'testString',
         engine: 'testString',
         must_be_less_than: 'testString',
         must_be_less_or_equal_to: 'testString',
         must_be_greater_than: 'testString',
+        custom_properties: [contractTemplateCustomPropertyModel],
         must_be_greater_or_equal_to: 'testString',
         must_be_between: ['testString'],
         must_not_be_between: ['testString'],
@@ -1707,25 +2102,70 @@ describe('DphV1', () => {
         name: 'testString',
         unit: 'testString',
         query: 'testString',
+        arguments: { threshold: 0.95, column: 'status' },
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractSchemaRelationship
+      const contractSchemaRelationshipModel = {
+        type: 'foreignKey',
+        from: ['testString'],
+        to: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // ContractSchemaProperty
       const contractSchemaPropertyModel = {
+        id: 'testString',
         name: 'testString',
-        type: contractSchemaPropertyTypeModel,
+        primary_key: true,
+        primary_key_position: 0,
+        logical_type: 'testString',
+        logical_type_options: contractLogicalTypeOptionsModel,
+        physical_type: 'testString',
+        required: true,
+        unique: true,
+        description: 'testString',
+        business_name: 'testString',
+        tags: ['testString'],
+        examples: ['testString'],
+        partitioned: true,
+        partition_key_position: 0,
+        classification: 'testString',
         quality: [contractQualityRuleModel],
+        physical_name: 'testString',
+        encrypted_name: 'testString',
+        transform_source_objects: ['testString'],
+        transform_logic: 'testString',
+        transform_description: 'testString',
+        critical_data_element: true,
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractSchema
       const contractSchemaModel = {
-        asset_id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        connection_id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: 'schema-001',
+        asset_id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        connection_id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
+        type: 'table',
         description: 'testString',
         connection_path: 'testString',
         physical_type: 'testString',
+        business_name: 'testString',
+        logical_type: 'testString',
+        physical_name: 'testString',
+        data_granularity_description: 'testString',
+        physical_schema: 'testString',
+        server: 'testString',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
         properties: [contractSchemaPropertyModel],
         quality: [contractQualityRuleModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractTerms
@@ -1736,11 +2176,11 @@ describe('DphV1', () => {
         error_msg: 'testString',
         overview: overviewModel,
         description: descriptionModel,
-        organization: [contractTemplateOrganizationModel],
+        team: contractTermsTeamModel,
         roles: [rolesModel],
         price: pricingModel,
-        sla: [contractTemplateSlaModel],
-        support_and_communication: [contractTemplateSupportAndCommunicationModel],
+        sla: contractTemplateSlaModel,
+        support: [contractTemplateSupportAndCommunicationModel],
         custom_properties: [contractTemplateCustomPropertyModel],
         contract_test: contractTestModel,
         servers: [contractServerModel],
@@ -1749,7 +2189,7 @@ describe('DphV1', () => {
 
       // AssetPartReference
       const assetPartReferenceModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
         container: containerReferenceModel,
         type: 'data_asset',
@@ -1831,6 +2271,7 @@ describe('DphV1', () => {
         const comments = 'testString';
         const accessControl = assetListAccessControlModel;
         const lastUpdatedAt = '2019-01-01T12:00:00.000Z';
+        const createdDate = '2019-01-01T12:00:00.000Z';
         const subContainer = containerIdentityModel;
         const isRestricted = true;
         const createDataProductDraftParams = {
@@ -1852,6 +2293,7 @@ describe('DphV1', () => {
           comments,
           accessControl,
           lastUpdatedAt,
+          createdDate,
           subContainer,
           isRestricted,
         };
@@ -1893,6 +2335,7 @@ describe('DphV1', () => {
         expect(mockRequestOptions.body.comments).toEqual(comments);
         expect(mockRequestOptions.body.access_control).toEqual(accessControl);
         expect(mockRequestOptions.body.last_updated_at).toEqual(lastUpdatedAt);
+        expect(mockRequestOptions.body.created_date).toEqual(createdDate);
         expect(mockRequestOptions.body.sub_container).toEqual(subContainer);
         expect(mockRequestOptions.body.is_restricted).toEqual(isRestricted);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
@@ -2062,6 +2505,136 @@ describe('DphV1', () => {
         let err;
         try {
           await dphService.createDraftContractTermsDocument();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createDataContractTestRun', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ServerMapping
+      const serverMappingModel = {
+        server_name: 'Server name from contract',
+        connection_id: '2b0bf220-079c-41ee-be56-0242ac120002',
+      };
+
+      function __createDataContractTestRunTest() {
+        // Construct the params object for operation createDataContractTestRun
+        const dataProductId = 'testString';
+        const projectId = 'f29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const catalogId = 'd29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const contractName = 'My Data Contract';
+        const contractYaml = 'version: 1.0';
+        const assetIds = [
+          'b50c42eb-7100-4b7a-8257-c196dbcca1cd',
+          'c69c42eb-7100-4b7a-8257-c196dbcca1cd',
+        ];
+        const serverMapping = [serverMappingModel];
+        const dataContractId = '58be8340-2844-47ab-9528-c6d0cb235354';
+        const createDataContractTestRunParams = {
+          dataProductId,
+          projectId,
+          catalogId,
+          contractName,
+          contractYaml,
+          assetIds,
+          serverMapping,
+          dataContractId,
+        };
+
+        const createDataContractTestRunResult = dphService.createDataContractTestRun(
+          createDataContractTestRunParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createDataContractTestRunResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.project_id).toEqual(projectId);
+        expect(mockRequestOptions.body.catalog_id).toEqual(catalogId);
+        expect(mockRequestOptions.body.contract_name).toEqual(contractName);
+        expect(mockRequestOptions.body.contract_yaml).toEqual(contractYaml);
+        expect(mockRequestOptions.body.asset_ids).toEqual(assetIds);
+        expect(mockRequestOptions.body.server_mapping).toEqual(serverMapping);
+        expect(mockRequestOptions.body.data_contract_id).toEqual(dataContractId);
+        expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createDataContractTestRunTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createDataContractTestRunTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createDataContractTestRunTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const dataProductId = 'testString';
+        const projectId = 'f29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const catalogId = 'd29c42eb-7100-4b7a-8257-c196dbcca1cd';
+        const contractName = 'My Data Contract';
+        const contractYaml = 'version: 1.0';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createDataContractTestRunParams = {
+          dataProductId,
+          projectId,
+          catalogId,
+          contractName,
+          contractYaml,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createDataContractTestRun(createDataContractTestRunParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.createDataContractTestRun({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.createDataContractTestRun();
         } catch (e) {
           err = e;
         }
@@ -2709,7 +3282,7 @@ describe('DphV1', () => {
         const accept = 'application/json';
         const includeContractDocuments = true;
         const autopopulateServerInformation = false;
-        const serverAssetId = 'testString';
+        const serverId = 'testString';
         const getDataProductDraftContractTermsParams = {
           dataProductId,
           draftId,
@@ -2717,7 +3290,7 @@ describe('DphV1', () => {
           accept,
           includeContractDocuments,
           autopopulateServerInformation,
-          serverAssetId,
+          serverId,
         };
 
         const getDataProductDraftContractTermsResult = dphService.getDataProductDraftContractTerms(
@@ -2745,7 +3318,7 @@ describe('DphV1', () => {
         expect(mockRequestOptions.qs.autopopulate_server_information).toEqual(
           autopopulateServerInformation
         );
-        expect(mockRequestOptions.qs.server_asset_id).toEqual(serverAssetId);
+        expect(mockRequestOptions.qs.server_id).toEqual(serverId);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
         expect(mockRequestOptions.path.draft_id).toEqual(draftId);
         expect(mockRequestOptions.path.contract_terms_id).toEqual(contractTermsId);
@@ -2825,7 +3398,7 @@ describe('DphV1', () => {
 
       // AssetReference
       const assetReferenceModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
         container: containerReferenceModel,
       };
@@ -2847,49 +3420,94 @@ describe('DphV1', () => {
 
       // Domain
       const domainModel = {
-        id: 'b38df608-d34b-4d58-8136-ed25e6c6684e',
-        name: 'domain_name',
+        id: 'c410bd17-a365-482f-8884-f6c08a162597',
+        name: 'Customer Analytics',
         container: containerReferenceModel,
+      };
+
+      // ContractAuthoritativeDefinition
+      const contractAuthoritativeDefinitionModel = {
+        id: 'auth-def-001',
+        url: 'https://example.com/data-governance/policies',
+        type: 'policy',
+        description: 'This is the primary authoritative source for customer data',
       };
 
       // Overview
       const overviewModel = {
-        api_version: 'v3.0.1',
+        api_version: 'v3.0.0',
         kind: 'DataContract',
-        name: 'Sample Data Contract',
-        version: 'v0.0',
+        status: 'production',
+        name: 'Customer Analytics Data Contract',
+        version: '1.0.0',
         domain: domainModel,
-        more_info: 'List of links to sources that provide more details on the data contract.',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        tenant: 'production',
+        data_product: 'Customer 360 Analytics',
+        contract_created_ts: '2024-01-15T09:30:00.000Z',
+        tags: ['testString'],
       };
 
-      // ContractTermsMoreInfo
-      const contractTermsMoreInfoModel = {
-        type: 'privacy-statement',
-        url: 'https://www.moreinfo.example.coms',
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        id: 'custom-prop-001',
+        property: 'The name of the property.',
+        value: 'The value of the property.',
+        description: 'This is a custom property for tracking purposes',
       };
 
       // Description
       const descriptionModel = {
-        purpose: 'Intended purpose for the provided data.',
-        limitations: 'Technical, compliance, and legal limitations for data use.',
-        usage: 'Recommended usage of the data.',
-        more_info: [contractTermsMoreInfoModel],
-        custom_properties: 'Custom properties that are not part of the standard.',
+        purpose: 'Provide customer behavioral analytics data for marketing and product teams',
+        limitations:
+          'Data is aggregated at daily level. PII is masked. Maximum retention is 2 years.',
+        usage:
+          'Recommended for trend analysis, segmentation, and predictive modeling. Not suitable for real-time decisioning.',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateOrganization
-      const contractTemplateOrganizationModel = {
-        user_id: 'IBMid-691000IN4G',
+      // ContractTemplateMember
+      const contractTemplateMemberModel = {
+        id: 'member-001',
+        user_id: 'user ID',
+        name: 'John Doe',
         role: 'owner',
+        description: 'Responsible for data quality and governance',
+        date_in: '2024-01-15',
+        date_out: '2024-12-31',
+        replaced_by_username: 'jane_smith',
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractTermsTeam
+      const contractTermsTeamModel = {
+        id: 'team-001',
+        name: 'Data Governance Team',
+        description: 'Team responsible for data governance and quality',
+        members: [contractTemplateMemberModel],
+        tags: ['governance', 'quality'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
       };
 
       // Roles
       const rolesModel = {
+        id: 'role-001',
         role: 'IAM Role',
+        access: 'read',
+        first_level_approvers: 'manager_user',
+        second_level_approvers: 'director_user',
+        description: 'Administrator role with full access',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // Pricing
       const pricingModel = {
+        id: 'price-001',
         amount: 'Amount',
         currency: 'Currency',
         unit: 'Unit',
@@ -2897,8 +3515,16 @@ describe('DphV1', () => {
 
       // ContractTemplateSLAProperty
       const contractTemplateSlaPropertyModel = {
+        id: 'sla-prop-001',
         property: 'slaproperty',
         value: 'slavalue',
+        value_ext: 'extended_value',
+        unit: 'd',
+        element: 'column1,column2',
+        driver: 'regulatory',
+        description: 'Guaranteed uptime for the service',
+        scheduler: 'cron',
+        schedule: '0 20 * * *',
       };
 
       // ContractTemplateSLA
@@ -2909,107 +3535,188 @@ describe('DphV1', () => {
 
       // ContractTemplateSupportAndCommunication
       const contractTemplateSupportAndCommunicationModel = {
+        id: 'support-001',
         channel: 'channel',
         url: 'https://www.example.coms',
+        description: 'Primary support channel for technical issues',
+        tool: 'slack',
+        scope: 'interactive',
+        invitation_url: 'https://slack.com/invite/abc123',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateCustomProperty
-      const contractTemplateCustomPropertyModel = {
-        key: 'The name of the key.',
-        value: 'The value of the key.',
+      // ContractTestSummary
+      const contractTestSummaryModel = {
+        status: 'pass',
+        check: 'Schema Validation',
+        asset_name: 'customer_events',
+        records_returned: '1500000',
       };
 
       // ContractTest
       const contractTestModel = {
         status: 'pass',
-        last_tested_time: 'testString',
-        message: 'testString',
+        last_tested_time: '2024-02-05T06:00:00Z',
+        data_contract_id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        project_id: 'a1b2c3d4-e5f6-4890-abcd-ef1234567890',
+        message: 'All quality checks passed successfully',
+        test_run_id: 'abcd9e0f-1a2b-4c4d-8e6f-7a8b9c0d1e2f',
+        test_summary: [contractTestSummaryModel],
       };
 
       // ContractAsset
       const contractAssetModel = {
-        id: '684d6aa0-9f93-4564-8a20-e354bc469857',
-        name: 'PAYMENT_TRANSACTIONS1',
+        id: 'testString',
+        name: 'testString',
       };
 
       // ContractServer
       const contractServerModel = {
-        server: 'snowflake-server-01',
+        id: 'testString',
+        server: 'prod-postgres-01',
         asset: contractAssetModel,
-        connection_id: '8d7701be-709a-49c0-ae4e-a7daeaae6def',
-        type: 'snowflake',
-        description: 'Snowflake analytics server',
-        environment: 'dev',
-        account: 'acc-456',
-        catalog: 'analytics_cat',
-        database: 'analytics_db',
-        dataset: 'customer_data',
-        delimiter: ',',
-        endpoint_url: 'https://xy12345.snowflakecomputing.com',
-        format: 'parquet',
-        host: 'xy12345.snowflakecomputing.com',
-        location: 'Mumbai',
-        path: '/analytics/data',
-        port: '443',
-        project: 'projectY',
-        region: 'ap-south-1',
-        region_name: 'Asia South 1',
-        schema: 'PAYMENT_TRANSACTIONS1',
-        service_name: 'snowflake',
-        staging_dir: '/snowflake/staging',
-        stream: 'stream_analytics',
-        warehouse: 'wh_xlarge',
+        connection_id: 'testString',
+        type: 'PostgreSQL',
+        description: 'Production PostgreSQL database for customer analytics',
+        environment: 'production',
+        account: 'testString',
+        catalog: 'testString',
+        database: 'analytics',
+        dataset: 'testString',
+        delimiter: 'testString',
+        endpoint_url: 'testString',
+        format: 'testString',
+        host: 'prod-db.example.com',
+        location: 'testString',
+        path: 'testString',
+        port: '5432',
+        project: 'testString',
+        region: 'testString',
+        region_name: 'testString',
+        schema: 'public',
+        service_name: 'testString',
+        staging_dir: 'testString',
+        stream: 'testString',
+        warehouse: 'testString',
         roles: ['testString'],
         custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractSchemaPropertyType
-      const contractSchemaPropertyTypeModel = {
-        type: 'varchar',
-        length: '1024',
-        scale: '0',
-        nullable: 'true',
-        signed: 'false',
-        native_type: 'testString',
+      // ContractLogicalTypeOptions
+      const contractLogicalTypeOptionsModel = {
+        format: 'date-time',
+        minimum: '0',
+        maximum: '100',
+        min_length: 1,
+        max_length: 255,
+        pattern: '^[A-Z][a-z]+$',
+        exclusive_maximum: 'testString',
+        exclusive_minimum: 'testString',
+        timezone: true,
+        default_timezone: 'UTC',
+        multiple_of: 72.5,
+        max_properties: 0,
+        min_properties: 0,
+        required: ['testString'],
+        max_items: 0,
+        min_items: 0,
+        unique_items: true,
       };
 
       // ContractQualityRule
       const contractQualityRuleModel = {
-        type: 'sql',
+        id: 'quality-rule-001',
+        type: 'library',
         description: 'testString',
-        rule: 'testString',
+        tags: ['testString'],
+        metric: 'testString',
+        threshold: 'testString',
+        valid_values: ['testString'],
+        dimension: 'testString',
+        method: 'testString',
+        severity: 'critical',
+        business_impact: 'testString',
+        scheduler: 'testString',
+        schedule: 'testString',
+        rule: 'not_null',
         implementation: 'testString',
         engine: 'testString',
         must_be_less_than: 'testString',
         must_be_less_or_equal_to: 'testString',
         must_be_greater_than: 'testString',
+        custom_properties: [contractTemplateCustomPropertyModel],
         must_be_greater_or_equal_to: 'testString',
         must_be_between: ['testString'],
         must_not_be_between: ['testString'],
-        must_be: 'testString',
+        must_be: 'true',
         must_not_be: 'testString',
-        name: 'testString',
+        name: 'Not Null Check',
         unit: 'testString',
         query: 'testString',
+        arguments: { threshold: 0.95, column: 'status' },
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractSchemaRelationship
+      const contractSchemaRelationshipModel = {
+        type: 'foreignKey',
+        from: ['testString'],
+        to: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // ContractSchemaProperty
       const contractSchemaPropertyModel = {
-        name: 'product_brand_code',
-        type: contractSchemaPropertyTypeModel,
+        id: 'testString',
+        name: 'customer_id',
+        primary_key: true,
+        primary_key_position: 1,
+        logical_type: 'string',
+        logical_type_options: contractLogicalTypeOptionsModel,
+        physical_type: 'VARCHAR(50)',
+        required: true,
+        unique: false,
+        description: 'Unique customer identifier',
+        business_name: 'Customer ID',
+        tags: ['identifier', 'customer'],
+        examples: ['testString'],
+        partitioned: true,
+        partition_key_position: 0,
+        classification: 'testString',
         quality: [contractQualityRuleModel],
+        physical_name: 'testString',
+        encrypted_name: 'testString',
+        transform_source_objects: ['testString'],
+        transform_logic: 'testString',
+        transform_description: 'testString',
+        critical_data_element: true,
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractSchema
       const contractSchemaModel = {
-        asset_id: '09ca6b40-7c89-412a-8951-ad820da709d1',
-        connection_id: '6cc57d4d-2229-438f-91a0-2c455556422b',
-        name: '000000_0-2025-06-20-20-28-52.csv',
-        description: 'testString',
-        connection_path: '/dpx-test-bucket/000000_0-2025-06-20-20-28-52.csv',
-        physical_type: 'text/csv',
+        id: 'schema-001',
+        asset_id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        connection_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        name: 'customer_events',
+        type: 'table',
+        description: 'Customer interaction events table',
+        connection_path: '/prod-db.example.com/analytics',
+        physical_type: 'application/x-ibm-rel-table',
+        business_name: 'Customer Events',
+        logical_type: 'object',
+        physical_name: 'customer_events_v1',
+        data_granularity_description: 'Event-level data, one row per customer interaction',
+        physical_schema: 'testString',
+        server: 'testString',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        tags: ['customer', 'events', 'analytics'],
+        custom_properties: [contractTemplateCustomPropertyModel],
         properties: [contractSchemaPropertyModel],
         quality: [contractQualityRuleModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       function __replaceDataProductDraftContractTermsTest() {
@@ -3023,11 +3730,11 @@ describe('DphV1', () => {
         const errorMsg = 'testString';
         const overview = overviewModel;
         const description = descriptionModel;
-        const organization = [contractTemplateOrganizationModel];
+        const team = contractTermsTeamModel;
         const roles = [rolesModel];
         const price = pricingModel;
-        const sla = [contractTemplateSlaModel];
-        const supportAndCommunication = [contractTemplateSupportAndCommunicationModel];
+        const sla = contractTemplateSlaModel;
+        const support = [contractTemplateSupportAndCommunicationModel];
         const customProperties = [contractTemplateCustomPropertyModel];
         const contractTest = contractTestModel;
         const servers = [contractServerModel];
@@ -3042,11 +3749,11 @@ describe('DphV1', () => {
           errorMsg,
           overview,
           description,
-          organization,
+          team,
           roles,
           price,
           sla,
-          supportAndCommunication,
+          support,
           customProperties,
           contractTest,
           servers,
@@ -3080,11 +3787,11 @@ describe('DphV1', () => {
         expect(mockRequestOptions.body.error_msg).toEqual(errorMsg);
         expect(mockRequestOptions.body.overview).toEqual(overview);
         expect(mockRequestOptions.body.description).toEqual(description);
-        expect(mockRequestOptions.body.organization).toEqual(organization);
+        expect(mockRequestOptions.body.team).toEqual(team);
         expect(mockRequestOptions.body.roles).toEqual(roles);
         expect(mockRequestOptions.body.price).toEqual(price);
         expect(mockRequestOptions.body.sla).toEqual(sla);
-        expect(mockRequestOptions.body.support_and_communication).toEqual(supportAndCommunication);
+        expect(mockRequestOptions.body.support).toEqual(support);
         expect(mockRequestOptions.body.custom_properties).toEqual(customProperties);
         expect(mockRequestOptions.body.contract_test).toEqual(contractTest);
         expect(mockRequestOptions.body.servers).toEqual(servers);
@@ -3374,6 +4081,111 @@ describe('DphV1', () => {
         let err;
         try {
           await dphService.getContractTermsInSpecifiedFormat();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getDataContractTestResults', () => {
+    describe('positive tests', () => {
+      function __getDataContractTestResultsTest() {
+        // Construct the params object for operation getDataContractTestResults
+        const dataProductId = 'testString';
+        const dataContractId = 'testString';
+        const testRunId = 'testString';
+        const projectId = 'testString';
+        const getDataContractTestResultsParams = {
+          dataProductId,
+          dataContractId,
+          testRunId,
+          projectId,
+        };
+
+        const getDataContractTestResultsResult = dphService.getDataContractTestResults(
+          getDataContractTestResultsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getDataContractTestResultsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/drafts/data_quality/test_data_contract/{data_contract_id}/test_results/{test_run_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.project_id).toEqual(projectId);
+        expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
+        expect(mockRequestOptions.path.data_contract_id).toEqual(dataContractId);
+        expect(mockRequestOptions.path.test_run_id).toEqual(testRunId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDataContractTestResultsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getDataContractTestResultsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getDataContractTestResultsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const dataProductId = 'testString';
+        const dataContractId = 'testString';
+        const testRunId = 'testString';
+        const projectId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDataContractTestResultsParams = {
+          dataProductId,
+          dataContractId,
+          testRunId,
+          projectId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getDataContractTestResults(getDataContractTestResultsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getDataContractTestResults({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getDataContractTestResults();
         } catch (e) {
           err = e;
         }
@@ -4009,9 +4821,9 @@ describe('DphV1', () => {
       const serviceUrl = dphServiceOptions.url;
       const path = '/data_product_exchange/v1/data_products/testString/releases';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"servers":[{"server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}]}],"schema":[{"asset_id":"2b0bf220-079c-11ee-be56-0242ac120002","connection_id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","description":"description","connection_path":"connection_path","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"},"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}],"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-41ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.1.0","kind":"DataContract","status":"proposed","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"id":"2b0bf220-079c-41ee-be56-0242ac120002","tenant":"tenant1","data_product":"Customer Data Product","contract_created_ts":"2024-01-15T09:30:00.000Z","tags":["tags"]},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]},"team":{"id":"team-001","name":"Data Governance Team","description":"Team responsible for data governance and quality","members":[{"id":"member-001","user_id":"IBMid-691000IN4G","name":"John Doe","role":"owner","description":"Responsible for data quality and governance","date_in":"2024-01-15","date_out":"2024-12-31","replaced_by_username":"jane_smith","tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]},"roles":[{"id":"role-001","role":"owner","access":"read","first_level_approvers":"manager_user","second_level_approvers":"director_user","description":"Administrator role with full access","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"price":{"id":"price-001","amount":"100.0","currency":"USD","unit":"megabyte"},"sla":{"default_element":"Standard SLA Policy","properties":[{"id":"sla-prop-001","property":"Uptime Guarantee","value":"99.9","value_ext":"extended_value","unit":"d","element":"column1,column2","driver":"regulatory","description":"Guaranteed uptime for the service","scheduler":"cron","schedule":"0 20 * * *"}]},"support":[{"id":"support-001","channel":"Email Support","url":"https://support.example.com","description":"Primary support channel for technical issues","tool":"slack","scope":"interactive","invitation_url":"https://slack.com/invite/abc123","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"contract_test":{"status":"pass","last_tested_time":"2019-01-01T12:00:00.000Z","data_contract_id":"data_contract_id","project_id":"project_id","message":"message","test_run_id":"test_run_id","test_summary":[{"status":"status","check":"check","asset_name":"asset_name","records_returned":"records_returned"}]},"servers":[{"id":"id","server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"schema":[{"id":"schema-001","asset_id":"2b0bf220-079c-41ee-be56-0242ac120002","connection_id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","type":"table","description":"description","connection_path":"connection_path","physical_type":"physical_type","business_name":"business_name","logical_type":"logical_type","physical_name":"physical_name","data_granularity_description":"data_granularity_description","physical_schema":"physical_schema","server":"server","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"properties":[{"id":"id","name":"name","primary_key":false,"primary_key_position":0,"logical_type":"logical_type","logical_type_options":{"format":"date-time","minimum":"0","maximum":"100","min_length":1,"max_length":255,"pattern":"^[A-Z][a-z]+$","exclusive_maximum":"exclusive_maximum","exclusive_minimum":"exclusive_minimum","timezone":true,"default_timezone":"UTC","multiple_of":11,"max_properties":0,"min_properties":0,"required":["required"],"max_items":0,"min_items":0,"unique_items":true},"physical_type":"physical_type","required":true,"unique":true,"description":"description","business_name":"business_name","tags":["tags"],"examples":["examples"],"partitioned":false,"partition_key_position":0,"classification":"classification","quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"physical_name":"physical_name","encrypted_name":"encrypted_name","transform_source_objects":["transform_source_objects"],"transform_logic":"transform_logic","transform_description":"transform_description","critical_data_element":false,"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}],"quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","created_date":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-41ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-11ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.0.1","kind":"DataContract","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"more_info":"List of links to sources that provide more details on the data contract."},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","more_info":[{"type":"privacy-statement","url":"https://moreinfo.example.com"}],"custom_properties":"{\\"property1\\":\\"value1\\"}"},"organization":[{"user_id":"IBMid-691000IN4G","role":"owner"}],"roles":[{"role":"owner"}],"price":{"amount":"100.0","currency":"USD","unit":"megabyte"},"sla":[{"default_element":"Standard SLA Policy","properties":[{"property":"Uptime Guarantee","value":"99.9"}]}],"support_and_communication":[{"channel":"Email Support","url":"https://support.example.com"}],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}],"contract_test":{"status":"pass","last_tested_time":"last_tested_time","message":"message"},"servers":[{"server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"key":"customPropertyKey","value":"customPropertyValue"}]}],"schema":[{"asset_id":"2b0bf220-079c-11ee-be56-0242ac120002","connection_id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","description":"description","connection_path":"connection_path","physical_type":"physical_type","properties":[{"name":"name","type":{"type":"type","length":"length","scale":"scale","nullable":"nullable","signed":"signed","native_type":"native_type"},"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}],"quality":[{"type":"sql","description":"description","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query"}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-11ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-11ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-41ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.1.0","kind":"DataContract","status":"proposed","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"id":"2b0bf220-079c-41ee-be56-0242ac120002","tenant":"tenant1","data_product":"Customer Data Product","contract_created_ts":"2024-01-15T09:30:00.000Z","tags":["tags"]},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]},"team":{"id":"team-001","name":"Data Governance Team","description":"Team responsible for data governance and quality","members":[{"id":"member-001","user_id":"IBMid-691000IN4G","name":"John Doe","role":"owner","description":"Responsible for data quality and governance","date_in":"2024-01-15","date_out":"2024-12-31","replaced_by_username":"jane_smith","tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]},"roles":[{"id":"role-001","role":"owner","access":"read","first_level_approvers":"manager_user","second_level_approvers":"director_user","description":"Administrator role with full access","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"price":{"id":"price-001","amount":"100.0","currency":"USD","unit":"megabyte"},"sla":{"default_element":"Standard SLA Policy","properties":[{"id":"sla-prop-001","property":"Uptime Guarantee","value":"99.9","value_ext":"extended_value","unit":"d","element":"column1,column2","driver":"regulatory","description":"Guaranteed uptime for the service","scheduler":"cron","schedule":"0 20 * * *"}]},"support":[{"id":"support-001","channel":"Email Support","url":"https://support.example.com","description":"Primary support channel for technical issues","tool":"slack","scope":"interactive","invitation_url":"https://slack.com/invite/abc123","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"contract_test":{"status":"pass","last_tested_time":"2019-01-01T12:00:00.000Z","data_contract_id":"data_contract_id","project_id":"project_id","message":"message","test_run_id":"test_run_id","test_summary":[{"status":"status","check":"check","asset_name":"asset_name","records_returned":"records_returned"}]},"servers":[{"id":"id","server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"schema":[{"id":"schema-001","asset_id":"2b0bf220-079c-41ee-be56-0242ac120002","connection_id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","type":"table","description":"description","connection_path":"connection_path","physical_type":"physical_type","business_name":"business_name","logical_type":"logical_type","physical_name":"physical_name","data_granularity_description":"data_granularity_description","physical_schema":"physical_schema","server":"server","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"properties":[{"id":"id","name":"name","primary_key":false,"primary_key_position":0,"logical_type":"logical_type","logical_type_options":{"format":"date-time","minimum":"0","maximum":"100","min_length":1,"max_length":255,"pattern":"^[A-Z][a-z]+$","exclusive_maximum":"exclusive_maximum","exclusive_minimum":"exclusive_minimum","timezone":true,"default_timezone":"UTC","multiple_of":11,"max_properties":0,"min_properties":0,"required":["required"],"max_items":0,"min_items":0,"unique_items":true},"physical_type":"physical_type","required":true,"unique":true,"description":"description","business_name":"business_name","tags":["tags"],"examples":["examples"],"partitioned":false,"partition_key_position":0,"classification":"classification","quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"physical_name":"physical_name","encrypted_name":"encrypted_name","transform_source_objects":["transform_source_objects"],"transform_logic":"transform_logic","transform_description":"transform_description","critical_data_element":false,"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}],"quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","created_date":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-41ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -4062,6 +4874,163 @@ describe('DphV1', () => {
     });
   });
 
+  describe('listRetiredDataProductReleasesLatest', () => {
+    describe('positive tests', () => {
+      function __listRetiredDataProductReleasesLatestTest() {
+        // Construct the params object for operation listRetiredDataProductReleasesLatest
+        const dataProductId = 'testString';
+        const assetContainerId = 'testString';
+        const limit = 200;
+        const start = 'testString';
+        const page = 1;
+        const listRetiredDataProductReleasesLatestParams = {
+          dataProductId,
+          assetContainerId,
+          limit,
+          start,
+          page,
+        };
+
+        const listRetiredDataProductReleasesLatestResult =
+          dphService.listRetiredDataProductReleasesLatest(
+            listRetiredDataProductReleasesLatestParams
+          );
+
+        // all methods should return a Promise
+        expectToBePromise(listRetiredDataProductReleasesLatestResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/data_products/{data_product_id}/releases/state/retired',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['asset.container.id']).toEqual(assetContainerId);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.start).toEqual(start);
+        expect(mockRequestOptions.qs.page).toEqual(page);
+        expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listRetiredDataProductReleasesLatestTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __listRetiredDataProductReleasesLatestTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __listRetiredDataProductReleasesLatestTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const dataProductId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listRetiredDataProductReleasesLatestParams = {
+          dataProductId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.listRetiredDataProductReleasesLatest(listRetiredDataProductReleasesLatestParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.listRetiredDataProductReleasesLatest({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.listRetiredDataProductReleasesLatest();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+
+    describe('RetiredDataProductReleasesLatestPager tests', () => {
+      const serviceUrl = dphServiceOptions.url;
+      const path = '/data_product_exchange/v1/data_products/testString/releases/state/retired';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-41ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.1.0","kind":"DataContract","status":"proposed","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"id":"2b0bf220-079c-41ee-be56-0242ac120002","tenant":"tenant1","data_product":"Customer Data Product","contract_created_ts":"2024-01-15T09:30:00.000Z","tags":["tags"]},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]},"team":{"id":"team-001","name":"Data Governance Team","description":"Team responsible for data governance and quality","members":[{"id":"member-001","user_id":"IBMid-691000IN4G","name":"John Doe","role":"owner","description":"Responsible for data quality and governance","date_in":"2024-01-15","date_out":"2024-12-31","replaced_by_username":"jane_smith","tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]},"roles":[{"id":"role-001","role":"owner","access":"read","first_level_approvers":"manager_user","second_level_approvers":"director_user","description":"Administrator role with full access","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"price":{"id":"price-001","amount":"100.0","currency":"USD","unit":"megabyte"},"sla":{"default_element":"Standard SLA Policy","properties":[{"id":"sla-prop-001","property":"Uptime Guarantee","value":"99.9","value_ext":"extended_value","unit":"d","element":"column1,column2","driver":"regulatory","description":"Guaranteed uptime for the service","scheduler":"cron","schedule":"0 20 * * *"}]},"support":[{"id":"support-001","channel":"Email Support","url":"https://support.example.com","description":"Primary support channel for technical issues","tool":"slack","scope":"interactive","invitation_url":"https://slack.com/invite/abc123","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"contract_test":{"status":"pass","last_tested_time":"2019-01-01T12:00:00.000Z","data_contract_id":"data_contract_id","project_id":"project_id","message":"message","test_run_id":"test_run_id","test_summary":[{"status":"status","check":"check","asset_name":"asset_name","records_returned":"records_returned"}]},"servers":[{"id":"id","server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"schema":[{"id":"schema-001","asset_id":"2b0bf220-079c-41ee-be56-0242ac120002","connection_id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","type":"table","description":"description","connection_path":"connection_path","physical_type":"physical_type","business_name":"business_name","logical_type":"logical_type","physical_name":"physical_name","data_granularity_description":"data_granularity_description","physical_schema":"physical_schema","server":"server","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"properties":[{"id":"id","name":"name","primary_key":false,"primary_key_position":0,"logical_type":"logical_type","logical_type_options":{"format":"date-time","minimum":"0","maximum":"100","min_length":1,"max_length":255,"pattern":"^[A-Z][a-z]+$","exclusive_maximum":"exclusive_maximum","exclusive_minimum":"exclusive_minimum","timezone":true,"default_timezone":"UTC","multiple_of":11,"max_properties":0,"min_properties":0,"required":["required"],"max_items":0,"min_items":0,"unique_items":true},"physical_type":"physical_type","required":true,"unique":true,"description":"description","business_name":"business_name","tags":["tags"],"examples":["examples"],"partitioned":false,"partition_key_position":0,"classification":"classification","quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"physical_name":"physical_name","encrypted_name":"encrypted_name","transform_source_objects":["transform_source_objects"],"transform_logic":"transform_logic","transform_description":"transform_description","critical_data_element":false,"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}],"quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","created_date":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-41ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"releases":[{"version":"1.0.0","state":"draft","data_product":{"id":"b38df608-d34b-4d58-8136-ed25e6c6684e","release":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"},"container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"name":"My Data Product","description":"This is a description of My Data Product.","tags":["tags"],"use_cases":[{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}],"types":["data"],"contract_terms":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"id":"id","documents":[{"url":"url","type":"terms_and_conditions","name":"name","id":"2b0bf220-079c-41ee-be56-0242ac120002","attachment":{"id":"id"},"upload_url":"upload_url"}],"error_msg":"error_msg","overview":{"api_version":"v3.1.0","kind":"DataContract","status":"proposed","name":"Sample Data Contract","version":"0.0.0","domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"id":"2b0bf220-079c-41ee-be56-0242ac120002","tenant":"tenant1","data_product":"Customer Data Product","contract_created_ts":"2024-01-15T09:30:00.000Z","tags":["tags"]},"description":{"purpose":"Used for customer behavior analysis.","limitations":"Data cannot be used for marketing.","usage":"Data should be used only for analytics.","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]},"team":{"id":"team-001","name":"Data Governance Team","description":"Team responsible for data governance and quality","members":[{"id":"member-001","user_id":"IBMid-691000IN4G","name":"John Doe","role":"owner","description":"Responsible for data quality and governance","date_in":"2024-01-15","date_out":"2024-12-31","replaced_by_username":"jane_smith","tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]},"roles":[{"id":"role-001","role":"owner","access":"read","first_level_approvers":"manager_user","second_level_approvers":"director_user","description":"Administrator role with full access","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"price":{"id":"price-001","amount":"100.0","currency":"USD","unit":"megabyte"},"sla":{"default_element":"Standard SLA Policy","properties":[{"id":"sla-prop-001","property":"Uptime Guarantee","value":"99.9","value_ext":"extended_value","unit":"d","element":"column1,column2","driver":"regulatory","description":"Guaranteed uptime for the service","scheduler":"cron","schedule":"0 20 * * *"}]},"support":[{"id":"support-001","channel":"Email Support","url":"https://support.example.com","description":"Primary support channel for technical issues","tool":"slack","scope":"interactive","invitation_url":"https://slack.com/invite/abc123","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"contract_test":{"status":"pass","last_tested_time":"2019-01-01T12:00:00.000Z","data_contract_id":"data_contract_id","project_id":"project_id","message":"message","test_run_id":"test_run_id","test_summary":[{"status":"status","check":"check","asset_name":"asset_name","records_returned":"records_returned"}]},"servers":[{"id":"id","server":"server","asset":{"id":"id","name":"name"},"connection_id":"connection_id","type":"type","description":"description","environment":"environment","account":"account","catalog":"catalog","database":"database","dataset":"dataset","delimiter":"delimiter","endpoint_url":"endpoint_url","format":"format","host":"host","location":"location","path":"path","port":"port","project":"project","region":"region","region_name":"region_name","schema":"schema","service_name":"service_name","staging_dir":"staging_dir","stream":"stream","warehouse":"warehouse","roles":["roles"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}],"schema":[{"id":"schema-001","asset_id":"2b0bf220-079c-41ee-be56-0242ac120002","connection_id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","type":"table","description":"description","connection_path":"connection_path","physical_type":"physical_type","business_name":"business_name","logical_type":"logical_type","physical_name":"physical_name","data_granularity_description":"data_granularity_description","physical_schema":"physical_schema","server":"server","authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"tags":["tags"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"properties":[{"id":"id","name":"name","primary_key":false,"primary_key_position":0,"logical_type":"logical_type","logical_type_options":{"format":"date-time","minimum":"0","maximum":"100","min_length":1,"max_length":255,"pattern":"^[A-Z][a-z]+$","exclusive_maximum":"exclusive_maximum","exclusive_minimum":"exclusive_minimum","timezone":true,"default_timezone":"UTC","multiple_of":11,"max_properties":0,"min_properties":0,"required":["required"],"max_items":0,"min_items":0,"unique_items":true},"physical_type":"physical_type","required":true,"unique":true,"description":"description","business_name":"business_name","tags":["tags"],"examples":["examples"],"partitioned":false,"partition_key_position":0,"classification":"classification","quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"physical_name":"physical_name","encrypted_name":"encrypted_name","transform_source_objects":["transform_source_objects"],"transform_logic":"transform_logic","transform_description":"transform_description","critical_data_element":false,"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}],"quality":[{"id":"quality-rule-001","type":"sql","description":"description","tags":["tags"],"metric":"metric","threshold":"threshold","valid_values":["valid_values"],"dimension":"dimension","method":"method","severity":"severity","business_impact":"business_impact","scheduler":"scheduler","schedule":"schedule","rule":"rule","implementation":"implementation","engine":"engine","must_be_less_than":"must_be_less_than","must_be_less_or_equal_to":"must_be_less_or_equal_to","must_be_greater_than":"must_be_greater_than","custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}],"must_be_greater_or_equal_to":"must_be_greater_or_equal_to","must_be_between":["must_be_between"],"must_not_be_between":["must_not_be_between"],"must_be":"must_be","must_not_be":"must_not_be","name":"name","unit":"unit","query":"query","arguments":{"anyKey":"anyValue"},"authoritative_definitions":[{"id":"auth-def-001","url":"https://data.example.com/authoritative-source","type":"database","description":"This is the primary authoritative source for customer data"}]}],"relationships":[{"type":"foreignKey","from":["from"],"to":["to"],"custom_properties":[{"id":"custom-prop-001","property":"customPropertyKey","value":"customPropertyValue","description":"This is a custom property for tracking purposes"}]}]}]}],"domain":{"id":"id","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}},"parts_out":[{"asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"type":"data_asset"},"delivery_methods":[{"id":"09cf5fcc-cb9d-4995-a8e4-16517b25229f","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"},"getproperties":{"producer_input":{"engine_details":{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]},"engines":[{"display_name":"Iceberg Engine","engine_id":"presto767","engine_port":"34567","engine_host":"a109e0f6-2dfc-4954-a0ff-343d70f7da7b.someId.lakehouse.appdomain.cloud","engine_type":"spark","associated_catalogs":["associated_catalogs"]}]}}}]}],"workflows":{"order_access_request":{"task_assignee_users":["task_assignee_users"],"pre_approved_users":["pre_approved_users"],"custom_workflow_definition":{"id":"18bdbde1-918e-4ecf-aa23-6727bf319e14"}}},"dataview_enabled":true,"comments":"Comments by a producer that are provided either at the time of data product version creation or retiring","access_control":{"owner":"IBMid-696000KYV9"},"last_updated_at":"2019-01-01T12:00:00.000Z","created_date":"2019-01-01T12:00:00.000Z","sub_container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd"},"is_restricted":false,"id":"2b0bf220-079c-41ee-be56-0242ac120002@d29c42eb-7100-4b7a-8257-c196dbcca1cd","asset":{"id":"2b0bf220-079c-41ee-be56-0242ac120002","name":"name","container":{"id":"d29c42eb-7100-4b7a-8257-c196dbcca1cd","type":"catalog"}}}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          dataProductId: 'testString',
+          assetContainerId: 'testString',
+          limit: 10,
+          page: 1,
+        };
+        const allResults = [];
+        const pager = new DphV1.RetiredDataProductReleasesLatestPager(dphService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          dataProductId: 'testString',
+          assetContainerId: 'testString',
+          limit: 10,
+          page: 1,
+        };
+        const pager = new DphV1.RetiredDataProductReleasesLatestPager(dphService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
+  });
+
   describe('retireDataProductRelease', () => {
     describe('positive tests', () => {
       function __retireDataProductReleaseTest() {
@@ -4069,12 +5038,10 @@ describe('DphV1', () => {
         const dataProductId = 'testString';
         const releaseId = 'testString';
         const revokeAccess = false;
-        const startAt = 'testString';
         const retireDataProductReleaseParams = {
           dataProductId,
           releaseId,
           revokeAccess,
-          startAt,
         };
 
         const retireDataProductReleaseResult = dphService.retireDataProductRelease(
@@ -4095,10 +5062,9 @@ describe('DphV1', () => {
           'POST'
         );
         const expectedAccept = 'application/json';
-        const expectedContentType = 'application/x-www-form-urlencoded';
+        const expectedContentType = '';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.qs.revoke_access).toEqual(revokeAccess);
-        expect(mockRequestOptions.qs.start_at).toEqual(startAt);
         expect(mockRequestOptions.path.data_product_id).toEqual(dataProductId);
         expect(mockRequestOptions.path.release_id).toEqual(releaseId);
       }
@@ -4270,10 +5236,12 @@ describe('DphV1', () => {
         // Construct the params object for operation listDataProductContractTemplate
         const containerId = 'testString';
         const contractTemplateName = 'testString';
+        const contractTemplateStatus = 'testString';
         const domainIds = 'testString';
         const listDataProductContractTemplateParams = {
           containerId,
           contractTemplateName,
+          contractTemplateStatus,
           domainIds,
         };
 
@@ -4299,6 +5267,7 @@ describe('DphV1', () => {
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
         expect(mockRequestOptions.qs['contract_template.name']).toEqual(contractTemplateName);
+        expect(mockRequestOptions.qs['contract_template.status']).toEqual(contractTemplateStatus);
         expect(mockRequestOptions.qs['domain.ids']).toEqual(domainIds);
       }
 
@@ -4346,7 +5315,7 @@ describe('DphV1', () => {
 
       // ContainerReference
       const containerReferenceModel = {
-        id: '531f74a-01c8-4e91-8e29-b018db683c86',
+        id: 'f531f74a-01c8-4e91-8e29-b018db683c86',
         type: 'catalog',
       };
 
@@ -4358,7 +5327,7 @@ describe('DphV1', () => {
 
       // AssetReference
       const assetReferenceModel = {
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         name: 'testString',
         container: containerReferenceModel,
       };
@@ -4373,56 +5342,101 @@ describe('DphV1', () => {
         url: 'testString',
         type: 'terms_and_conditions',
         name: 'testString',
-        id: '2b0bf220-079c-11ee-be56-0242ac120002',
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
         attachment: contractTermsDocumentAttachmentModel,
         upload_url: 'testString',
       };
 
       // Domain
       const domainModel = {
-        id: '0094ebe9-abc3-473b-80ea-c777ede095ea',
-        name: 'Test Domain New',
+        id: '4d5e6f70-8901-4345-a789-0abcdef12345',
+        name: 'Customer Analytics',
         container: containerReferenceModel,
+      };
+
+      // ContractAuthoritativeDefinition
+      const contractAuthoritativeDefinitionModel = {
+        id: 'auth-def-001',
+        url: 'https://example.com/data-governance/policies',
+        type: 'policy',
+        description: 'This is the primary authoritative source for customer data',
       };
 
       // Overview
       const overviewModel = {
-        api_version: 'v3.0.1',
+        api_version: 'v3.1.0',
         kind: 'DataContract',
-        name: 'Sample Data Contract',
-        version: '0.0.0',
+        status: 'active',
+        name: 'Customer Analytics Data Contract',
+        version: '1.0.0',
         domain: domainModel,
-        more_info: 'List of links to sources that provide more details on the data contract.',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        id: '2b0bf220-079c-41ee-be56-0242ac120002',
+        tenant: 'production',
+        data_product: 'Customer 360 Analytics',
+        contract_created_ts: '2024-01-15T09:30:00.000Z',
+        tags: ['testString'],
       };
 
-      // ContractTermsMoreInfo
-      const contractTermsMoreInfoModel = {
-        type: 'privacy-statement',
-        url: 'https://www.moreinfo.example.coms',
+      // ContractTemplateCustomProperty
+      const contractTemplateCustomPropertyModel = {
+        id: 'custom-prop-001',
+        property: 'propertykey',
+        value: 'propertyvalue',
+        description: 'This is a custom property for tracking purposes',
       };
 
       // Description
       const descriptionModel = {
-        purpose: 'Intended purpose for the provided data.',
-        limitations: 'Technical, compliance, and legal limitations for data use.',
-        usage: 'Recommended usage of the data.',
-        more_info: [contractTermsMoreInfoModel],
-        custom_properties: 'Custom properties that are not part of the standard.',
+        purpose: 'Provide customer behavioral analytics data for marketing and product teams',
+        limitations:
+          'Data is aggregated at daily level. PII is masked. Maximum retention is 2 years.',
+        usage:
+          'Recommended for trend analysis, segmentation, and predictive modeling. Not suitable for real-time decisioning.',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateOrganization
-      const contractTemplateOrganizationModel = {
-        user_id: 'IBMid-691000IN4G',
+      // ContractTemplateMember
+      const contractTemplateMemberModel = {
+        id: 'member-001',
+        user_id: 'user ID',
+        name: 'John Doe',
         role: 'owner',
+        description: 'Responsible for data quality and governance',
+        date_in: '2024-01-15',
+        date_out: '2024-12-31',
+        replaced_by_username: 'jane_smith',
+        tags: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractTermsTeam
+      const contractTermsTeamModel = {
+        id: 'team-001',
+        name: 'Data Governance Team',
+        description: 'Team responsible for data governance and quality',
+        members: [contractTemplateMemberModel],
+        tags: ['governance', 'quality'],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
       };
 
       // Roles
       const rolesModel = {
+        id: 'role-001',
         role: 'IAM Role',
+        access: 'read',
+        first_level_approvers: 'manager_user',
+        second_level_approvers: 'director_user',
+        description: 'Administrator role with full access',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // Pricing
       const pricingModel = {
+        id: 'price-001',
         amount: '100.00',
         currency: 'USD',
         unit: 'megabyte',
@@ -4430,8 +5444,16 @@ describe('DphV1', () => {
 
       // ContractTemplateSLAProperty
       const contractTemplateSlaPropertyModel = {
+        id: 'sla-prop-001',
         property: 'slaproperty',
         value: 'slavalue',
+        value_ext: 'extended_value',
+        unit: 'd',
+        element: 'column1,column2',
+        driver: 'regulatory',
+        description: 'Guaranteed uptime for the service',
+        scheduler: 'cron',
+        schedule: '0 20 * * *',
       };
 
       // ContractTemplateSLA
@@ -4442,21 +5464,33 @@ describe('DphV1', () => {
 
       // ContractTemplateSupportAndCommunication
       const contractTemplateSupportAndCommunicationModel = {
+        id: 'support-001',
         channel: 'channel',
         url: 'https://www.example.coms',
+        description: 'Primary support channel for technical issues',
+        tool: 'slack',
+        scope: 'interactive',
+        invitation_url: 'https://slack.com/invite/abc123',
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractTemplateCustomProperty
-      const contractTemplateCustomPropertyModel = {
-        key: 'propertykey',
-        value: 'propertyvalue',
+      // ContractTestSummary
+      const contractTestSummaryModel = {
+        status: 'testString',
+        check: 'testString',
+        asset_name: 'testString',
+        records_returned: 'testString',
       };
 
       // ContractTest
       const contractTestModel = {
         status: 'pass',
-        last_tested_time: 'testString',
+        last_tested_time: '2019-01-01T12:00:00.000Z',
+        data_contract_id: 'testString',
+        project_id: 'testString',
         message: 'testString',
+        test_run_id: 'testString',
+        test_summary: [contractTestSummaryModel],
       };
 
       // ContractAsset
@@ -4467,27 +5501,28 @@ describe('DphV1', () => {
 
       // ContractServer
       const contractServerModel = {
-        server: 'testString',
+        id: 'testString',
+        server: 'prod-postgres-01',
         asset: contractAssetModel,
-        connection_id: 'testString',
-        type: 'testString',
-        description: 'testString',
-        environment: 'testString',
+        connection_id: '6181f74a-01c8-4e91-8e29-b018db683c45',
+        type: 'PostgreSQL',
+        description: 'Production PostgreSQL database for customer analytics',
+        environment: 'production',
         account: 'testString',
         catalog: 'testString',
-        database: 'testString',
+        database: 'analytics',
         dataset: 'testString',
         delimiter: 'testString',
         endpoint_url: 'testString',
         format: 'testString',
-        host: 'testString',
+        host: 'prod-db.example.com',
         location: 'testString',
         path: 'testString',
-        port: 'testString',
+        port: '5432',
         project: 'testString',
         region: 'testString',
         region_name: 'testString',
-        schema: 'testString',
+        schema: 'public',
         service_name: 'testString',
         staging_dir: 'testString',
         stream: 'testString',
@@ -4496,53 +5531,121 @@ describe('DphV1', () => {
         custom_properties: [contractTemplateCustomPropertyModel],
       };
 
-      // ContractSchemaPropertyType
-      const contractSchemaPropertyTypeModel = {
-        type: 'testString',
-        length: 'testString',
-        scale: 'testString',
-        nullable: 'testString',
-        signed: 'testString',
-        native_type: 'testString',
+      // ContractLogicalTypeOptions
+      const contractLogicalTypeOptionsModel = {
+        format: 'date-time',
+        minimum: '0',
+        maximum: '100',
+        min_length: 1,
+        max_length: 255,
+        pattern: '^[A-Z][a-z]+$',
+        exclusive_maximum: 'testString',
+        exclusive_minimum: 'testString',
+        timezone: true,
+        default_timezone: 'UTC',
+        multiple_of: 72.5,
+        max_properties: 0,
+        min_properties: 0,
+        required: ['testString'],
+        max_items: 0,
+        min_items: 0,
+        unique_items: true,
       };
 
       // ContractQualityRule
       const contractQualityRuleModel = {
-        type: 'sql',
+        id: 'quality-rule-001',
+        type: 'library',
         description: 'testString',
-        rule: 'testString',
+        tags: ['testString'],
+        metric: 'testString',
+        threshold: 'testString',
+        valid_values: ['testString'],
+        dimension: 'testString',
+        method: 'testString',
+        severity: 'critical',
+        business_impact: 'testString',
+        scheduler: 'testString',
+        schedule: 'testString',
+        rule: 'not_null',
         implementation: 'testString',
         engine: 'testString',
         must_be_less_than: 'testString',
         must_be_less_or_equal_to: 'testString',
         must_be_greater_than: 'testString',
+        custom_properties: [contractTemplateCustomPropertyModel],
         must_be_greater_or_equal_to: 'testString',
         must_be_between: ['testString'],
         must_not_be_between: ['testString'],
-        must_be: 'testString',
+        must_be: 'true',
         must_not_be: 'testString',
-        name: 'testString',
+        name: 'Not Null Check',
         unit: 'testString',
         query: 'testString',
+        arguments: { threshold: 0.95, column: 'status' },
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+      };
+
+      // ContractSchemaRelationship
+      const contractSchemaRelationshipModel = {
+        type: 'foreignKey',
+        from: ['testString'],
+        to: ['testString'],
+        custom_properties: [contractTemplateCustomPropertyModel],
       };
 
       // ContractSchemaProperty
       const contractSchemaPropertyModel = {
-        name: 'testString',
-        type: contractSchemaPropertyTypeModel,
+        id: 'testString',
+        name: 'customer_id',
+        primary_key: true,
+        primary_key_position: 1,
+        logical_type: 'string',
+        logical_type_options: contractLogicalTypeOptionsModel,
+        physical_type: 'VARCHAR(50)',
+        required: true,
+        unique: false,
+        description: 'Unique customer identifier',
+        business_name: 'Customer ID',
+        tags: ['identifier', 'customer'],
+        examples: ['testString'],
+        partitioned: true,
+        partition_key_position: 0,
+        classification: 'testString',
         quality: [contractQualityRuleModel],
+        physical_name: 'testString',
+        encrypted_name: 'testString',
+        transform_source_objects: ['testString'],
+        transform_logic: 'testString',
+        transform_description: 'testString',
+        critical_data_element: true,
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        custom_properties: [contractTemplateCustomPropertyModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractSchema
       const contractSchemaModel = {
-        asset_id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        connection_id: '2b0bf220-079c-11ee-be56-0242ac120002',
-        name: 'testString',
-        description: 'testString',
-        connection_path: 'testString',
-        physical_type: 'testString',
+        id: 'schema-001',
+        asset_id: '671f74a1-01c8-4e91-8e29-b018db683c67',
+        connection_id: '6181f74a-01c8-4e91-8e29-b018db683c45',
+        name: 'customer_events',
+        type: 'table',
+        description: 'Customer interaction events table',
+        connection_path: '/prod-db.example.com/analytics',
+        physical_type: 'application/x-ibm-rel-table',
+        business_name: 'Customer Events',
+        logical_type: 'object',
+        physical_name: 'customer_events_v1',
+        data_granularity_description: 'Event-level data, one row per customer interaction',
+        physical_schema: 'testString',
+        server: 'testString',
+        authoritative_definitions: [contractAuthoritativeDefinitionModel],
+        tags: ['customer', 'events', 'analytics'],
+        custom_properties: [contractTemplateCustomPropertyModel],
         properties: [contractSchemaPropertyModel],
         quality: [contractQualityRuleModel],
+        relationships: [contractSchemaRelationshipModel],
       };
 
       // ContractTerms
@@ -4553,11 +5656,11 @@ describe('DphV1', () => {
         error_msg: 'testString',
         overview: overviewModel,
         description: descriptionModel,
-        organization: [contractTemplateOrganizationModel],
+        team: contractTermsTeamModel,
         roles: [rolesModel],
         price: pricingModel,
-        sla: [contractTemplateSlaModel],
-        support_and_communication: [contractTemplateSupportAndCommunicationModel],
+        sla: contractTemplateSlaModel,
+        support: [contractTemplateSupportAndCommunicationModel],
         custom_properties: [contractTemplateCustomPropertyModel],
         contract_test: contractTestModel,
         servers: [contractServerModel],
@@ -4569,12 +5672,13 @@ describe('DphV1', () => {
         const container = containerReferenceModel;
         const id = 'testString';
         const creatorId = 'testString';
-        const createdAt = 'testString';
+        const createdAt = '2019-01-01T12:00:00.000Z';
         const name = 'Sample Data Contract Template';
         const error = errorMessageModel;
         const contractTerms = contractTermsModel;
         const containerId = 'testString';
         const contractTemplateName = 'testString';
+        const contractTemplateStatus = 'testString';
         const domainIds = 'testString';
         const createContractTemplateParams = {
           container,
@@ -4586,6 +5690,7 @@ describe('DphV1', () => {
           contractTerms,
           containerId,
           contractTemplateName,
+          contractTemplateStatus,
           domainIds,
         };
 
@@ -4618,6 +5723,7 @@ describe('DphV1', () => {
         expect(mockRequestOptions.body.contract_terms).toEqual(contractTerms);
         expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
         expect(mockRequestOptions.qs['contract_template.name']).toEqual(contractTemplateName);
+        expect(mockRequestOptions.qs['contract_template.status']).toEqual(contractTemplateStatus);
         expect(mockRequestOptions.qs['domain.ids']).toEqual(domainIds);
       }
 
@@ -4966,6 +6072,98 @@ describe('DphV1', () => {
         let err;
         try {
           await dphService.updateDataProductContractTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('validateContractTemplateYaml', () => {
+    describe('positive tests', () => {
+      function __validateContractTemplateYamlTest() {
+        // Construct the params object for operation validateContractTemplateYaml
+        const body =
+          'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n';
+        const validateContractTemplateYamlParams = {
+          body,
+        };
+
+        const validateContractTemplateYamlResult = dphService.validateContractTemplateYaml(
+          validateContractTemplateYamlParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(validateContractTemplateYamlResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/contract_templates/actions/validate',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'text/plain';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body).toEqual(body);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __validateContractTemplateYamlTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __validateContractTemplateYamlTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __validateContractTemplateYamlTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const body =
+          'version: "1.0.0"\napiVersion: "v3.1.0"\nkind: "DataContract"\nid: "sample-data-contract-001"\nstatus: "active"\nname: "Sample Data Contract"\ntenant: "production"\ndataProduct: "Customer Analytics"\ndescription:\n  purpose: "Provide sample customer data for analytics and reporting"\n  usage: "This data can be used for analytics, trend analysis, and business intelligence"\n  limitations: "PII must be masked. Data is aggregated at daily level. Maximum retention is 2 years."\ndomain: "customer-analytics"\nservers:\n  - server: "prod-s3-server"\n    type: "s3"\n    environment: "prod"\n    description: "Production S3 bucket for customer data"\nschema:\n  - name: "customer_table"\n    physicalName: "customer_table"\n    type: "table"\n    description: "Main customer information table"\n    properties:\n      - name: "customer_id"\n        type: "integer"\n        required: true\n        description: "Unique customer identifier"\n      - name: "customer_name"\n        type: "string"\n        required: true\n        description: "Customer full name"\n      - name: "email"\n        type: "string"\n        required: false\n        description: "Customer email address"\nteam:\n  - username: "data-team-lead"\n    name: "Data Team Lead"\n    role: "owner"\nroles:\n  - role: "DataAnalyst"\n    access: "read"\n  - role: "DataEngineer"\n    access: "write"\n';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const validateContractTemplateYamlParams = {
+          body,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.validateContractTemplateYaml(validateContractTemplateYamlParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.validateContractTemplateYaml({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.validateContractTemplateYaml();
         } catch (e) {
           err = e;
         }
@@ -5603,6 +6801,101 @@ describe('DphV1', () => {
     });
   });
 
+  describe('getContractTemplatesByDomain', () => {
+    describe('positive tests', () => {
+      function __getContractTemplatesByDomainTest() {
+        // Construct the params object for operation getContractTemplatesByDomain
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const getContractTemplatesByDomainParams = {
+          domainId,
+          containerId,
+        };
+
+        const getContractTemplatesByDomainResult = dphService.getContractTemplatesByDomain(
+          getContractTemplatesByDomainParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getContractTemplatesByDomainResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/domains/{domain_id}/contract_templates',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs['container.id']).toEqual(containerId);
+        expect(mockRequestOptions.path.domain_id).toEqual(domainId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getContractTemplatesByDomainTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getContractTemplatesByDomainTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getContractTemplatesByDomainTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const domainId = 'testString';
+        const containerId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getContractTemplatesByDomainParams = {
+          domainId,
+          containerId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getContractTemplatesByDomain(getContractTemplatesByDomainParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getContractTemplatesByDomain({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getContractTemplatesByDomain();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('getDataProductByDomain', () => {
     describe('positive tests', () => {
       function __getDataProductByDomainTest() {
@@ -5959,6 +7252,617 @@ describe('DphV1', () => {
         let err;
         try {
           await dphService.getRevokeAccessProcessState();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listDeliveryMethods', () => {
+    describe('positive tests', () => {
+      function __listDeliveryMethodsTest() {
+        // Construct the params object for operation listDeliveryMethods
+        const catalogId = 'testString';
+        const listDeliveryMethodsParams = {
+          catalogId,
+        };
+
+        const listDeliveryMethodsResult = dphService.listDeliveryMethods(listDeliveryMethodsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(listDeliveryMethodsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/delivery_method', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.catalog_id).toEqual(catalogId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listDeliveryMethodsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __listDeliveryMethodsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __listDeliveryMethodsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const catalogId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listDeliveryMethodsParams = {
+          catalogId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.listDeliveryMethods(listDeliveryMethodsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.listDeliveryMethods({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.listDeliveryMethods();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createDeliveryMethod', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ContainerReference
+      const containerReferenceModel = {
+        id: 'd29c42eb-7100-4b7a-8257-c196dbcca1cd',
+        type: 'catalog',
+      };
+
+      function __createDeliveryMethodTest() {
+        // Construct the params object for operation createDeliveryMethod
+        const catalogId = 'testString';
+        const name = 'New delivery method';
+        const resourceKey = 'new-delivery-method';
+        const description = 'Description of the new delivery method';
+        const status = 'true';
+        const container = containerReferenceModel;
+        const supportedAssetTypes = ['data_asset'];
+        const supportedAuthMethods = ['testString'];
+        const supportedAuthMethodsCpd = ['testString'];
+        const supportedDataSources = ['DATA_SOURCE_ID_1', 'DATA_SOURCE_ID_2'];
+        const supportsRedelivery = false;
+        const isRestricted = true;
+        const supportsRetryOnFailure = true;
+        const supportsRevokeAccess = true;
+        const supportsColumnSelection = true;
+        const supportsAddToProject = false;
+        const producerInput = [
+          {
+            key: '<input_key>',
+            type: 'string|enum|array|connection',
+            localized_name: { default: 'Default Label', en: 'English Label' },
+            localized_description: { default: 'Default Description', en: 'English Description' },
+            required: true,
+            valid_values: ['<value1>', '<value2>'],
+          },
+        ];
+        const consumerInput = [
+          {
+            key: '<input_key>',
+            type: 'string|enum|array|connection',
+            localized_name: { default: 'Default Label', en: 'English Label' },
+            localized_description: { default: 'Default Description', en: 'English Description' },
+            required: true,
+            supported_data_sources: ['<DATA_SOURCE_ID>'],
+            valid_values: ['<value1>', '<value2>'],
+            hmac_enabled: false,
+            has_bucket: false,
+          },
+        ];
+        const outputFormat = [
+          {
+            key: '<output_key>',
+            type: 'string|url|copy_text|array',
+            localized_name: {
+              default: '<Default Label>',
+              en: '<English Label>',
+              de: '<German Label>',
+              eo: '<Esperanto Key>',
+              es: '<Spanish Label>',
+              fr: '<French Label>',
+              it: '<Italian Label>',
+              ja: '<Japanese Label>',
+              ko: '<Korean Label>',
+              pl: '<Polish Label>',
+              pt: '<Portuguese Label>',
+              ru: '<Russian Label>',
+              sv: '<Swedish Label>',
+              zh: '<Chinese Simplified Label>',
+              'zh-TW': '<Chinese Traditional Label>',
+            },
+            contents: [
+              {
+                key: '<nested_key>',
+                type: 'string|copy_text',
+                localized_name: { default: '<Default Label>', en: '<English Label>' },
+              },
+            ],
+          },
+        ];
+        const autoMarkDelivered = true;
+        const deliveryUsesFunctionalCredentials = true;
+        const dataSourceProperties = { DATA_SOURCE_ID: { supports_query: false } };
+        const deliveryOutput = {
+          delivery_output_assets: [
+            {
+              asset_type: 'ibm_url_definition|data_asset',
+              localized_labels: { default: '<Default Label>', en: '<English Label>' },
+            },
+          ],
+        };
+        const createDeliveryMethodParams = {
+          catalogId,
+          name,
+          resourceKey,
+          description,
+          status,
+          container,
+          supportedAssetTypes,
+          supportedAuthMethods,
+          supportedAuthMethodsCpd,
+          supportedDataSources,
+          supportsRedelivery,
+          isRestricted,
+          supportsRetryOnFailure,
+          supportsRevokeAccess,
+          supportsColumnSelection,
+          supportsAddToProject,
+          producerInput,
+          consumerInput,
+          outputFormat,
+          autoMarkDelivered,
+          deliveryUsesFunctionalCredentials,
+          dataSourceProperties,
+          deliveryOutput,
+        };
+
+        const createDeliveryMethodResult = dphService.createDeliveryMethod(
+          createDeliveryMethodParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createDeliveryMethodResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/data_product_exchange/v1/delivery_method', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.resource_key).toEqual(resourceKey);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.status).toEqual(status);
+        expect(mockRequestOptions.body.container).toEqual(container);
+        expect(mockRequestOptions.body.supported_asset_types).toEqual(supportedAssetTypes);
+        expect(mockRequestOptions.body.supported_auth_methods).toEqual(supportedAuthMethods);
+        expect(mockRequestOptions.body.supported_auth_methods_cpd).toEqual(supportedAuthMethodsCpd);
+        expect(mockRequestOptions.body.supported_data_sources).toEqual(supportedDataSources);
+        expect(mockRequestOptions.body.supports_redelivery).toEqual(supportsRedelivery);
+        expect(mockRequestOptions.body.is_restricted).toEqual(isRestricted);
+        expect(mockRequestOptions.body.supports_retry_on_failure).toEqual(supportsRetryOnFailure);
+        expect(mockRequestOptions.body.supports_revoke_access).toEqual(supportsRevokeAccess);
+        expect(mockRequestOptions.body.supports_column_selection).toEqual(supportsColumnSelection);
+        expect(mockRequestOptions.body.supports_add_to_project).toEqual(supportsAddToProject);
+        expect(mockRequestOptions.body.producer_input).toEqual(producerInput);
+        expect(mockRequestOptions.body.consumer_input).toEqual(consumerInput);
+        expect(mockRequestOptions.body.output_format).toEqual(outputFormat);
+        expect(mockRequestOptions.body.auto_mark_delivered).toEqual(autoMarkDelivered);
+        expect(mockRequestOptions.body.delivery_uses_functional_credentials).toEqual(
+          deliveryUsesFunctionalCredentials
+        );
+        expect(mockRequestOptions.body.data_source_properties).toEqual(dataSourceProperties);
+        expect(mockRequestOptions.body.delivery_output).toEqual(deliveryOutput);
+        expect(mockRequestOptions.qs.catalog_id).toEqual(catalogId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createDeliveryMethodTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __createDeliveryMethodTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __createDeliveryMethodTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const catalogId = 'testString';
+        const name = 'New delivery method';
+        const resourceKey = 'new-delivery-method';
+        const description = 'Description of the new delivery method';
+        const status = 'true';
+        const container = containerReferenceModel;
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createDeliveryMethodParams = {
+          catalogId,
+          name,
+          resourceKey,
+          description,
+          status,
+          container,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.createDeliveryMethod(createDeliveryMethodParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.createDeliveryMethod({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.createDeliveryMethod();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getDeliveryMethod', () => {
+    describe('positive tests', () => {
+      function __getDeliveryMethodTest() {
+        // Construct the params object for operation getDeliveryMethod
+        const catalogId = 'testString';
+        const deliveryMethodId = 'testString';
+        const getDeliveryMethodParams = {
+          catalogId,
+          deliveryMethodId,
+        };
+
+        const getDeliveryMethodResult = dphService.getDeliveryMethod(getDeliveryMethodParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getDeliveryMethodResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.catalog_id).toEqual(catalogId);
+        expect(mockRequestOptions.path.delivery_method_id).toEqual(deliveryMethodId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDeliveryMethodTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __getDeliveryMethodTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __getDeliveryMethodTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const catalogId = 'testString';
+        const deliveryMethodId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDeliveryMethodParams = {
+          catalogId,
+          deliveryMethodId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.getDeliveryMethod(getDeliveryMethodParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.getDeliveryMethod({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.getDeliveryMethod();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteDeliveryMethod', () => {
+    describe('positive tests', () => {
+      function __deleteDeliveryMethodTest() {
+        // Construct the params object for operation deleteDeliveryMethod
+        const catalogId = 'testString';
+        const deliveryMethodId = 'testString';
+        const deleteDeliveryMethodParams = {
+          catalogId,
+          deliveryMethodId,
+        };
+
+        const deleteDeliveryMethodResult = dphService.deleteDeliveryMethod(
+          deleteDeliveryMethodParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(deleteDeliveryMethodResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.catalog_id).toEqual(catalogId);
+        expect(mockRequestOptions.path.delivery_method_id).toEqual(deliveryMethodId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteDeliveryMethodTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __deleteDeliveryMethodTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __deleteDeliveryMethodTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const catalogId = 'testString';
+        const deliveryMethodId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteDeliveryMethodParams = {
+          catalogId,
+          deliveryMethodId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.deleteDeliveryMethod(deleteDeliveryMethodParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.deleteDeliveryMethod({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.deleteDeliveryMethod();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateDeliveryMethod', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // JsonPatchOperation
+      const jsonPatchOperationModel = {
+        op: 'add',
+        path: 'testString',
+        from: 'testString',
+        value: 'testString',
+      };
+
+      function __updateDeliveryMethodTest() {
+        // Construct the params object for operation updateDeliveryMethod
+        const catalogId = 'testString';
+        const deliveryMethodId = 'testString';
+        const jsonPatchOperation = [jsonPatchOperationModel];
+        const updateDeliveryMethodParams = {
+          catalogId,
+          deliveryMethodId,
+          jsonPatchOperation,
+        };
+
+        const updateDeliveryMethodResult = dphService.updateDeliveryMethod(
+          updateDeliveryMethodParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateDeliveryMethodResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/data_product_exchange/v1/delivery_method/{delivery_method_id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body).toEqual(jsonPatchOperation);
+        expect(mockRequestOptions.qs.catalog_id).toEqual(catalogId);
+        expect(mockRequestOptions.path.delivery_method_id).toEqual(deliveryMethodId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateDeliveryMethodTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dphService.enableRetries();
+        __updateDeliveryMethodTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dphService.disableRetries();
+        __updateDeliveryMethodTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const catalogId = 'testString';
+        const deliveryMethodId = 'testString';
+        const jsonPatchOperation = [jsonPatchOperationModel];
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateDeliveryMethodParams = {
+          catalogId,
+          deliveryMethodId,
+          jsonPatchOperation,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dphService.updateDeliveryMethod(updateDeliveryMethodParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dphService.updateDeliveryMethod({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dphService.updateDeliveryMethod();
         } catch (e) {
           err = e;
         }
