@@ -7,6 +7,5 @@ module.exports = {
   rules: {
     'require-jsdoc': 'off',
     'valid-jsdoc': 'off',
-    'import/no-unresolved': ['error', { ignore: ['^../dist/'] }],
   },
 };
