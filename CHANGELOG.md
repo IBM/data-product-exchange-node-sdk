@@ -1,23 +1,3 @@
-# [1.0.0](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.5.1...v1.0.0) (2026-06-13)
-
-
-* BREAKING CHANGE: dropping 0.4.0 - DPH SDK UPDATE ([#16](https://github.com/IBM/data-product-exchange-node-sdk/issues/16)) ([39fb54a](https://github.com/IBM/data-product-exchange-node-sdk/commit/39fb54a8730cc5be2000fa3a5e515edc2cfc2897))
-
-
-### BREAKING CHANGES
-
-* dropping 0.4.0
-
-Signed-off-by: Shashank-Jha <53325972+Shashank-Jha@users.noreply.github.com>
-
-* feat: dropping 0.4.0 and BREAKING CHANGE: DPH SDK UPDATE
-
-Signed-off-by: Shashank-Jha <53325972+Shashank-Jha@users.noreply.github.com>
-
-* feat: dropping 0.4.0 and BREAKING CHANGE: DPH SDK UPDATE
-
-Signed-off-by: Shashank-Jha <53325972+Shashank-Jha@users.noreply.github.com>
-
 ## [0.5.1](https://github.com/IBM/data-product-exchange-node-sdk/compare/v0.5.0...v0.5.1) (2026-06-13)
 
 
