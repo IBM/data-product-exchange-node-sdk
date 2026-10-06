@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/IBM/data-product-exchange-node-sdk/compare/v1.0.3...v1.0.4) (2026-10-06)
+
+
+### Bug Fixes
+
+* security fixes(https://github.com/IBM/data-product-exchange-node-sdk/issues/21) ([27b5a66](https://github.com/IBM/data-product-exchange-node-sdk/commit/27b5a66b769812db9df3eaec6b6c04ed2259982c))
+
 ## [1.0.3](https://github.com/IBM/data-product-exchange-node-sdk/compare/v1.0.2...v1.0.3) (2026-10-05)
 
 
