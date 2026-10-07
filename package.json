@@ -44,12 +44,46 @@
     "http-cache-semantics": ">=4.3.0",
     "axios": ">=1.20.0",
     "@semantic-release/npm": {
-      "npm": "^11.21.0"
+      "npm": {
+        "@npmcli/arborist": {
+          "@npmcli/query": {
+            "postcss-selector-parser": ">=7.1.6"
+          }
+        },
+        "make-fetch-happen": {
+          "@npmcli/agent": {
+            "socks-proxy-agent": {
+              "socks": {
+                "ip-address": ">=10.7.1"
+              }
+            }
+          },
+          "http-cache-semantics": ">=4.3.0"
+        },
+        "minimatch": {
+          "brace-expansion": ">=5.0.12"
+        }
+      }
     },
     "npm": {
-      "ip-address": ">=10.7.1",
-      "http-cache-semantics": ">=4.3.0",
-      "brace-expansion": ">=5.0.12"
+      "@npmcli/arborist": {
+        "@npmcli/query": {
+          "postcss-selector-parser": ">=7.1.6"
+        }
+      },
+      "make-fetch-happen": {
+        "@npmcli/agent": {
+          "socks-proxy-agent": {
+            "socks": {
+              "ip-address": ">=10.7.1"
+            }
+          }
+        },
+        "http-cache-semantics": ">=4.3.0"
+      },
+      "minimatch": {
+        "brace-expansion": ">=5.0.12"
+      }
     }
   },
   "dependencies": {
