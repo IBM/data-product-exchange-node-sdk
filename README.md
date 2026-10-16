@@ -41,18 +41,18 @@ IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[Data Product Hub](https://cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm-dph-services/dph/v1
+[Data Product Hub](https://cloud.ibm.com/apidocs/dataproducts) | @ibm-cloud/ibm_dph_services/dph/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
-* **Node.js >=16**: This SDK is tested with Node.js versions 16 and up. It may work on previous versions but this is not officially supported.
+* **Node.js >=24**: This SDK is tested with Node.js versions 24 and up. It may work on previous versions but this is not officially supported.
 
-[ibm-cloud-onboarding]: http://cloud.ibm.com/registration
+[ibm-cloud-onboarding]: https://cloud.ibm.com/registration
 
 ## Installation
 
 ```sh
-npm install @ibm-cloud/ibm-dph-services
+npm install @ibm-cloud/ibm_dph_services
 ```
 
 ## Using the SDK
@@ -63,7 +63,7 @@ For general SDK usage information, please see
 
 If you are having difficulties using this SDK or have a question about the IBM Cloud services,
 please ask a question at
-[Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-cloud).
+[Stack Overflow](https://stackoverflow.com/questions/ask?tags=ibm-cloud).
 
 ## Issues
 If you encounter an issue with the SDK, you are welcome to submit
@@ -72,7 +72,7 @@ Before that, please search for similar issues. It's possible someone has
 already encountered this issue.
 
 ## Open source @ IBM
-Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
+Find more open source projects on the [IBM Github Page](https://ibm.github.io/)
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md).
