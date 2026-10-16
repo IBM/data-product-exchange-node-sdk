@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/IBM/data-product-exchange-node-sdk/compare/v1.0.6...v1.0.7) (2026-10-16)
+
+
+### Bug Fixes
+
+* upgrade Node.js runtime to v24 (latest LTS) and update CI configuration ([#30](https://github.com/IBM/data-product-exchange-node-sdk/issues/30)) ([e30d5c6](https://github.com/IBM/data-product-exchange-node-sdk/commit/e30d5c6a360a285b77d289c309978c7a006086b1))
+
 ## [1.0.6](https://github.com/IBM/data-product-exchange-node-sdk/compare/v1.0.5...v1.0.6) (2026-10-14)
 
 
