@@ -43,7 +43,10 @@
     "brace-expansion@>=4.0.0 <5.0.12": "5.0.12",
     "http-cache-semantics": ">=4.3.0",
     "axios": ">=1.20.0",
-    "npm": "11.21.1"
+    "npm": {
+      ".": "11.21.1",
+      "undici": "6.29.1"
+    }
   },
   "dependencies": {
     "@ibm-cloud/sdk-test-utilities": "^1.0.0",
