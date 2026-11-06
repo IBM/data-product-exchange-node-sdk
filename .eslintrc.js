@@ -11,6 +11,8 @@ module.exports = {
       'rules': {
         'camelcase': 'off',
         'import/extensions': 'off',
+        // eslint-plugin-import calls minimatch as a function, which minimatch >=10 no longer supports
+        'import/no-extraneous-dependencies': 'off',
         'no-template-curly-in-string': 'off',
         'no-underscore-dangle': 'off',
         'prefer-const': 'error',
@@ -43,6 +45,8 @@ module.exports = {
       'rules': {
         '@typescript-eslint/naming-convention': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+        // eslint-plugin-import calls minimatch as a function, which minimatch >=10 no longer supports
+        'import/no-extraneous-dependencies': 'off',
         'max-len': 'off',
         'no-param-reassign': 'off',
         'no-underscore-dangle': 'off',
