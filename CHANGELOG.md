@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/IBM/data-product-exchange-node-sdk/compare/v1.0.10...v1.0.11) (2026-11-06)
+
+
+### Reverts
+
+* Revert "fix: resolve CVE-2026-118764 by overriding minimatch to >=11.0.1 ([#38](https://github.com/IBM/data-product-exchange-node-sdk/issues/38))" ([#40](https://github.com/IBM/data-product-exchange-node-sdk/issues/40)) ([1c564ee](https://github.com/IBM/data-product-exchange-node-sdk/commit/1c564ee69ce5007ed6b2f5829ff08d223cec70b6))
+
 ## [1.0.10](https://github.com/IBM/data-product-exchange-node-sdk/compare/v1.0.9...v1.0.10) (2026-11-06)
 
 
